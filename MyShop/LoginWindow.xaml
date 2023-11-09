@@ -223,20 +223,22 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <StackPanel Orientation="Horizontal"
+                    <StackPanel x:Name="LoginWarning" Orientation="Horizontal"
                                 HorizontalAlignment="Center"
-                                Margin="0,15,0,0">
-                        <TextBlock Text="Forgot Password?"
-                               Foreground="{StaticResource titleColor2}"
+                                Margin="0,15,0,0"
+                                Visibility="Collapsed">
+                        <TextBlock Text="Cannot connect to server."
+                               Foreground="{StaticResource warningTextColor4}"
                                FontSize="12"
                                FontWeight="Medium"
                                FontFamily="Montserrat"/>
-                        <TextBlock Text="Reset"
-                               Foreground="{StaticResource titleColor1}"
+                        <TextBlock Text="Help"
+                               Foreground="{StaticResource warningTextColor4}"
                                FontSize="12"
-                               FontWeight="Medium"
+                               FontWeight="Bold"
                                FontFamily="Montserrat"
                                Cursor="Hand"
+                               
                                Margin="8,0,0,0"/>
                     </StackPanel>
 

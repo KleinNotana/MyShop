@@ -134,9 +134,10 @@ MethodBase.GetCurrentMethod().DeclaringType);
                 }
                 else
                 {
-                    MessageBox.Show(
+                    /*MessageBox.Show(
                         $"Cannot connect"
-                    );
+                    );*/
+                    LoginWarning.Visibility = Visibility.Visible;
                 }
             }
             catch (Exception ex)
