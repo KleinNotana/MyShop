@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace MyShop;
 
 public partial class MyShopDbContext : DbContext
-{   
+{
     public string connectionString { get; set; }
     public MyShopDbContext(string con)
     {
@@ -29,10 +29,9 @@ public partial class MyShopDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        
+
         optionsBuilder.UseSqlServer(connectionString);
     }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Category>(entity =>
@@ -121,6 +120,10 @@ public partial class MyShopDbContext : DbContext
             entity.Property(e => e.Description)
                 .HasMaxLength(50)
                 .HasColumnName("DESCRIPTION");
+            entity.Property(e => e.ImgPath)
+                .HasMaxLength(50)
+                .IsFixedLength()
+                .HasColumnName("IMG_PATH");
             entity.Property(e => e.Price)
                 .IsRequired()
                 .HasColumnName("PRICE");
