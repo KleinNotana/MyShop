@@ -53,7 +53,7 @@ MethodBase.GetCurrentMethod().DeclaringType);
         {
 
             try
-            {
+            {   
                 string username = txtUser.Text;
                 string password = txtPass.Password;
 
@@ -150,6 +150,25 @@ MethodBase.GetCurrentMethod().DeclaringType);
             WindowState = WindowState.Minimized;
         }
 
-        
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            //load login info
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var username = config.AppSettings.Settings["Username"].Value;
+            var passwordIn64 = config.AppSettings.Settings["Password"].Value;
+            var entropyIn64 = config.AppSettings.Settings["Entropy"].Value;
+            //var screen = new MainWindow();
+            if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(passwordIn64) && !string.IsNullOrEmpty(entropyIn64))
+            {
+                var passwordInBytes = Convert.FromBase64String(passwordIn64);
+                var entropy = Convert.FromBase64String(entropyIn64);
+                var password = Encoding.UTF8.GetString(ProtectedData.Unprotect(passwordInBytes, entropy,
+                                       DataProtectionScope.CurrentUser));
+                txtUser.Text = username;
+                txtPass.Password = password;
+                rememberMe.IsChecked = true;
+                //btnLogin_ClickAsync(sender, e);
+            }
+        }
     }
 }

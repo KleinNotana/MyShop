@@ -12,6 +12,7 @@
         AllowsTransparency="True"
         Background="Transparent"
         MouseDown="Window_MouseDown"
+        Loaded="Window_Loaded"
         >
 
     <Border CornerRadius="12">
