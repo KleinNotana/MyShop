@@ -62,47 +62,33 @@ MethodBase.GetCurrentMethod().DeclaringType);
                 loading.IsIndeterminate = true;
 
                 // Cộng chuỗi - sql injection
-               
+
 
                 var builder = new SqlConnectionStringBuilder();
                 builder.DataSource = ".\\SQLEXPRESS";
                 builder.InitialCatalog = "MyShopDB";
-                builder.IntegratedSecurity = true;
+                //builder.IntegratedSecurity = true;
                 builder.TrustServerCertificate = true;
                 builder.UserID = username;
                 builder.Password = password;
 
-                
+
 
 
 
 
                 string connectionString = builder.ConnectionString;
-                var connection = new SqlConnection(connectionString);
-
-                connection = await Task.Run(() =>
+                //var connection = new SqlConnection(connectionString);
+                MyShopDbContext context = new MyShopDbContext(connectionString);
+                //run in background thread
+                
+                bool canLogin = await context.Database.CanConnectAsync();
+                if (canLogin)
                 {
-                    var _connection = new SqlConnection(connectionString);
 
-                    try
-                    {
-                        _connection.Open();
-                    }
-                    catch (Exception ex)
-                    {
+                    
+                    
 
-                        _connection = null;
-                    }
-
-                    // Test khi chạy quá nhanh
-                    //System.Threading.Thread.Sleep(3000);
-                    return _connection;
-                });
-
-                loading.IsIndeterminate = false;
-                loading.Visibility = Visibility.Collapsed;
-                if (connection != null)
-                {
                     if (rememberMe.IsChecked == true)
                     {
                         var passwordInBytes = Encoding.UTF8.GetBytes(password);
@@ -125,7 +111,7 @@ MethodBase.GetCurrentMethod().DeclaringType);
                         ConfigurationManager.RefreshSection("appSettings");
                     }
 
-                    DB.Instance.ConnectionString = connectionString;
+                    //DB.Instance.ConnectionString = connectionString;
 
                     var screen = new MainWindow();
                     screen.Show();
@@ -134,16 +120,27 @@ MethodBase.GetCurrentMethod().DeclaringType);
                 }
                 else
                 {
-                    /*MessageBox.Show(
-                        $"Cannot connect"
-                    );*/
+                    
                     LoginWarning.Visibility = Visibility.Visible;
                 }
+
+                
+
+
+
+
             }
             catch (Exception ex)
             {
-                Log.Error(ex.Message);
-                MessageBox.Show("Error when login");
+                Log.Error(ex);
+                MessageBox.Show(
+                                       $"Error: {ex.Message}"
+                                                      );
+            }
+            finally
+            {
+                loading.IsIndeterminate = false;
+                loading.Visibility = Visibility.Collapsed;
             }
         }
            
