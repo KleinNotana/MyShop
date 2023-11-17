@@ -17,9 +17,9 @@ namespace BusVersion01
 
         public bool Login(string username, string password)
         {
-            bool result = false;
-            _data.LoginAsync(username, password, result);
-            return result;
+            Result res = new Result();
+            _data.LoginAsync(username, password, res);
+            return res.result;
         }
     }
 }
