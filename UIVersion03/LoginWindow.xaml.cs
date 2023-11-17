@@ -1,11 +1,8 @@
 ﻿using Contract;
-using Microsoft.Data.SqlClient;
-using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,27 +13,30 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace UIVersion01
+namespace UIVersion03
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class LoginScreen : UserControl
+    public partial class LoginWindow : Window
     {
         IBus _bus = null;
-        Window parentWindow;
-        public LoginScreen(IBus bus, Window parent)
+        public LoginWindow(IBus bus)
         {
             InitializeComponent();
             _bus = bus;
-            parentWindow = parent;
-            this.Loaded += (s, e) => SetWindowProperties();
         }
 
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
 
+        }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
@@ -52,7 +52,7 @@ namespace UIVersion01
             loading.Visibility = Visibility.Visible;
             loading.IsIndeterminate = true;
 
-            bool resultLogin =await _bus.Login(username, password);
+            bool resultLogin = await _bus.Login(username, password);
 
             loading.IsIndeterminate = false;
             loading.Visibility = Visibility.Collapsed;
@@ -80,7 +80,9 @@ namespace UIVersion01
                     ConfigurationManager.RefreshSection("appSettings");
                 }
 
-                parentWindow.Content = new MainScreen(_bus, parentWindow);
+                Window window = new MainWindow(_bus);
+                window.Show();
+                this.Close();
             }
             else
             {
@@ -91,38 +93,7 @@ namespace UIVersion01
 
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
-            parentWindow.WindowState = WindowState.Minimized;
-        }
-
-        public void SetWindowProperties()
-        {
-            if (parentWindow != null)
-            {
-                parentWindow.WindowStyle = WindowStyle.None;
-                parentWindow.ResizeMode = ResizeMode.NoResize;
-                parentWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                //parentWindow.AllowsTransparency = true;
-            }
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            var username = config.AppSettings.Settings["Username"].Value;
-            var passwordIn64 = config.AppSettings.Settings["Password"].Value;
-            var entropyIn64 = config.AppSettings.Settings["Entropy"].Value;
-            //var screen = new MainWindow();
-            if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(passwordIn64) && !string.IsNullOrEmpty(entropyIn64))
-            {
-                var passwordInBytes = Convert.FromBase64String(passwordIn64);
-                var entropy = Convert.FromBase64String(entropyIn64);
-                var password = Encoding.UTF8.GetString(ProtectedData.Unprotect(passwordInBytes, entropy,
-                                       DataProtectionScope.CurrentUser));
-                txtUser.Text = username;
-                txtPass.Password = password;
-                rememberMe.IsChecked = true;
-                //btnLogin_ClickAsync(sender, e);
-            }
+            WindowState = WindowState.Minimized;
         }
     }
 }

@@ -1,22 +1,27 @@
-﻿<UserControl x:Class="UIVersion01.LoginScreen"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:UIVersion01"
-             mc:Ignorable="d" 
-             d:DesignHeight="550" d:DesignWidth="800"
-            Background="Transparent"
-             >
-    <UserControl.Resources>
+﻿<Window x:Class="UIVersion03.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Window1" Height="550" Width="800"    
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        Background="Transparent"
+        
+    >
+
+    <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/Colors.xaml"/>
                 <ResourceDictionary Source="Styles/ButtonStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </UserControl.Resources>
+    </Window.Resources>
+
     <Border CornerRadius="12">
 
         <Border.Background>
@@ -226,25 +231,23 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                   
-
                     <StackPanel x:Name="LoginWarning" Orientation="Horizontal"
-                                HorizontalAlignment="Center"
-                                Margin="0,15,0,0"
-                                Visibility="Collapsed">
+                            HorizontalAlignment="Center"
+                            Margin="0,15,0,0"
+                            Visibility="Collapsed">
                         <TextBlock Text="Cannot connect to server."
-                               Foreground="{StaticResource warningTextColor4}"
-                               FontSize="12"
-                               FontWeight="Medium"
-                               FontFamily="Montserrat"/>
+                           Foreground="{StaticResource warningTextColor4}"
+                           FontSize="12"
+                           FontWeight="Medium"
+                           FontFamily="Montserrat"/>
                         <TextBlock Text="Help"
-                               Foreground="{StaticResource warningTextColor4}"
-                               FontSize="12"
-                               FontWeight="Bold"
-                               FontFamily="Montserrat"
-                               Cursor="Hand"
-                               
-                               Margin="8,0,0,0"/>
+                           Foreground="{StaticResource warningTextColor4}"
+                           FontSize="12"
+                           FontWeight="Bold"
+                           FontFamily="Montserrat"
+                           Cursor="Hand"
+                           
+                           Margin="8,0,0,0"/>
                     </StackPanel>
 
                     <ProgressBar x:Name="loading" Width="100" Height="10"  
@@ -253,8 +256,5 @@
                 </StackPanel>
             </Grid>
         </Border>
-
-
     </Border>
-
-</UserControl>
+</Window>

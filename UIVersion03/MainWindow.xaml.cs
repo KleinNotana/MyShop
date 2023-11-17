@@ -1,5 +1,4 @@
-﻿using Contract;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,47 +14,47 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using Contract;
 
-namespace UIVersion01
+namespace UIVersion03
 {
+
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainScreen : UserControl
+    public partial class MainWindow : Window
     {
-        IBus _bus;
-        Window parentWindow;
-        public MainScreen(IBus bus, Window parent)
+        IBus _bus = null;
+        public MainWindow(IBus bus)
         {
             InitializeComponent();
+            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             _bus = bus;
-            parentWindow = parent;
-            this.Loaded += (s, e) => SetWindowProperties();
         }
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll")]  
         public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
         private void pnlControlBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            WindowInteropHelper wih = new WindowInteropHelper(parentWindow);
+            WindowInteropHelper wih = new WindowInteropHelper(this);
             SendMessage(wih.Handle, 161, 2, 0);
         }
 
         private void pnlControlBar_MouseEnter(object sender, MouseEventArgs e)
         {
-            parentWindow.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
         }
 
         private void btnMaximize_Click(object sender, RoutedEventArgs e)
         {
-            if (parentWindow.WindowState == WindowState.Normal)
+            if(this.WindowState == WindowState.Normal)
             {
-                parentWindow.WindowState = WindowState.Maximized;
+                this.WindowState = WindowState.Maximized;
             }
             else
             {
-                parentWindow.WindowState = WindowState.Normal;
+                this.WindowState = WindowState.Normal;
             }
         }
 
@@ -66,17 +65,7 @@ namespace UIVersion01
 
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
-            parentWindow.WindowState = WindowState.Minimized;
-        }
-
-        public void SetWindowProperties()
-        {
-            if (parentWindow != null)
-            {
-                parentWindow.ResizeMode = ResizeMode.CanResize;
-                parentWindow.Width = this.Width;
-                parentWindow.Height = this.Height;
-            }
+            this.WindowState = WindowState.Minimized;
         }
     }
 }

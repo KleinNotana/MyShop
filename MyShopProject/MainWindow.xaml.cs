@@ -71,7 +71,9 @@ namespace MyShopProject
                 _bus.DepensOn(_data);
                 _ui.DepensOn(_bus);
 
-                this.Content = _ui.LoginScreen;
+                Window window = _ui.LoginWindow;
+                window.Show();
+                this.Close();
             }
       
         }

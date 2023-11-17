@@ -15,18 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Remove="Styles\ButtonStyles.xaml" />
-    <Page Remove="Styles\Colors.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Costura.Fody" Version="5.7.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="FontAwesome.Sharp" Version="6.3.0" />
-    <PackageReference Include="log4net" Version="2.0.15" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,8 +29,6 @@
     <Resource Include="Images\key-icon.png" />
     <Resource Include="Images\logo.png" />
     <Resource Include="Images\user-icon.png" />
-    <Resource Include="Styles\ButtonStyles.xaml" />
-    <Resource Include="Styles\Colors.xaml" />
   </ItemGroup>
 
 </Project>
