@@ -52,7 +52,7 @@ namespace UIVersion01
             loading.Visibility = Visibility.Visible;
             loading.IsIndeterminate = true;
 
-            bool resultLogin = _bus.Login(username, password);
+            bool resultLogin =await _bus.Login(username, password);
 
             loading.IsIndeterminate = false;
             loading.Visibility = Visibility.Collapsed;

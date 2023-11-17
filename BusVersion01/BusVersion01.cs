@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Contract;
 
 namespace BusVersion01
@@ -15,11 +16,10 @@ namespace BusVersion01
             _data = data;
         }
 
-        public bool Login(string username, string password)
+        public async Task<bool> Login(string username, string password)
         {
-            Result res = new Result();
-            _data.LoginAsync(username, password, res);
-            return res.result;
+            bool result = await _data.LoginAsync(username, password);
+            return result;
         }
     }
 }
