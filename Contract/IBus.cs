@@ -11,7 +11,7 @@ namespace Contract
         string Name { get; }
         string Description { get; }
 
-        bool Login(string username, string password);
+        Task<bool> Login(string username, string password);
 
         void DepensOn(IDataAccess data);
     }

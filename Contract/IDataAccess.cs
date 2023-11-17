@@ -11,6 +11,7 @@ namespace Contract
         string Name { get; }
         string Description { get; }
 
-        public void LoginAsync(string username, string password, bool result);
+        public Task<bool> LoginAsync(string username, string password);
+
     }
 }

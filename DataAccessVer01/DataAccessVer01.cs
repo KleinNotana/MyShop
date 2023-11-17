@@ -12,7 +12,7 @@ namespace DataAccessVer01
 
         public string Description => "DataAccessVer01 - test";
 
-        public async void LoginAsync(string username, string password, bool result)
+        public async Task<bool> LoginAsync(string username, string password)
         {
             var builder = new SqlConnectionStringBuilder();
             builder.DataSource = ".\\SQLEXPRESS";
@@ -36,11 +36,11 @@ namespace DataAccessVer01
 
             if (canLogin)
             {
-                result = true;
+                return true;
             }
             else
             {
-                result =  false;
+                return false;
             }
         }
     }
