@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using Contract;
+using FontAwesome.Sharp;
+using System.Reflection.Metadata;
 
 namespace UIVersion03
 {
@@ -25,11 +27,22 @@ namespace UIVersion03
     public partial class MainWindow : Window
     {
         IBus _bus = null;
+        MainWindowDataObject dataObject = null;
         public MainWindow(IBus bus)
         {
             InitializeComponent();
             this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             _bus = bus;
+            dataObject = new MainWindowDataObject
+            {
+                Content = new DashboardView(),
+                Icon = IconChar.Home,
+                Title = "Dashboard"
+
+            };
+            DataContext = dataObject;
+
+
         }
 
         [DllImport("user32.dll")]  
@@ -66,6 +79,27 @@ namespace UIVersion03
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
+        }
+
+        private void DashboardNav_Checked(object sender, RoutedEventArgs e)
+        {
+            dataObject.Content = new DashboardView();
+            dataObject.Icon = IconChar.Home;
+            dataObject.Title = "Dashboard";
+        }
+
+        private void ProductsNav_Checked(object sender, RoutedEventArgs e)
+        {
+            dataObject.Content = new ProductsView();
+            dataObject.Icon = IconChar.Boxes;
+            dataObject.Title = "Products";
+        }
+
+        private void OrdersNav_Checked(object sender, RoutedEventArgs e)
+        {
+            dataObject.Content = new OrdersView();
+            dataObject.Icon = IconChar.ShoppingCart;
+            dataObject.Title = "Orders";
         }
     }
 }

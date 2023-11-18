@@ -5,7 +5,7 @@
          xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UIVersion03"
-        mc:Ignorable="d"
+        mc:Ignorable="d" 
         Title="MainWindow" Height="700" Width="1300"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
@@ -66,8 +66,8 @@
                     </StackPanel>
                     
                     <!-- Menu Button-->
-                    <RadioButton Style="{StaticResource menuButton}"
-                                 Tag="{StaticResource color1}">
+                    <RadioButton Style="{StaticResource menuButton}" x:Name="DashboardNav"
+                                 Tag="{StaticResource color1}" Checked="DashboardNav_Checked"  >
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="Home" 
                                           Style="{StaticResource menuButtonIcon}"/>
@@ -76,9 +76,10 @@
                         </StackPanel>
                     </RadioButton>
 
-                    <RadioButton Style="{StaticResource menuButton}"
-                         Tag="{StaticResource color2}">
-                        <StackPanel Orientation="Horizontal">
+                    <RadioButton Style="{StaticResource menuButton}" x:Name="ProductsNav"
+                         Tag="{StaticResource color2}" Checked="ProductsNav_Checked" >
+                        <StackPanel Orientation="Horizontal"
+                                    >
                             <fa:IconImage Icon="Box" 
                                 Style="{StaticResource menuButtonIcon}"/>
                             <TextBlock Text="Products" Style="{StaticResource menuButtonText}"/>
@@ -86,8 +87,8 @@
                         </StackPanel>
                     </RadioButton>
 
-                    <RadioButton Style="{StaticResource menuButton}"
-                        Tag="{StaticResource color3}">
+                    <RadioButton Style="{StaticResource menuButton}" x:Name="OrdersNav"
+                        Tag="{StaticResource color3}" Checked="OrdersNav_Checked" >
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="ShoppingBag" 
                                 Style="{StaticResource menuButtonIcon}"/>
@@ -96,8 +97,8 @@
                         </StackPanel>
                     </RadioButton>
 
-                    <RadioButton Style="{StaticResource menuButton}"
-                                Tag="{StaticResource color4}">
+                    <RadioButton Style="{StaticResource menuButton}" x:Name="StatisticsNav"
+                                Tag="{StaticResource color4}" >
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="PieChart" 
                                         Style="{StaticResource menuButtonIcon}"/>
@@ -106,7 +107,7 @@
                         </StackPanel>
                     </RadioButton>
 
-                    <RadioButton Style="{StaticResource menuButton}"
+                    <RadioButton Style="{StaticResource menuButton}" x:Name="ReportsNav"
                                 Tag="{StaticResource color5}">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="Pager" 
@@ -116,7 +117,7 @@
                         </StackPanel>
                     </RadioButton>
 
-                    <RadioButton Style="{StaticResource menuButton}"
+                    <RadioButton Style="{StaticResource menuButton}" x:Name="SalesNav"
                             Tag="{StaticResource color6}">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="Tags" 
@@ -126,7 +127,7 @@
                         </StackPanel>
                     </RadioButton>
 
-                    <RadioButton Style="{StaticResource menuButton}"
+                    <RadioButton Style="{StaticResource menuButton}" x:Name="SettingsNav"
                             Tag="{StaticResource color7}">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="Toolbox" 
@@ -204,16 +205,16 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel Grid.Row="0"
+                        <StackPanel Grid.Row="0"  
                                     Orientation="Horizontal"
                                     VerticalAlignment="Center">
-                            <fa:IconImage Icon="Home" 
+                            <fa:IconImage Icon="{Binding Icon}" 
                                           Height="20"
                                           Width="20"
                                           Foreground="{StaticResource titleColor1}"
                                           Margin="35,0,10,0"/>
                             
-                            <TextBlock Text="Dashboard"
+                            <TextBlock Text="{Binding Title}"
                                        Foreground="{StaticResource titleColor2}"
                                        FontSize="16"
                                        FontWeight="Medium"
@@ -254,7 +255,13 @@
                     </Grid>
                     
                     <!-- Content-->
-                    
+
+                    <ContentControl Grid.Row="2" 
+                                     Content="{Binding Content}"/>
+
+
+
+
                 </Grid>
             </Border>
 
