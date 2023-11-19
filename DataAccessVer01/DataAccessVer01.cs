@@ -1,8 +1,9 @@
 using System;
 using System.Threading.Tasks;
 using Contract;
+using Entity;
 using Microsoft.Data.SqlClient;
-using MyShop;
+
 
 namespace DataAccessVer01
 {

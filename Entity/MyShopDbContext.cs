@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Entity;
 using Microsoft.EntityFrameworkCore;
 
-namespace MyShop;
+namespace Entity;
 
 public partial class MyShopDbContext : DbContext
 {
@@ -122,6 +121,10 @@ public partial class MyShopDbContext : DbContext
             entity.Property(e => e.Description)
                 .HasMaxLength(50)
                 .HasColumnName("DESCRIPTION");
+            entity.Property(e => e.ImgPath)
+                .HasMaxLength(50)
+                .IsFixedLength()
+                .HasColumnName("IMG_PATH");
             entity.Property(e => e.Price)
                 .IsRequired()
                 .HasColumnName("PRICE");
