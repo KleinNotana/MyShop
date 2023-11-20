@@ -29,11 +29,12 @@ namespace DataAccessVer01
 
 
             string connectionString = builder.ConnectionString;
+            Database DB = Database.Instance;
             //var connection = new SqlConnection(connectionString);
-            MyShopDbContext context = new MyShopDbContext(connectionString);
+            DB.context = new MyShopDbContext(connectionString);
             //run in background thread
 
-            bool canLogin = await context.Database.CanConnectAsync();
+            bool canLogin = await DB.context.Database.CanConnectAsync();
 
             if (canLogin)
             {
