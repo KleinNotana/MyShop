@@ -9,7 +9,7 @@ namespace Entity
     public static class Database
     {
         
-        static MyShopDbContext context;
+        public static MyShopDbContext context;
 
         public static async Task<bool> canConnect(string connectionString)
         {
