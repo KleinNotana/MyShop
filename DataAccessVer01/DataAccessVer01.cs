@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using Contract;
 using Entity;
 using Microsoft.Data.SqlClient;
@@ -44,6 +47,37 @@ namespace DataAccessVer01
             {
                 return false;
             }
+        }
+
+        public List<Product> GetProducts()
+        {
+            Database DB = Database.Instance;
+            return DB.context.Products.ToList();
+        }
+
+        public List<Category> GetCategory()
+        {
+            Database DB = Database.Instance;
+            return DB.context.Categories.ToList();
+
+        }
+
+        public List<Order1> GetSupplier()
+        {
+            Database DB = Database.Instance;
+            return DB.context.Order1s.ToList();
+        }
+
+        public List<OrderDetail> GetOrderDetail()
+        {
+            Database DB = Database.Instance;
+            return DB.context.OrderDetails.ToList();
+        }
+
+        public List<Customer> GetCustomer()
+        {
+            Database DB = Database.Instance;
+            return DB.context.Customers.ToList();
         }
     }
 }
