@@ -101,7 +101,22 @@ namespace UIVersion03
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            var passwordIn64 = ConfigurationManager.AppSettings["Password"];
 
+            if (passwordIn64.Length != 0)
+            {
+                var entropyIn64 = ConfigurationManager.AppSettings["Entropy"];
+
+                var cyperTextInBytes = Convert.FromBase64String(passwordIn64);
+                var entropyInBytes = Convert.FromBase64String(entropyIn64);
+
+                var passwordInBytes = ProtectedData.Unprotect(cyperTextInBytes, entropyInBytes,
+                    DataProtectionScope.CurrentUser);
+                var password = Encoding.UTF8.GetString(passwordInBytes);
+                txtPass.Password = password;
+
+                txtUser.Text = ConfigurationManager.AppSettings["Username"];
+            }
         }
     }
 }
