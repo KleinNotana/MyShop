@@ -5,7 +5,7 @@ using Contract;
 
 namespace UIVersion03
 {
-    public class UIVersion03 : IUserInterface
+    public class UIVersion : IUserInterface
     {
         private IBus _bus;
         public string Name => "UserInterface Version 02";

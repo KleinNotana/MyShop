@@ -30,10 +30,10 @@ namespace DataAccessVer01
 
             string connectionString = builder.ConnectionString;
             //var connection = new SqlConnection(connectionString);
-            MyShopDbContext context = new MyShopDbContext(connectionString);
+           
             //run in background thread
 
-            bool canLogin = await context.Database.CanConnectAsync();
+            bool canLogin = await Database.canConnect(connectionString);
 
             if (canLogin)
             {
