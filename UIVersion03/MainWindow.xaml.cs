@@ -35,7 +35,7 @@ namespace UIVersion03
             _bus = bus;
             dataObject = new MainWindowDataObject
             {
-                Content = new DashboardView(),
+                Content = new DashboardView(bus),
                 Icon = IconChar.Home,
                 Title = "Dashboard"
 
@@ -83,7 +83,7 @@ namespace UIVersion03
 
         private void DashboardNav_Checked(object sender, RoutedEventArgs e)
         {
-            dataObject.Content = new DashboardView();
+            dataObject.Content = new DashboardView(_bus);
             dataObject.Icon = IconChar.Home;
             dataObject.Title = "Dashboard";
         }

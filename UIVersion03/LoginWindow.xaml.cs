@@ -98,5 +98,10 @@ namespace UIVersion03
             WindowInteropHelper wih = new WindowInteropHelper(this);
             SendMessage(wih.Handle, 161, 2, 0);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

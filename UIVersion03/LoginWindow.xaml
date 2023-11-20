@@ -10,6 +10,7 @@
         WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
         Background="Transparent"
+        Loaded="Window_Loaded"
         
     >
 

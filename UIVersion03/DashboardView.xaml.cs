@@ -1,4 +1,5 @@
-﻿using FontAwesome.Sharp;
+﻿using Contract;
+using FontAwesome.Sharp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,9 +23,11 @@ namespace UIVersion03
     /// </summary>
     public partial class DashboardView :  UserControl
     {
-        public DashboardView()
+        IBus _bus = null;
+        public DashboardView(IBus bus)
         {
             InitializeComponent();
+            _bus = bus;
         }
 
 

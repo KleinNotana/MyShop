@@ -6,6 +6,8 @@
     <Color x:Key="primaryBackColor2">#1C0E49</Color>
     <Color x:Key="secondaryBackColor1">#24105F</Color>
     <Color x:Key="secondaryBackColor2">#210F55</Color>
+    <Color x:Key="gridColor1">#2C001E</Color>
+
 
     <!--Window Border Colors-->
     <Color x:Key="winBorderColor1">#6D2FFF</Color>
@@ -37,6 +39,9 @@
     <SolidColorBrush x:Key="panelColor" Color="#200F53"/>
     <SolidColorBrush x:Key="panelOverColor" Color="#281269"/>
     <SolidColorBrush x:Key="panelActiveColor" Color="#2B1372"/>
+    
+
+
 
     <!--Button Colors-->
     <!--TextBox Colors-->
