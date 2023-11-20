@@ -13,6 +13,11 @@ namespace Contract
         string Description { get; }
 
         public Task<bool> LoginAsync(string username, string password);
+        public List<Product> GetProducts();
+        public List<Category> GetCategory();
+
+        public List<Order1> GetOrder();
+        public List<Customer> GetCustomer();
 
     }
 }
