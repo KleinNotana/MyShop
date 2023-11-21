@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Contract;
+using Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,10 +21,19 @@ namespace UIVersion03
     /// Interaction logic for OrdersView.xaml
     /// </summary>
     public partial class OrdersView : UserControl
-    {
-        public OrdersView()
-        {
+    {   
+        IBus _bus = null;
+        public OrdersView(IBus bus)
+        {   
+
             InitializeComponent();
+            _bus = bus;
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            List<Product> products = _bus.GetProducts();
+            MessageBox.Show(products[0].ProductName);
         }
     }
 }

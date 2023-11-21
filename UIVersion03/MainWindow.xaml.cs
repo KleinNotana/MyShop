@@ -98,7 +98,7 @@ namespace UIVersion03
 
         private void OrdersNav_Checked(object sender, RoutedEventArgs e)
         {
-            dataObject.Content = new OrdersView();
+            dataObject.Content = new OrdersView(_bus);
             dataObject.Icon = IconChar.ShoppingCart;
             dataObject.Title = "Orders";
         }
