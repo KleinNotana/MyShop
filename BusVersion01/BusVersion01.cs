@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Contract;
+using Entity;
 
 namespace BusVersion01
 {
@@ -14,6 +16,11 @@ namespace BusVersion01
         public void DepensOn(IDataAccess data)
         {
             _data = data;
+        }
+
+        public List<Product> GetProducts()
+        {
+            return _data.GetProducts();
         }
 
         public async Task<bool> Login(string username, string password)

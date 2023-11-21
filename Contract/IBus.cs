@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace Contract
 
         Task<bool> Login(string username, string password);
 
+        List<Product> GetProducts();
         void DepensOn(IDataAccess data);
     }
 }
