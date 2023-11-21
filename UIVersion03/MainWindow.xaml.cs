@@ -105,8 +105,8 @@ namespace UIVersion03
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            List<Product> products = _bus.GetProducts();
-            MessageBox.Show(products[0].ProductName);
+            /*List<Product> products = _bus.GetProducts();
+            MessageBox.Show(products[0].ProductName);*/
 
         }
     }
