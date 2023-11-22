@@ -17,6 +17,7 @@ using System.Windows.Interop;
 using Contract;
 using FontAwesome.Sharp;
 using System.Reflection.Metadata;
+using Entity;
 
 namespace UIVersion03
 {
@@ -97,9 +98,16 @@ namespace UIVersion03
 
         private void OrdersNav_Checked(object sender, RoutedEventArgs e)
         {
-            dataObject.Content = new OrdersView();
+            dataObject.Content = new OrdersView(_bus);
             dataObject.Icon = IconChar.ShoppingCart;
             dataObject.Title = "Orders";
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            /*List<Product> products = _bus.GetProducts();
+            MessageBox.Show(products[0].ProductName);*/
+
         }
     }
 }

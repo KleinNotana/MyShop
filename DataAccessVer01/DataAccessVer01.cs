@@ -62,7 +62,7 @@ namespace DataAccessVer01
 
         }
 
-        public List<OrderDetail> GetOrderDetail()
+        public List<Order1> GetOrder()
         {
             Database DB = Database.Instance;
             return DB.context.OrderDetails.ToList();
@@ -74,10 +74,6 @@ namespace DataAccessVer01
             return DB.context.Customers.ToList();
         }
 
-        public List<Order1> GetOrder()
-        {
-            Database DB = Database.Instance;
-            return DB.context.Orders.ToList();
-        }
+       
     }
 }
