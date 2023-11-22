@@ -21,7 +21,7 @@ public partial class MyShopDbContext : DbContext
 
     public virtual DbSet<Customer> Customers { get; set; }
 
-    public virtual DbSet<Order1> Order1s { get; set; }
+    public virtual DbSet<Order1> Orders { get; set; }
 
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
 
