@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Entity;
 
-public partial class OrderDetail
+public partial class OrderDetail:INotifyPropertyChanged
 {
     public int OrderId { get; set; }
 
@@ -20,4 +21,6 @@ public partial class OrderDetail
     public virtual Product? Pr { get; set; }
 
     public virtual Product Product { get; set; } = null!;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 }

@@ -18,6 +18,18 @@ namespace BusVersion01
             _data = data;
         }
 
+        public List<Customer> GetCustomers()
+        {
+            List<Customer> customers = _data.GetCustomer();
+            return customers;
+        }
+
+        public List<Order1> GetOrders()
+        {
+            List<Order1> orders = _data.GetOrder();
+            return orders;
+        }
+
         public List<Product> GetProducts()
         {
             return _data.GetProducts();
