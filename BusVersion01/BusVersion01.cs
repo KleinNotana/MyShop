@@ -40,5 +40,10 @@ namespace BusVersion01
             bool result = await _data.LoginAsync(username, password);
             return result;
         }
+
+        public void saveChanges()
+        {
+            _data.saveChanges();
+        }
     }
 }

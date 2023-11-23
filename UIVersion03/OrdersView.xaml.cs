@@ -65,7 +65,7 @@ namespace UIVersion03
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
             orders[0].Id = 99;
-            MessageBox.Show(orders[0].Id.ToString());
+      
         }
 
         private void BookListView_SelectionChanged(object sender, SelectionChangedEventArgs e)

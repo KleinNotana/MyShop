@@ -18,6 +18,7 @@ namespace Contract
         List<Order1> GetOrders();
 
         List<Customer> GetCustomers();
+        void saveChanges();
         void DepensOn(IDataAccess data);
     }
 }
