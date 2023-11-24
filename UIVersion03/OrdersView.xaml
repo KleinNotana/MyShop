@@ -14,7 +14,58 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <TextBlock Text="Orders" Foreground="{StaticResource titleColor1}" />
-    </Grid>
+    <Canvas>
+        <Button x:Name="addButton" Content="Add" Canvas.Left="10" Canvas.Top="10" Width="75" Height="30" Click="addButton_Click"/>
+        <ListView Name="OrderListView" Width="500" Height="350" SelectionChanged="BookListView_SelectionChanged" HorizontalAlignment="Center" Canvas.Top="84" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+            <ListView.Resources>
+                <ContextMenu x:Key="TenCuaContextMenu">
+
+                    <MenuItem Header="Delete"  Click="deleteMenuItem_Click">
+                        <MenuItem.Icon>
+                            <Image RenderOptions.BitmapScalingMode="HighQuality" Source="assets/error copy.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Edit" Click="editMenuItem_Click">
+                        <MenuItem.Icon>
+                            <Image RenderOptions.BitmapScalingMode="HighQuality" Source="assets/pencil.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </ListView.Resources>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}" >
+                    <Setter Property="ContextMenu" Value="{StaticResource TenCuaContextMenu}" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" Width="200" Height="100">
+                        <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0, 0, 5, 0" Width="50" Height="50" />
+                        <TextBlock >
+                     <Run Text="{Binding Id}" Foreground="Blue" FontWeight="Bold"/>
+                        </TextBlock>
+
+                        <TextBlock>
+                     - <Run Text="{Binding CustomerName, Mode=OneWay}" FontStyle="Italic" Foreground="Red"/>
+                        </TextBlock>
+
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Canvas x:Name="detailLayout" Width="500" Height="450" HorizontalAlignment="Left" Canvas.Left="505" Canvas.Top="10" VerticalAlignment="Top">
+            <Label Content="Name:" Canvas.Left="10" Canvas.Top="10" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Content="Manufacturer:" Canvas.Left="10" Canvas.Top="45" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Content="Price:" Canvas.Left="10" Canvas.Top="80" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Content="{Binding Name}" d:Content="Title" Canvas.Left="150" Canvas.Top="10" Width="200" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Label Content="{Binding Manufacturer}" d:Content="Author" Canvas.Left="150" Canvas.Top="45" Width="200" Height="30"/>
+            <Label Content="{Binding Price}" d:Content="YearPublished" Canvas.Left="150" Canvas.Top="80" Width="100" Height="30"/>
+            <Image x:Name="coverImage" Canvas.Left="10" Canvas.Top="120" Width="280" Height="280" />
+        </Canvas>
+    </Canvas>
 </UserControl>

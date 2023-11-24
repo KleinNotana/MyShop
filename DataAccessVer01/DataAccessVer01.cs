@@ -80,6 +80,10 @@ namespace DataAccessVer01
             return DB.context.Customers.ToList();
         }
 
-        
+        public void saveChanges()
+        {
+            Database DB = Database.Instance;
+            DB.context.SaveChanges();
+        }
     }
 }

@@ -20,7 +20,19 @@ namespace BusVersion01
             _data = data;
         }
 
-        public BindingList<Product> GetProducts()
+        public List<Customer> GetCustomers()
+        {
+            List<Customer> customers = _data.GetCustomer();
+            return customers;
+        }
+
+        public List<Order1> GetOrders()
+        {
+            List<Order1> orders = _data.GetOrder();
+            return orders;
+        }
+
+        public List<Product> GetProducts()
         {
             return new BindingList<Product>(_data.GetProducts());   
         }
@@ -29,6 +41,11 @@ namespace BusVersion01
         {
             bool result = await _data.LoginAsync(username, password);
             return result;
+        }
+
+        public void saveChanges()
+        {
+            _data.saveChanges();
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Entity;
 
-public partial class Order1
+public partial class Order1:INotifyPropertyChanged
 {
     public int Id { get; set; }
 
@@ -14,4 +15,5 @@ public partial class Order1
     public virtual Customer? Customer { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    public event PropertyChangedEventHandler? PropertyChanged;
 }

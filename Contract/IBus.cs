@@ -16,6 +16,11 @@ namespace Contract
 
         Task<bool> Login(string username, string password);
 
+        List<Product> GetProducts();
+        List<Order1> GetOrders();
+
+        List<Customer> GetCustomers();
+        void saveChanges();
         BindingList<Product> GetProducts();
         void DepensOn(IDataAccess data);
     }

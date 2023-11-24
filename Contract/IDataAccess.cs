@@ -19,5 +19,7 @@ namespace Contract
         public List<Order1> GetOrder();
         public List<Customer> GetCustomer();
 
+        public void saveChanges();
+
     }
 }
