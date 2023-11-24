@@ -7,12 +7,19 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             Loaded="UserControl_Loaded"
              >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/ButtonStyles.xaml" />
                 <ResourceDictionary Source="Styles/Colors.xaml" />
+                <ResourceDictionary>
+                    <Style x:Key="CenteredCellStyle" TargetType="TextBlock">
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                    </Style>
+                   
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -63,7 +70,8 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Total Selling Products" HorizontalAlignment="Center" 
-                            VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
+                            VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"
+                               />
                     <TextBlock Grid.Row="1" Text="6546" HorizontalAlignment="Center" FontSize="20"
                                  FontWeight="Bold"
                                  VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
@@ -172,11 +180,41 @@
 
             </Border.Background>
 
-            <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <DataGrid x:Name="outOfStockProducts" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Resources>
+                    <!-- Style cho Header -->
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="{StaticResource backItemColor}" />
+                        <Setter Property="Foreground" Value="{StaticResource titleColor1}" />
+                        <Setter Property="BorderBrush" Value="{StaticResource backItemColor}" />
+                        <Setter Property="BorderThickness" Value="1" />
+                    </Style>
+
+                    <!-- Style cho Border của DataGrid -->
+                    <Style TargetType="DataGrid">
+                        <Setter Property="BorderBrush" Value="{StaticResource backItemColor}" />
+                        <Setter Property="BorderThickness" Value="1" />
+                    </Style>
+                </DataGrid.Resources>
+
+                <DataGrid.Background>
+                    <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+                        <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
+                        <GradientStop Color="{StaticResource gridColor1}" Offset="0.5"/>
+                        <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1" />
+                    </LinearGradientBrush>
+                </DataGrid.Background>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                    <DataGridTextColumn Header="Age" Binding="{Binding Age}"/>
-                    <DataGridTextColumn Header="Mail" Binding="{Binding Mail}"/>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*" 
+                                        ElementStyle="{StaticResource CenteredCellStyle}"
+                                        CellStyle="{StaticResource DefaultCellStyle}"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding ProductName}" Width="*"
+                                        ElementStyle="{StaticResource CenteredCellStyle}"
+                                        CellStyle="{StaticResource DefaultCellStyle}"/>
+                    <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="*"
+                                        ElementStyle="{StaticResource CenteredCellStyle}"
+                                        CellStyle="{StaticResource DefaultCellStyle}"/>
                 </DataGrid.Columns>
                 
             </DataGrid>

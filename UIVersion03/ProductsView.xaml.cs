@@ -27,6 +27,19 @@ namespace UIVersion03
             InitializeComponent();
         }
 
-      
+        private void btnEditItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnDeleteItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

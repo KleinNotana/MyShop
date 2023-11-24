@@ -13,8 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BusVersion01\BusVersion01.csproj" />
     <ProjectReference Include="..\Contract\Contract.csproj" />
+    <ProjectReference Include="..\DataAccessVer01\DataAccessVer01.csproj" />
     <ProjectReference Include="..\Entity\Entity.csproj" />
+    <ProjectReference Include="..\UIVersion03\UIVersion03.csproj" />
   </ItemGroup>
 
 </Project>

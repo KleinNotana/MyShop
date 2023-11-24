@@ -32,8 +32,7 @@ namespace UIVersion03
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            List<Product> products = _bus.GetProducts();
-            MessageBox.Show(products[0].ProductName);
+           
         }
     }
 }

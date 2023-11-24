@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using Contract;
 using Entity;
 
@@ -18,9 +20,9 @@ namespace BusVersion01
             _data = data;
         }
 
-        public List<Product> GetProducts()
+        public BindingList<Product> GetProducts()
         {
-            return _data.GetProducts();
+            return new BindingList<Product>(_data.GetProducts());   
         }
 
         public async Task<bool> Login(string username, string password)

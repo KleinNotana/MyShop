@@ -28,8 +28,12 @@ namespace UIVersion03
         {
             InitializeComponent();
             _bus = bus;
+            
         }
 
-
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            outOfStockProducts.ItemsSource = _bus.GetProducts();
+        }
     }
 }

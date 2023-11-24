@@ -1,9 +1,11 @@
 ﻿using Entity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Contract
 {
@@ -14,7 +16,7 @@ namespace Contract
 
         Task<bool> Login(string username, string password);
 
-        List<Product> GetProducts();
+        BindingList<Product> GetProducts();
         void DepensOn(IDataAccess data);
     }
 }
