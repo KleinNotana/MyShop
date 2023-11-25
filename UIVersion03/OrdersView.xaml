@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              xmlns:local="clr-namespace:UIVersion03"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded">
@@ -12,60 +13,134 @@
                 <ResourceDictionary Source="Styles/ButtonStyles.xaml" />
                 <ResourceDictionary Source="Styles/Colors.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            
+                <Style x:Key="CenteredCellStyle" TargetType="TextBlock">
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                </Style>
+
+           
         </ResourceDictionary>
     </UserControl.Resources>
-    <Canvas>
-        <Button x:Name="addButton" Content="Add" Canvas.Left="10" Canvas.Top="10" Width="75" Height="30" Click="addButton_Click"/>
-        <ListView Name="OrderListView" Width="500" Height="350" SelectionChanged="BookListView_SelectionChanged" HorizontalAlignment="Center" Canvas.Top="84" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
-            <ListView.Resources>
-                <ContextMenu x:Key="TenCuaContextMenu">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-                    <MenuItem Header="Delete"  Click="deleteMenuItem_Click">
-                        <MenuItem.Icon>
-                            <Image RenderOptions.BitmapScalingMode="HighQuality" Source="assets/error copy.png" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Edit" Click="editMenuItem_Click">
-                        <MenuItem.Icon>
-                            <Image RenderOptions.BitmapScalingMode="HighQuality" Source="assets/pencil.png" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                </ContextMenu>
-            </ListView.Resources>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="{x:Type ListViewItem}" >
-                    <Setter Property="ContextMenu" Value="{StaticResource TenCuaContextMenu}" />
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Vertical" Width="200" Height="100">
-                        <Image RenderOptions.BitmapScalingMode="HighQuality" Margin="0, 0, 5, 0" Width="50" Height="50" />
-                        <TextBlock >
-                     <Run Text="{Binding Id}" Foreground="Blue" FontWeight="Bold"/>
-                        </TextBlock>
+        
 
-                        <TextBlock>
-                     - <Run Text="{Binding CustomerName, Mode=OneWay}" FontStyle="Italic" Foreground="Red"/>
-                        </TextBlock>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" >
+            <StackPanel Orientation="Horizontal"  
+                    Width="400" Background="{StaticResource backItemColor}">
+                <TextBox x:Name="txtSearch" Width="300" Height="30" Margin="10,0,0,0" TextAlignment="Center"
+                     VerticalAlignment="Center" FontSize="20" 
+                     Background="{StaticResource searchColor}" Foreground="{StaticResource titleColor2}" KeyDown="txtSearch_KeyDown"/>
+                <Button x:Name="btnSearch" Style="{StaticResource iconButton2}" 
+                Tag="{StaticResource titleColor1}" Margin="10,0,0,0" Width="50" Height="35" Click="btnSearch_Click">
 
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Canvas x:Name="detailLayout" Width="500" Height="450" HorizontalAlignment="Left" Canvas.Left="505" Canvas.Top="10" VerticalAlignment="Top">
-            <Label Content="Name:" Canvas.Left="10" Canvas.Top="10" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Label Content="Manufacturer:" Canvas.Left="10" Canvas.Top="45" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Label Content="Price:" Canvas.Left="10" Canvas.Top="80" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Label Content="{Binding Name}" d:Content="Title" Canvas.Left="150" Canvas.Top="10" Width="200" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <Label Content="{Binding Manufacturer}" d:Content="Author" Canvas.Left="150" Canvas.Top="45" Width="200" Height="30"/>
-            <Label Content="{Binding Price}" d:Content="YearPublished" Canvas.Left="150" Canvas.Top="80" Width="100" Height="30"/>
-            <Image x:Name="coverImage" Canvas.Left="10" Canvas.Top="120" Width="280" Height="280" />
-        </Canvas>
-    </Canvas>
+                    <fa:IconImage Icon="Search" Width="20" Height="20" 
+              Foreground="{StaticResource titleColor2}" />
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Background="{StaticResource backItemColor}">
+                <TextBlock Text="Price Filter" Foreground="{StaticResource titleColor1}" FontSize="15" 
+                       VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <ComboBox x:Name="filterComboBox" Background="{StaticResource searchColor}"
+                      Foreground="{StaticResource titleColor1}" Width="300" Height="30" SelectionChanged="filterComboBox_SelectionChanged">
+                    <ComboBox.Resources>
+                        <Style TargetType="ComboBoxItem">
+                            <Setter Property="Background" Value="{StaticResource searchColor}"/>
+                        </Style>
+                    </ComboBox.Resources>
+                </ComboBox>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="Sort By" Foreground="{StaticResource titleColor1}" FontSize="15" 
+                   VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <ComboBox x:Name="sortComboBox" 
+              Width="100" 
+              Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="filterComboBox_SelectionChanged" 
+      >
+                <ComboBox.Style>
+                    <Style TargetType="ComboBox">
+                        <Setter Property="Background" Value="{StaticResource searchColor}" />
+                        <Setter Property="Foreground" Value="{StaticResource titleColor1}" />
+                    </Style>
+                </ComboBox.Style>
+                <ComboBox.Resources>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Background" Value="{StaticResource searchColor}"/>
+                    </Style>
+                </ComboBox.Resources>
+
+            </ComboBox>
+
+            
+
+            <TextBlock  x:Name="txtPages" 
+                   Foreground="{StaticResource titleColor1}" 
+                   VerticalAlignment="Center" Margin="100,0,10,0" FontSize="15">
+            <Run Text="Page: "/>
+            <Run Text="{Binding Current, Mode=OneTime}"/>
+            <Run Text="/"/>
+            <Run Text="{Binding Total, Mode=OneTime}"/>
+            </TextBlock>
+
+            <Button Style="{StaticResource iconButton}" x:Name="btnPreviousPage"
+            Tag="{StaticResource color1}" Click="btnPreviousPage_Click">
+                <fa:IconImage Icon="ChevronLeft"
+                        Style="{StaticResource iconButtonIcon}" RenderTransformOrigin="0.699,0.5"/>
+            </Button>
+
+            <Button Style="{StaticResource iconButton}" x:Name="btnNextPage"
+                Tag="{StaticResource color1}" Click="btnNextPage_Click">
+                <fa:IconImage Icon="ChevronRight"
+                    Style="{StaticResource iconButtonIcon}"/>
+            </Button>
+
+
+        </StackPanel>
+
+        <DataGrid x:Name="OrderDataGrid" Grid.Row="3"
+          AutoGenerateColumns="False" IsReadOnly="True">
+    <DataGrid.Resources>
+        <!-- Style cho Header -->
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="{StaticResource backItemColor}" />
+            <Setter Property="Foreground" Value="{StaticResource titleColor1}" />
+            <Setter Property="BorderBrush" Value="{StaticResource backItemColor}" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+
+        <!-- Style cho Border của DataGrid -->
+        <Style TargetType="DataGrid">
+            <Setter Property="BorderBrush" Value="{StaticResource backItemColor}" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+    </DataGrid.Resources>
+
+    <DataGrid.Background>
+        <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+            <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
+            <GradientStop Color="{StaticResource gridColor1}" Offset="0.5"/>
+            <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1" />
+        </LinearGradientBrush>
+    </DataGrid.Background>
+    <DataGrid.Columns>
+        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*" 
+                            ElementStyle="{StaticResource CenteredCellStyle}"
+                            CellStyle="{StaticResource DefaultCellStyle}"/>
+        <DataGridTextColumn Header="Customer Name" Binding="{Binding Name}" Width="*"
+                            ElementStyle="{StaticResource CenteredCellStyle}"
+                            CellStyle="{StaticResource DefaultCellStyle}"/>
+        <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="*"
+                            ElementStyle="{StaticResource CenteredCellStyle}"
+                            CellStyle="{StaticResource DefaultCellStyle}"/>
+    </DataGrid.Columns>
+    
+</DataGrid>
+    </Grid>
 </UserControl>

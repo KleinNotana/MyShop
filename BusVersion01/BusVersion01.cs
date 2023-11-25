@@ -27,6 +27,22 @@ namespace BusVersion01
             return customers;
         }
 
+        public List<dynamic> GetOrderByFilter(string dateFrom= "1/1/1900", string dateTo = "1/1/2100", int currentPage = 1, int itemPerPage = 10)
+        {
+            //throw new NotImplementedException();
+            DateTime datefrom = DateTime.Parse(dateFrom);
+            DateTime dateto = DateTime.Parse(dateTo);
+            var orders = _data.GetOrder();
+            var list = from o in orders join c in _data.GetCustomer() on o.CustomerId equals c.Id where o.OrderDate >= datefrom && o.OrderDate <= dateto select new { Id = o.Id, Name = c.CustomerName, Date = o.OrderDate };
+            int count = list.Count();
+            var result = from o in list
+                         select new { Id = o.Id, Name = o.Name, Date = o.Date, Total = count };
+            result = result.Skip((currentPage - 1) * itemPerPage).Take(itemPerPage);
+            return result.ToList<dynamic>();
+
+                       
+        }
+
         public List<Order1> GetOrders()
         {
             List<Order1> orders = _data.GetOrder();

@@ -25,6 +25,11 @@ namespace UIVersion03
     {   
         IBus _bus = null;
         List<Order1> orders;
+        int _itemPerPage = 5;
+        
+        int _currentPage = 1;
+        int _totalPage = 1;
+        int _totalItems = 1;
         public OrdersView(IBus bus)
         {   
 
@@ -32,23 +37,29 @@ namespace UIVersion03
             _bus = bus;
             
         }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private void loadOrders()
         {
-            orders = new List<Order1>();
-            orders = _bus.GetOrders();
-            List<Customer> customers = _bus.GetCustomers();
-            var query = from o in orders join c in customers on o.CustomerId equals c.Id select new { Id = o.Id, Name = c.CustomerName };
-            for (int i = 0; i < query.Count(); i++)
+            var orders = _bus.GetOrderByFilter("1/1/1900", "1/1/2100", _currentPage, _itemPerPage);
+            OrderDataGrid.ItemsSource = orders;
+            if (orders.Count > 0)
             {
-                orders[i]._customerName = query.ToList()[i].Name;
-                //MessageBox.Show(orders[i]._customerName);
+                _totalItems = orders.FirstOrDefault()?.GetType().GetProperty("Total").GetValue(orders.FirstOrDefault());
+                //MessageBox.Show(_totalItems.ToString());
+                _totalPage = _totalItems / _itemPerPage + (_totalItems % _itemPerPage == 0 ? 0 : 1);
+                if (_totalItems % _itemPerPage > 0)
+                {
+                    _totalPage++;
+                }
+                dynamic pageNumbers = new { Current = _currentPage, Total = _totalPage };
+                txtPages.DataContext = pageNumbers;
             }
 
-            OrderListView.ItemsSource = orders;
 
-            
 
+        }
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            loadOrders();
 
         }
 
@@ -69,6 +80,39 @@ namespace UIVersion03
         }
 
         private void BookListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void btnNextPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentPage < _totalPage)
+            {
+                _currentPage++;
+                loadOrders();
+            }
+        }
+
+        private void btnPreviousPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentPage > 1)
+            {
+                _currentPage--;
+                loadOrders();
+            }
+        }
+
+        private void filterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
         {
 
         }

@@ -24,6 +24,8 @@ namespace Contract
         BindingList<dynamic> GetProductsDynamic();
         IEnumerable<dynamic> GetProductsByName(string name);
         IEnumerable<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1, int itemPerPage = 10);
+
+        public List<dynamic> GetOrderByFilter(string dateFrom, string dateTo, int currentPage = 1, int itemPerPage = 10);
         void DepensOn(IDataAccess data);
     }
 }
