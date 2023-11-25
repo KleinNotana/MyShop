@@ -24,7 +24,7 @@ namespace UIVersion03
     public partial class OrdersView : UserControl
     {   
         IBus _bus = null;
-        List<Order1> orders;
+        BindingList<dynamic> orders;
         int _itemPerPage = 5;
         
         int _currentPage = 1;
@@ -40,17 +40,14 @@ namespace UIVersion03
         private void loadOrders()
         {
             var orderslist = _bus.GetOrderByFilter("1/1/1900", "1/1/2100", _currentPage, _itemPerPage);
-            BindingList<dynamic> orders = new BindingList<dynamic>(orderslist);
+            orders = new BindingList<dynamic>(orderslist);
             OrderDataGrid.ItemsSource = orders;
             if (orders.Count > 0)
             {
                 _totalItems = orders.FirstOrDefault()?.GetType().GetProperty("Total").GetValue(orders.FirstOrDefault());
                 //MessageBox.Show(_totalItems.ToString());
                 _totalPage = _totalItems / _itemPerPage + (_totalItems % _itemPerPage == 0 ? 0 : 1);
-                if (_totalItems % _itemPerPage > 0)
-                {
-                    _totalPage++;
-                }
+                
                 dynamic pageNumbers = new { Current = _currentPage, Total = _totalPage };
                 txtPages.DataContext = pageNumbers;
             }
@@ -116,6 +113,23 @@ namespace UIVersion03
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
         {
 
+        }
+
+        private void btnEditItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnDeleteItem_Click(object sender, RoutedEventArgs e)
+        {
+            var order = OrderDataGrid.SelectedItem;
+            orders.Remove(order);
+            
+            int id = (int)order.GetType().GetProperty("Id").GetValue(order);
+            MessageBox.Show(id.ToString());
+            _bus.DeleteOrder(id);
+            loadOrders();
+            
         }
     }
 }

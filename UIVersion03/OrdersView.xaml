@@ -121,8 +121,21 @@
             <Setter Property="BorderThickness" Value="1" />
         </Style>
     </DataGrid.Resources>
-
-    <DataGrid.Background>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Edit" Click="btnEditItem_Click">
+                        <MenuItem.Icon>
+                            <Image Source="images/edit.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Remove" Click="btnDeleteItem_Click">
+                        <MenuItem.Icon>
+                            <Image Source="images/delete.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Background>
         <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
             <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
             <GradientStop Color="{StaticResource gridColor1}" Offset="0.5"/>

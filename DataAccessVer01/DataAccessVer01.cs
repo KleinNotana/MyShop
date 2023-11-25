@@ -68,6 +68,13 @@ namespace DataAccessVer01
             return database.context.Orders.ToList();
         }
 
+        public void DeleteOrder(Order1 delOrder)
+        {
+            Database DB = Database.Instance;
+            DB.context.Orders.Remove(delOrder);
+            DB.context.SaveChanges();
+        }
+
         public List<OrderDetail> GetOrderDetail()
         {
             Database DB = Database.Instance;
@@ -85,5 +92,7 @@ namespace DataAccessVer01
             Database DB = Database.Instance;
             DB.context.SaveChanges();
         }
+
+        
     }
 }

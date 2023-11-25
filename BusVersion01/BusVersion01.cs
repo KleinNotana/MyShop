@@ -16,6 +16,14 @@ namespace BusVersion01
 
         public string Description => "BusVersion01 - test";
 
+        public void DeleteOrder(int DelId)
+        {
+            var orders = _data.GetOrder();
+            var order = orders.Where(o => o.Id == DelId).FirstOrDefault();
+            _data.DeleteOrder(order);
+
+        }
+
         public void DepensOn(IDataAccess data)
         {
             _data = data;

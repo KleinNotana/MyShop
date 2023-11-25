@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using Entity;
 
 namespace Contract
@@ -18,7 +19,7 @@ namespace Contract
 
         public List<Order1> GetOrder();
         public List<Customer> GetCustomer();
-
+        public void DeleteOrder(Order1 delOrder);
         public void saveChanges();
 
     }
