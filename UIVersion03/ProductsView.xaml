@@ -6,7 +6,8 @@
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              xmlns:local="clr-namespace:UIVersion03"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -22,7 +23,7 @@
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <StackPanel Grid.Row="0" Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,0,10,0">
             <Button x:Name="btnImportData" Style="{StaticResource normalButton}" 
                     Tag="{StaticResource titleColor1}" Margin="0,0,10,0" >
@@ -40,9 +41,9 @@
                         Width="400" Background="{StaticResource backItemColor}">
                 <TextBox x:Name="txtSearch" Width="300" Height="30" Margin="10,0,0,0" TextAlignment="Center"
                          VerticalAlignment="Center" FontSize="20" 
-                         Background="{StaticResource searchColor}" Foreground="{StaticResource titleColor2}"/>
+                         Background="{StaticResource searchColor}" Foreground="{StaticResource titleColor2}" KeyDown="txtSearch_KeyDown"/>
                 <Button x:Name="btnSearch" Style="{StaticResource iconButton2}" 
-                    Tag="{StaticResource titleColor1}" Margin="10,0,0,0" Width="50" Height="35">
+                    Tag="{StaticResource titleColor1}" Margin="10,0,0,0" Width="50" Height="35" Click="btnSearch_Click">
 
                     <fa:IconImage Icon="Search" Width="20" Height="20" 
                   Foreground="{StaticResource titleColor2}" />
@@ -52,7 +53,7 @@
                 <TextBlock Text="Price Filter" Foreground="{StaticResource titleColor1}" FontSize="15" 
                            VerticalAlignment="Center" Margin="0,0,10,0"/>
                 <ComboBox x:Name="filterComboBox" Background="{StaticResource searchColor}"
-                          Foreground="{StaticResource titleColor1}" Width="300" Height="30">
+                          Foreground="{StaticResource titleColor1}" Width="300" Height="30" SelectionChanged="filterComboBox_SelectionChanged">
                     <ComboBox.Resources>
                         <Style TargetType="ComboBoxItem">
                             <Setter Property="Background" Value="{StaticResource searchColor}"/>
@@ -64,13 +65,22 @@
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock Text="Sort By" Foreground="{StaticResource titleColor1}" FontSize="15" 
                        VerticalAlignment="Center" Margin="0,0,10,0"/>
-            <ComboBox x:Name="sortComboBox" Background="{StaticResource searchColor}"
-                        Foreground="{StaticResource titleColor1}" Width="300" Height="30">
+            <ComboBox x:Name="sortComboBox" 
+                  Width="100" 
+                  Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="filterComboBox_SelectionChanged" 
+          >
+                <ComboBox.Style>
+                    <Style TargetType="ComboBox">
+                        <Setter Property="Background" Value="{StaticResource searchColor}" />
+                        <Setter Property="Foreground" Value="{StaticResource titleColor1}" />
+                    </Style>
+                </ComboBox.Style>
                 <ComboBox.Resources>
                     <Style TargetType="ComboBoxItem">
                         <Setter Property="Background" Value="{StaticResource searchColor}"/>
                     </Style>
                 </ComboBox.Resources>
+
             </ComboBox>
 
             <Button x:Name="btnAddProduct" Style="{StaticResource normalButton}" 
@@ -78,23 +88,28 @@
                 <TextBlock Text="Add New Product" />
             </Button>
 
-            <TextBlock Text="2/3" x:Name="txtPages" 
+            <TextBlock  x:Name="txtPages" 
                        Foreground="{StaticResource titleColor1}" 
-                       VerticalAlignment="Center" Margin="100,0,10,0" FontSize="15"/>
+                       VerticalAlignment="Center" Margin="100,0,10,0" FontSize="15">
+                <Run Text="Page: "/>
+                <Run Text="{Binding Current, Mode=OneTime}"/>
+                <Run Text="/"/>
+                <Run Text="{Binding Total, Mode=OneTime}"/>
+            </TextBlock>
 
             <Button Style="{StaticResource iconButton}" x:Name="btnPreviousPage"
-                Tag="{StaticResource color1}">
+                Tag="{StaticResource color1}" Click="btnPreviousPage_Click">
                 <fa:IconImage Icon="ChevronLeft"
-                            Style="{StaticResource iconButtonIcon}"/>
+                            Style="{StaticResource iconButtonIcon}" RenderTransformOrigin="0.699,0.5"/>
             </Button>
 
             <Button Style="{StaticResource iconButton}" x:Name="btnNextPage"
-                    Tag="{StaticResource color1}">
+                    Tag="{StaticResource color1}" Click="btnNextPage_Click">
                 <fa:IconImage Icon="ChevronRight"
                         Style="{StaticResource iconButtonIcon}"/>
             </Button>
-            
-            
+
+
         </StackPanel>
 
         <ListView Name="productsList" Grid.Row="3" Background="{StaticResource backContentColor}"
@@ -102,21 +117,22 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel VerticalAlignment="Center" Width="180" Height="200">
-                        <Image Source="{Binding ImagPath}" Width="50" Height="50"
+                        <Image Source="{Binding ImagPath, Mode=OneTime}" Width="50" Height="50"
                     Margin="5" />
-                        <TextBlock Text="{Binding Name}" Margin="5" FontSize="15"  Foreground="{StaticResource titleColor1}"
-                                   TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap"/>
-                        <TextBlock  Margin="5" FontSize="15" TextAlignment="Center">
+                        <TextBlock Text="{Binding Name, Mode=OneTime}" Margin="5" FontSize="15"  Foreground="{StaticResource titleColor1}"
+                                   TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap"
+                                   />
+                        <TextBlock  Margin="5" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
                            <Run Text="Price: $"/>
-                           <Run Text="{Binding Price}" FontStyle="Italic"/>
+                           <Run Text="{Binding Price, Mode=OneTime}" FontStyle="Italic"/>
                         </TextBlock>
-                        <TextBlock  Margin="5" FontSize="15" TextAlignment="Center">
+                        <TextBlock  Margin="5" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
                            <Run Text="Stock: "/>
-                           <Run Text="{Binding Stock}" />
+                           <Run Text="{Binding Stock, Mode=OneTime}" />
                         </TextBlock>
-                        <TextBlock  Margin="5" FontSize="15" TextAlignment="Center">
+                        <TextBlock  Margin="5" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
                                <Run Text="Sold: "/>
-                               <Run Text="{Binding Sold}"/>
+                               <Run Text="{Binding Sold, Mode=OneTime}"/>
                         </TextBlock>
 
 

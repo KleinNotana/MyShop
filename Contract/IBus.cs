@@ -16,12 +16,14 @@ namespace Contract
 
         Task<bool> Login(string username, string password);
 
-        List<Product> GetProducts();
         List<Order1> GetOrders();
 
         List<Customer> GetCustomers();
         void saveChanges();
         BindingList<Product> GetProducts();
+        BindingList<dynamic> GetProductsDynamic();
+        IEnumerable<dynamic> GetProductsByName(string name);
+        IEnumerable<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1, int itemPerPage = 10);
         void DepensOn(IDataAccess data);
     }
 }

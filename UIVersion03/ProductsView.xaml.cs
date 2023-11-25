@@ -1,4 +1,5 @@
-﻿using FontAwesome.Sharp;
+﻿using Contract;
+using FontAwesome.Sharp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,9 +23,30 @@ namespace UIVersion03
     /// </summary>
     public partial class ProductsView : UserControl
     {
-        public ProductsView()
+        IBus _bus = null;
+        List<string> priceFilters;
+        List<string> sortTypes;
+        int _itemPerPage = 5;
+        int _changedItemPerPage = 5;
+        int _currentPage = 1;
+        int _totalPage = 1;
+        int _totalItems = 1;
+        public ProductsView(IBus bus)
         {
             InitializeComponent();
+            _bus = bus;
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+           
+            sortTypes = new List<string>() { "Name", "Price" };
+            priceFilters = new List<string>() { "All", "0 - 100", "100 - 200", "200 - 300", "300 - 400", "400 - 500" };
+            sortComboBox.ItemsSource = sortTypes;
+            filterComboBox.ItemsSource = priceFilters;
+            sortComboBox.SelectedIndex = 0;
+            filterComboBox.SelectedIndex = 0;
+            loadProducts();
         }
 
         private void btnEditItem_Click(object sender, RoutedEventArgs e)
@@ -40,6 +62,85 @@ namespace UIVersion03
         private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
+        }
+
+        
+
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+               loadProducts();
+            }
+        }
+
+
+        private void loadProducts()
+        {
+            String sortType = sortComboBox.SelectedItem as String;
+            String priceFilter = filterComboBox.SelectedItem as String;
+            if(sortType == null)
+            {
+                sortType = "Name";
+            }
+            if(priceFilter == null)
+            {
+                priceFilter = "All";
+            }
+            var priceFrom = -1;
+            var priceTo = -1;
+            if (priceFilter != "All")
+            {
+                var priceFilterArr = priceFilter.Split('-');
+                priceFrom = int.Parse(priceFilterArr[0]);
+                priceTo = int.Parse(priceFilterArr[1]);
+            }
+            var products = _bus.GetProductsByFilter(txtSearch.Text, sortType, priceFrom, priceTo, _currentPage, _itemPerPage);
+            productsList.ItemsSource = products;
+            if (products.Count() > 0)
+            {
+                _totalItems = products.FirstOrDefault()?.GetType().GetProperty("Total").GetValue(products.FirstOrDefault());
+                _totalPage = _totalItems / _itemPerPage + (_totalItems % _itemPerPage == 0 ? 0 : 1);
+
+                
+            }
+            else
+            {
+                _totalItems = 0;
+                _totalPage = 1;
+              
+            }
+            dynamic pageNumbers = new {Current = _currentPage, Total = _totalPage};
+            txtPages.DataContext = pageNumbers;
+
+        }
+
+        private void filterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            loadProducts();
+        }
+
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            loadProducts();
+        }
+
+        private void btnPreviousPage_Click(object sender, RoutedEventArgs e)
+        {
+            if(_currentPage > 1)
+            {
+                _currentPage--;
+                loadProducts();
+            }
+        }
+
+        private void btnNextPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentPage < _totalPage)
+            {
+                _currentPage++;
+                loadProducts();
+            }
         }
     }
 }

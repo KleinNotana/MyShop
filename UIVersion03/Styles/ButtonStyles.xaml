@@ -205,4 +205,11 @@
     </Style>
 
 
+    <Style x:Key="CustomComboBoxItemStyle" TargetType="ComboBoxItem">
+        <Setter Property="Background" Value="LightBlue"/>
+        <Setter Property="Foreground" Value="DarkBlue"/>
+    </Style>
+
+    
+
 </ResourceDictionary>

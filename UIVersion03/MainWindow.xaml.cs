@@ -91,7 +91,7 @@ namespace UIVersion03
 
         private void ProductsNav_Checked(object sender, RoutedEventArgs e)
         {
-            dataObject.Content = new ProductsView();
+            dataObject.Content = new ProductsView(_bus);
             dataObject.Icon = IconChar.Boxes;
             dataObject.Title = "Products";
         }
