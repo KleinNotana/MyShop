@@ -39,7 +39,8 @@ namespace UIVersion03
         }
         private void loadOrders()
         {
-            var orders = _bus.GetOrderByFilter("1/1/1900", "1/1/2100", _currentPage, _itemPerPage);
+            var orderslist = _bus.GetOrderByFilter("1/1/1900", "1/1/2100", _currentPage, _itemPerPage);
+            BindingList<dynamic> orders = new BindingList<dynamic>(orderslist);
             OrderDataGrid.ItemsSource = orders;
             if (orders.Count > 0)
             {
