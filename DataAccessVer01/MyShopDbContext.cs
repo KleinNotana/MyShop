@@ -12,6 +12,8 @@ public partial class MyShopDbContext : DbContext
         connectionString = con;
     }
 
+    
+
     public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<Customer> Customers { get; set; }
@@ -27,7 +29,6 @@ public partial class MyShopDbContext : DbContext
 
         optionsBuilder.UseSqlServer(connectionString);
     }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Category>(entity =>
@@ -112,6 +113,7 @@ public partial class MyShopDbContext : DbContext
             entity.HasIndex(e => new { e.Id, e.Price }, "CK_PRODUCT").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Amount).HasColumnName("AMOUNT");
             entity.Property(e => e.CategoryId).HasColumnName("CATEGORY_ID");
             entity.Property(e => e.Description)
                 .HasMaxLength(50)
