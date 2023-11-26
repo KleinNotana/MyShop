@@ -18,6 +18,8 @@ namespace Contract
         public List<Category> GetCategory();
 
         public List<Order1> GetOrder();
+
+        public List<OrderDetail> GetOrderDetail();
         public List<Customer> GetCustomer();
         public void DeleteOrder(Order1 delOrder);
         public void saveChanges();

@@ -127,9 +127,13 @@ namespace UIVersion03
             
             int id = (int)order.GetType().GetProperty("Id").GetValue(order);
             MessageBox.Show(id.ToString());
-            _bus.DeleteOrder(id);
+           _bus.DeleteOrder(id); 
             loadOrders();
-            
+            //test order detail
+            /*var orderDetails = _bus.GetOrdersDetailById(id);
+            MessageBox.Show(orderDetails[0].Price.ToString());
+            */
+
         }
     }
 }

@@ -57,6 +57,14 @@ namespace BusVersion01
             return orders;
         }
 
+        public List<OrderDetail> GetOrdersDetailById(int orderid)
+        {
+            //throw new NotImplementedException();
+            List<OrderDetail> orderDetails = _data.GetOrderDetail();
+            var result = orderDetails.Where(o => o.OrderId == orderid).ToList();
+            return result;
+        }
+
         public BindingList<Product> GetProducts()
         {
             return new BindingList<Product>(_data.GetProducts());

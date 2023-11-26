@@ -65,13 +65,13 @@ namespace DataAccessVer01
         public List<Order1> GetOrder()
         {
             Database database = Database.Instance;
-            return database.context.Orders.ToList();
+            return database.context.Order1s.ToList();
         }
 
         public void DeleteOrder(Order1 delOrder)
         {
             Database DB = Database.Instance;
-            DB.context.Orders.Remove(delOrder);
+            DB.context.Order1s.Remove(delOrder);
             DB.context.SaveChanges();
         }
 
