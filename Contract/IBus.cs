@@ -29,6 +29,8 @@ namespace Contract
 
         public List<dynamic> GetOrderByFilter(string dateFrom, string dateTo, int currentPage = 1, int itemPerPage = 10);
         public void DeleteOrder(int DelId);
+        public void addOrder(Order1 addOrder);
+        public void addOrderDetail(OrderDetail addOrderDetail);
         void DepensOn(IDataAccess data);
     }
 }

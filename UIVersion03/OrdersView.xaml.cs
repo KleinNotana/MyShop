@@ -71,11 +71,15 @@ namespace UIVersion03
 
         }
 
-        private void addButton_Click(object sender, RoutedEventArgs e)
+        /*private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            orders[0].Id = 99;
+            Order1 order = new Order1();
+            order.OrderDate = DateTime.Now;
+            order.CustomerId = 1;
+            _bus.addOrder(order);
+            loadOrders();
       
-        }
+        }*/
 
         private void BookListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -134,6 +138,23 @@ namespace UIVersion03
             MessageBox.Show(orderDetails[0].Price.ToString());
             */
 
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            Order1 order = new Order1();
+            order.OrderDate = DateTime.Now;
+            order.CustomerId = 1;
+            _bus.addOrder(order);
+
+            OrderDetail orderDetail = new OrderDetail();
+            orderDetail.OrderId = order.Id;
+            orderDetail.ProductId = 1;
+            orderDetail.Amount = 1;
+            orderDetail.Price = 20;
+            orderDetail.TotalPrice = 20;
+            _bus.addOrderDetail(orderDetail);
+            loadOrders();
         }
     }
 }

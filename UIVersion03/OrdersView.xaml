@@ -77,8 +77,11 @@
                 </ComboBox.Resources>
 
             </ComboBox>
+            <Button x:Name="btnAdd" Style="{StaticResource normalButton}" 
+        Tag="{StaticResource titleColor1}" Margin="50,0,10,0" Click="btnAdd_Click" >
+                <TextBlock Text="Add Order" />
+            </Button>
 
-            
 
             <TextBlock  x:Name="txtPages" 
                    Foreground="{StaticResource titleColor1}" 

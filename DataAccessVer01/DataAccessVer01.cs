@@ -93,6 +93,18 @@ namespace DataAccessVer01
             DB.context.SaveChanges();
         }
 
-        
+        public void addOrder(Order1 addOrder)
+        {
+            Database DB = Database.Instance;
+            DB.context.Order1s.Add(addOrder);
+            DB.context.SaveChanges();
+        }
+
+        public void addOrderDetail(OrderDetail addOrderDetail)
+        {
+            Database DB = Database.Instance;
+            DB.context.OrderDetails.Add(addOrderDetail);
+            DB.context.SaveChanges();
+        }
     }
 }

@@ -22,6 +22,9 @@ namespace Contract
         public List<OrderDetail> GetOrderDetail();
         public List<Customer> GetCustomer();
         public void DeleteOrder(Order1 delOrder);
+        public void addOrder(Order1 addOrder);
+
+        public void addOrderDetail(OrderDetail addOrderDetail);
         public void saveChanges();
 
     }

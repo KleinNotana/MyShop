@@ -24,6 +24,11 @@ namespace BusVersion01
 
         }
 
+        public void addOrder(Order1 addOrder)
+        {
+            _data.addOrder(addOrder);
+        }
+
         public void DepensOn(IDataAccess data)
         {
             _data = data;
@@ -140,6 +145,11 @@ namespace BusVersion01
         public void saveChanges()
         {
             _data.saveChanges();
+        }
+
+        public void addOrderDetail(OrderDetail addOrderDetail)
+        {
+            _data.addOrderDetail(addOrderDetail);
         }
     }
 
