@@ -17,7 +17,5 @@ public partial class OrderDetail
 
     public virtual Order1 Order { get; set; } = null!;
 
-    public virtual Product? Pr { get; set; }
-
     public virtual Product Product { get; set; } = null!;
 }
