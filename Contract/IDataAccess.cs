@@ -21,10 +21,15 @@ namespace Contract
 
         public List<OrderDetail> GetOrderDetail();
         public List<Customer> GetCustomer();
+
+        public Product getProductById(int id);
+        public void updateProduct(Product updateProduct);
         public void DeleteOrder(Order1 delOrder);
         public void addOrder(Order1 addOrder);
 
         public void addOrderDetail(OrderDetail addOrderDetail);
+        public void addProduct(Product addProduct);
+        public void addCategory(Category category);
         public void saveChanges();
 
     }

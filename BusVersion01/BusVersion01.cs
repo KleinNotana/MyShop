@@ -80,7 +80,7 @@ namespace BusVersion01
            var products = _data.GetProducts();
             var list = from p in products
                          where p.ProductName.ToLower().Contains(name.ToLower())
-                         select new { ImgPath = p.ImgPath, Name = p.ProductName, Price = p.Price, Stock = 500, Sold = 1000 };
+                         select new {Id = p.Id, ImgPath = p.ImgPath, Name = p.ProductName, Price = p.Price, Stock = 500, Sold = 1000 };
 
             if (priceFrom != -1 && priceTo != -1)
             {
@@ -98,41 +98,9 @@ namespace BusVersion01
 
             int count = list.Count();
             var result = from p in list
-                     select new { ImgPath = p.ImgPath, Name = p.Name, Price = p.Price, Stock = 500, Sold = 1000, Total = count };
+                     select new { Id = p.Id, ImgPath = p.ImgPath, Name = p.Name, Price = p.Price, Stock = 500, Sold = 1000, Total = count };
             result = result.Skip((currentPage - 1) * itemPerPage).Take(itemPerPage);
             
-            return result;
-        }
-
-        public IEnumerable<dynamic> GetProductsByName(string name)
-        {
-            var products = _data.GetProducts();
-            var result = from p in products
-                         where p.ProductName.ToLower().Contains(name.ToLower())
-                         select new { ImgPath = p.ImgPath, Name = p.ProductName, Price = p.Price, Stock = 500, Sold = 1000 };
-
-
-
-            return result;
-        }
-
-        public BindingList<dynamic> GetProductsDynamic()
-        {
-            var products = _data.GetProducts();
-            var result = new BindingList<dynamic>();
-
-            foreach (var product in products)
-            {
-                result.Add(new
-                {
-                    ImgPath = product.ImgPath,
-                    Name = product.ProductName,
-                    Price = product.Price,
-                    Stock = 500,
-                    Sold = 1000
-                });
-            }
-
             return result;
         }
 
@@ -151,6 +119,40 @@ namespace BusVersion01
         {
             _data.addOrderDetail(addOrderDetail);
         }
+
+
+        public bool addProduct(Product addProduct)
+        {
+            bool result = true;
+
+            _data.addProduct(addProduct);
+
+            return result;
+        }
+
+        public BindingList<Category> GetCategories()
+        {
+            BindingList<Category> categories = new BindingList<Category>(_data.GetCategory());
+
+            return categories;
+        }
+
+        public bool addCategory(Category category)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Product getProductById(int id)
+        {
+            return _data.getProductById(id);
+        }
+
+        public void updateProduct(Product updateProduct)
+        {
+            _data.updateProduct(updateProduct);
+        }
+
+        
     }
 
 }

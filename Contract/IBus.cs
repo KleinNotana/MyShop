@@ -23,14 +23,16 @@ namespace Contract
         List<Customer> GetCustomers();
         void saveChanges();
         BindingList<Product> GetProducts();
-        BindingList<dynamic> GetProductsDynamic();
-        IEnumerable<dynamic> GetProductsByName(string name);
+        BindingList<Category> GetCategories();
         IEnumerable<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1, int itemPerPage = 10);
-
         public List<dynamic> GetOrderByFilter(string dateFrom, string dateTo, int currentPage = 1, int itemPerPage = 10);
         public void DeleteOrder(int DelId);
         public void addOrder(Order1 addOrder);
         public void addOrderDetail(OrderDetail addOrderDetail);
+        public bool addProduct(Product addProduct);
+       public bool addCategory(Category category);
+        public Product getProductById(int id);
+        public void updateProduct(Product updateProduct);
         void DepensOn(IDataAccess data);
     }
 }

@@ -3,6 +3,8 @@ using FontAwesome.Sharp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace UIVersion03
 {
@@ -46,12 +49,27 @@ namespace UIVersion03
             filterComboBox.ItemsSource = priceFilters;
             sortComboBox.SelectedIndex = 0;
             filterComboBox.SelectedIndex = 0;
+            _itemPerPage = int.Parse(ConfigurationManager.AppSettings["PageSize"]);
+
+            if(_itemPerPage <= 0)
+            {
+                _itemPerPage = 5;
+            }
+
+            txtPageSize.Text = _itemPerPage.ToString();
             loadProducts();
         }
 
         private void btnEditItem_Click(object sender, RoutedEventArgs e)
         {
-
+            dynamic selectedItem = productsList.SelectedItem;
+            if (selectedItem != null)
+            {
+                int id = selectedItem.GetType().GetProperty("Id").GetValue(selectedItem);
+                var editProductWindow = new EditProductWindow(_bus, id);
+                editProductWindow.ShowDialog();
+                loadProducts();
+            }
         }
 
         private void btnDeleteItem_Click(object sender, RoutedEventArgs e)
@@ -79,16 +97,20 @@ namespace UIVersion03
         {
             String sortType = sortComboBox.SelectedItem as String;
             String priceFilter = filterComboBox.SelectedItem as String;
+
             if(sortType == null)
             {
                 sortType = "Name";
             }
+
             if(priceFilter == null)
             {
                 priceFilter = "All";
             }
+
             var priceFrom = -1;
             var priceTo = -1;
+
             if (priceFilter != "All")
             {
                 var priceFilterArr = priceFilter.Split('-');
@@ -97,6 +119,7 @@ namespace UIVersion03
             }
             var products = _bus.GetProductsByFilter(txtSearch.Text, sortType, priceFrom, priceTo, _currentPage, _itemPerPage);
             productsList.ItemsSource = products;
+
             if (products.Count() > 0)
             {
                 _totalItems = products.FirstOrDefault()?.GetType().GetProperty("Total").GetValue(products.FirstOrDefault());
@@ -141,6 +164,57 @@ namespace UIVersion03
                 _currentPage++;
                 loadProducts();
             }
+        }
+
+        private void txtPageSize_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key < Key.D0 || e.Key > Key.D9)
+            {
+                e.Handled = true;
+            }   
+
+            if(e.Key == Key.Enter)
+            {
+                if (txtPageSize.Text != "")
+                {
+                    _changedItemPerPage = int.Parse(txtPageSize.Text);
+                    if (_changedItemPerPage > 0)
+                    {
+                        _itemPerPage = _changedItemPerPage;
+                        var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                        config.AppSettings.Settings["PageSize"].Value = _itemPerPage.ToString();
+                        config.Save(ConfigurationSaveMode.Minimal);
+
+                        ConfigurationManager.RefreshSection("appSettings");
+                        loadProducts();
+                    }
+                }
+            }
+        }
+
+        private void txtPageSize_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if(txtPageSize.Text != "")
+            {
+                _changedItemPerPage = int.Parse(txtPageSize.Text);
+                if(_changedItemPerPage > 0)
+                {
+                    _itemPerPage = _changedItemPerPage;
+                    var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                    config.AppSettings.Settings["PageSize"].Value = _itemPerPage.ToString();
+                    config.Save(ConfigurationSaveMode.Minimal);
+
+                    ConfigurationManager.RefreshSection("appSettings");
+                    loadProducts();
+                }
+            }
+        }
+
+        private void btnAddProduct_Click(object sender, RoutedEventArgs e)
+        {
+            var addProductWindow = new AddProductWindow(_bus);
+            addProductWindow.ShowDialog();
+            loadProducts();
         }
     }
 }
