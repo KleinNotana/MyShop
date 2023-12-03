@@ -39,13 +39,13 @@ namespace UIVersion03
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            BindingList<Category> categories = _bus.GetCategories();
+            BindingList<Category> categories = new BindingList<Category>(_bus.GetCategories());
             categoryComboBox.ItemsSource = categories;
             var category = from c in categories
-                        where c.Id == product.CategoryId
-                        select c;
+                           where c.Id == product.CategoryId
+                           select c;
             var index = categories.IndexOf(category.First());
-            categoryComboBox.SelectedIndex =  index;
+            categoryComboBox.SelectedIndex = index;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)

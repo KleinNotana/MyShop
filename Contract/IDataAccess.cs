@@ -26,6 +26,7 @@ namespace Contract
         public void updateProduct(Product updateProduct);
         public void DeleteOrder(Order1 delOrder);
         public void addOrder(Order1 addOrder);
+        public void addCustomer(Customer addCustomer);
 
         public void addOrderDetail(OrderDetail addOrderDetail);
         public void addProduct(Product addProduct);

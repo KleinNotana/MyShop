@@ -142,7 +142,7 @@ namespace UIVersion03
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            Order1 order = new Order1();
+            /*Order1 order = new Order1();
             order.OrderDate = DateTime.Now;
             order.CustomerId = 1;
             _bus.addOrder(order);
@@ -153,7 +153,9 @@ namespace UIVersion03
             orderDetail.Amount = 1;
             orderDetail.Price = 20;
             orderDetail.TotalPrice = 20;
-            _bus.addOrderDetail(orderDetail);
+            _bus.addOrderDetail(orderDetail);*/
+            var addOrderWindow = new AddOrderWindow(_bus);
+            addOrderWindow.ShowDialog();
             loadOrders();
         }
     }

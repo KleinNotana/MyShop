@@ -139,5 +139,12 @@ namespace DataAccessVer01
             product.Amount = updateProduct.Amount;
             database.context.SaveChanges();
         }
+
+        public void addCustomer(Customer addCustomer)
+        {
+            Database DB = Database.Instance;
+            DB.context.Customers.Add(addCustomer);
+            DB.context.SaveChanges();
+        }
     }
 }
