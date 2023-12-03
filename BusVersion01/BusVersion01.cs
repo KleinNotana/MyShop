@@ -167,6 +167,11 @@ namespace BusVersion01
         {
             _data.addCustomer(addCustomer);
         }
+
+        public Order1 getOrderById(int id)
+        {
+            return _data.getOrderById(id);
+        }
     }
 
 }

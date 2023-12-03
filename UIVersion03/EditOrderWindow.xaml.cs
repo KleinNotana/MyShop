@@ -23,19 +23,23 @@ namespace UIVersion03
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class AddOrderWindow : Window
+    public partial class EditOrderWindow : Window
     {
         IBus _bus;
+        Order1 order;
         
         List<OrderDetail> orderDetails = new List<OrderDetail>();
         BindingList<dynamic> visibleOrderDetail;
         BindingList<Product> products;
         //Product product = new Product();
 
-        public AddOrderWindow(IBus bus)
+        public EditOrderWindow(IBus bus, int Id)
         {
             InitializeComponent();
             _bus = bus;
+            order = _bus.getOrderById(Id);
+            txtCustomerName.Text = order.Customer.CustomerName;
+            orderDetails = _bus.GetOrdersDetailById(Id);
         }
 
         public void loadOrderDetails()
@@ -50,7 +54,10 @@ namespace UIVersion03
 
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
-        {   
+        {
+
+            loadOrderDetails();
+
             products = new BindingList<Product>(_bus.GetProducts());
             categoryComboBox.ItemsSource = products;
             categoryComboBox.SelectedIndex = 0;
@@ -59,7 +66,7 @@ namespace UIVersion03
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            Order1 order = new Order1();
+            /*Order1 order = new Order1();
             order.OrderDate = DateTime.Now;
             order.CustomerId = 1;
             _bus.addOrder(order);
@@ -84,8 +91,23 @@ namespace UIVersion03
                 _bus.addOrderDetail(orderDetail);
             }
             MessageBox.Show("Add order successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            this.Close();
+            this.Close();*/
 
+            //order.OrderDate = DateTime.Now;
+            Customer customer = _bus.getCustomerByName(txtCustomerName.Text);
+            if (customer != null) { order.CustomerId = customer.Id; }
+            else
+            {
+                //add new customer
+                Customer newCustomer = new Customer();
+                newCustomer.CustomerName = txtCustomerName.Text;
+                _bus.addCustomer(newCustomer);
+                order.CustomerId = newCustomer.Id;
+
+            }
+            _bus.saveChanges();
+            MessageBox.Show("Edit order successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            this.Close();
 
 
 
@@ -137,11 +159,6 @@ namespace UIVersion03
                 if (orderDetail.Amount < 0)
                 {
                     MessageBox.Show("Amount must be positive", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-                if (orderDetail.Amount > product.Amount)
-                {
-                    MessageBox.Show("Amount must be less than or equal to product amount", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
             }

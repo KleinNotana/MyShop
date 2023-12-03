@@ -24,6 +24,8 @@ namespace Contract
 
         public Product getProductById(int id);
         public void updateProduct(Product updateProduct);
+
+        public Order1 getOrderById(int id);
         public void DeleteOrder(Order1 delOrder);
         public void addOrder(Order1 addOrder);
         public void addCustomer(Customer addCustomer);

@@ -146,5 +146,12 @@ namespace DataAccessVer01
             DB.context.Customers.Add(addCustomer);
             DB.context.SaveChanges();
         }
+
+        public Order1 getOrderById(int id)
+        {
+            Database DB = Database.Instance;
+            return DB.context.Order1s.Where(o => o.Id == id).FirstOrDefault();
+
+        }
     }
 }

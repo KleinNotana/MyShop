@@ -26,6 +26,8 @@ namespace Contract
         List<Category> GetCategories();
         IEnumerable<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1, int itemPerPage = 10);
         public List<dynamic> GetOrderByFilter(string dateFrom, string dateTo, int currentPage = 1, int itemPerPage = 10);
+
+        public Order1 getOrderById(int id);
         public void DeleteOrder(int DelId);
         public void addOrder(Order1 addOrder);
         public void addOrderDetail(OrderDetail addOrderDetail);
