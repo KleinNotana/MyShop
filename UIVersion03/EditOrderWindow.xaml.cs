@@ -29,6 +29,7 @@ namespace UIVersion03
         Order1 order;
         
         List<OrderDetail> orderDetails = new List<OrderDetail>();
+        List<OrderDetail> newOrderDetails = new List<OrderDetail>();
         BindingList<dynamic> visibleOrderDetail;
         BindingList<Product> products;
         //Product product = new Product();
@@ -52,13 +53,25 @@ namespace UIVersion03
             visibleOrderDetail = new BindingList<dynamic>(list);
             OrderDataGrid.ItemsSource = visibleOrderDetail;
 
+            
+
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            products = new BindingList<Product>(_bus.GetProducts());
+            List<Product> addedProduct = new List<Product>();
+            foreach (var item in orderDetails)
+            {
+                addedProduct.Add(_bus.getProductById(item.ProductId));
+            }
 
+            foreach (var item in addedProduct)
+            {
+                products.Remove(item);
+            }
             loadOrderDetails();
 
-            products = new BindingList<Product>(_bus.GetProducts());
+           
             categoryComboBox.ItemsSource = products;
             categoryComboBox.SelectedIndex = 0;
             
@@ -106,6 +119,11 @@ namespace UIVersion03
 
             }
             _bus.saveChanges();
+            foreach (var orderDetail in newOrderDetails)
+            {
+                orderDetail.OrderId = order.Id;
+                _bus.addOrderDetail(orderDetail);
+            }
             MessageBox.Show("Edit order successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
 
@@ -161,6 +179,11 @@ namespace UIVersion03
                     MessageBox.Show("Amount must be positive", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
+                if (orderDetail.Amount > product.Amount)
+                {
+                    MessageBox.Show("Amount must be less than or equal to product amount", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
             }
             catch (Exception)
             {
@@ -173,6 +196,8 @@ namespace UIVersion03
             orderDetail.TotalPrice = (int?)(orderDetail.Amount * orderDetail.Price);
 
             orderDetails.Add(orderDetail);
+            newOrderDetails.Add(orderDetail);
+
             products.Remove(product);
 
             loadOrderDetails();

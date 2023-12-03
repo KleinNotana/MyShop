@@ -216,7 +216,7 @@
                     <Button x:Name="btnAdd" Style="{StaticResource normalButton}" 
                             Tag="{StaticResource titleColor1}" 
                             Click="btnAdd_Click" Canvas.Left="278" Canvas.Top="565">
-                        <TextBlock Text="Add Order" />
+                        <TextBlock Text="Confirm" />
                     </Button>
 
                     <DataGrid x:Name="OrderDataGrid" Grid.Row="3"
