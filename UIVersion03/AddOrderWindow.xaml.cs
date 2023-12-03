@@ -29,6 +29,7 @@ namespace UIVersion03
         
         List<OrderDetail> orderDetails = new List<OrderDetail>();
         BindingList<dynamic> visibleOrderDetail;
+        BindingList<Product> products;
         //Product product = new Product();
 
         public AddOrderWindow(IBus bus)
@@ -49,8 +50,9 @@ namespace UIVersion03
 
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            categoryComboBox.ItemsSource = _bus.GetProducts();
+        {   
+            products = new BindingList<Product>(_bus.GetProducts());
+            categoryComboBox.ItemsSource = products;
             categoryComboBox.SelectedIndex = 0;
             
         }
@@ -127,10 +129,16 @@ namespace UIVersion03
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.ProductId = product.Id;
             orderDetail.Price = product.Price;
+            
 
             try
             {
                 orderDetail.Amount = int.Parse(txtAmount.Text);
+                if (orderDetail.Amount < 0)
+                {
+                    MessageBox.Show("Amount must be positive", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
             }
             catch (Exception)
             {
@@ -138,9 +146,13 @@ namespace UIVersion03
                 return;
             }
 
-            //orderDetail.TotalPrice = orderDetail.Amount * orderDetail.Price;
+
+
+            orderDetail.TotalPrice = (int?)(orderDetail.Amount * orderDetail.Price);
 
             orderDetails.Add(orderDetail);
+            products.Remove(product);
+
             loadOrderDetails();
 
         }
