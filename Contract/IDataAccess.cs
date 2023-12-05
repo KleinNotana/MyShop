@@ -20,6 +20,8 @@ namespace Contract
         public List<Order1> GetOrder();
 
         public List<OrderDetail> GetOrderDetail();
+
+        public void deleteOrderDetail(OrderDetail delOrderDetail);
         public List<Customer> GetCustomer();
 
         public Product getProductById(int id);

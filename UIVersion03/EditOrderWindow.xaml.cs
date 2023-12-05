@@ -30,6 +30,7 @@ namespace UIVersion03
         
         List<OrderDetail> orderDetails = new List<OrderDetail>();
         List<OrderDetail> newOrderDetails = new List<OrderDetail>();
+        List<OrderDetail> deletedOrderDetails = new List<OrderDetail>();
         BindingList<dynamic> visibleOrderDetail;
         BindingList<Product> products;
         //Product product = new Product();
@@ -48,7 +49,7 @@ namespace UIVersion03
             List<Product> products = new List<Product>(_bus.GetProducts());
             var query= from orderdetail in orderDetails
                                  join product in products on orderdetail.ProductId equals product.Id
-                                 select new { ProductName = product.ProductName, Amount = orderdetail.Amount, Price = orderdetail.Price, Total = orderdetail.Amount * orderdetail.Price };
+                                 select new { ProductId=orderdetail.ProductId, ProductName = product.ProductName, Amount = orderdetail.Amount, Price = orderdetail.Price, Total = orderdetail.Amount * orderdetail.Price };
             var list = query.ToList<dynamic>();
             visibleOrderDetail = new BindingList<dynamic>(list);
             OrderDataGrid.ItemsSource = visibleOrderDetail;
@@ -123,6 +124,10 @@ namespace UIVersion03
             {
                 orderDetail.OrderId = order.Id;
                 _bus.addOrderDetail(orderDetail);
+            }
+            foreach (var orderDetail in deletedOrderDetails)
+            {
+                _bus.deleteOrderDetail(orderDetail);
             }
             MessageBox.Show("Edit order successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
@@ -206,6 +211,23 @@ namespace UIVersion03
 
         private void btnDeleteItem_Click(object sender, RoutedEventArgs e)
         {
+            var orderDetail = OrderDataGrid.SelectedItem;
+
+            var productID = orderDetail.GetType().GetProperty("ProductId").GetValue(orderDetail);
+
+            var deleteOrderDetail = orderDetails.Where(o => o.ProductId == (int)productID).FirstOrDefault();
+            orderDetails.Remove(deleteOrderDetail);
+            products.Add(_bus.getProductById(deleteOrderDetail.ProductId));
+            
+            if (newOrderDetails.Contains(deleteOrderDetail))
+            {
+                newOrderDetails.Remove(deleteOrderDetail);
+            }
+            else
+            {
+                deletedOrderDetails.Add(deleteOrderDetail);
+            }
+            loadOrderDetails();
 
         }
     }

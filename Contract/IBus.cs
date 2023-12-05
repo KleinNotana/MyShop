@@ -31,6 +31,9 @@ namespace Contract
         public void DeleteOrder(int DelId);
         public void addOrder(Order1 addOrder);
         public void addOrderDetail(OrderDetail addOrderDetail);
+        public void deleteOrderDetail(OrderDetail deleteOrderDetail);
+
+
 
         public Customer getCustomerByName(string name);
         public void addCustomer(Customer addCustomer);

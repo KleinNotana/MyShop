@@ -172,6 +172,12 @@ namespace BusVersion01
         {
             return _data.getOrderById(id);
         }
+
+        public void deleteOrderDetail(OrderDetail deleteOrderDetail)
+        {
+            _data.deleteOrderDetail(deleteOrderDetail);
+            
+        }
     }
 
 }

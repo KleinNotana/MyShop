@@ -153,5 +153,13 @@ namespace DataAccessVer01
             return DB.context.Order1s.Where(o => o.Id == id).FirstOrDefault();
 
         }
+
+        public void deleteOrderDetail(OrderDetail delOrderDetail)
+        {
+            Database DB = Database.Instance;
+            DB.context.OrderDetails.Remove(delOrderDetail);
+            DB.context.SaveChanges();
+            
+        }
     }
 }
