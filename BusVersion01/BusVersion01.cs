@@ -189,9 +189,9 @@ namespace BusVersion01
         public void deleteOrderDetail(OrderDetail deleteOrderDetail)
         {
             _data.deleteOrderDetail(deleteOrderDetail);
-            
+
         }
-    }
+    
         public void deleteProduct(int id)
         {
             _data.deleteProduct(id);
@@ -199,7 +199,7 @@ namespace BusVersion01
 
         public Category getCategoryById(int id)
         {
-           return _data.getCategoryById(id);
+            return _data.getCategoryById(id);
         }
 
         public void updateCategory(Category updateCategory)
@@ -211,6 +211,8 @@ namespace BusVersion01
         {
             _data.deleteCategory(id);
         }
+
+
     }
 
 }
