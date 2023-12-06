@@ -132,14 +132,27 @@ namespace BusVersion01
 
         public BindingList<Category> GetCategories()
         {
-            BindingList<Category> categories = new BindingList<Category>(_data.GetCategory());
-
-            return categories;
+            return new BindingList<Category>(_data.GetCategory());
+            
+           
         }
 
         public bool addCategory(Category category)
         {
-            throw new NotImplementedException();
+            bool result = true;
+            var categories = _data.GetCategory();
+            var check = categories.Where(c => c.Name == category.Name).FirstOrDefault();
+
+            if (category.Name != "" && check == null)
+            {
+                _data.addCategory(category);
+            }
+            else 
+            {
+                result = false;
+            }
+
+            return result;
         }
 
         public Product getProductById(int id)
@@ -152,7 +165,25 @@ namespace BusVersion01
             _data.updateProduct(updateProduct);
         }
 
-        
+        public void deleteProduct(int id)
+        {
+            _data.deleteProduct(id);
+        }
+
+        public Category getCategoryById(int id)
+        {
+           return _data.getCategoryById(id);
+        }
+
+        public void updateCategory(Category updateCategory)
+        {
+            _data.updateCategory(updateCategory);
+        }
+
+        public void deleteCategory(int id)
+        {
+            _data.deleteCategory(id);
+        }
     }
 
 }

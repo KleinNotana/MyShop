@@ -30,6 +30,11 @@ namespace Contract
         public void addOrderDetail(OrderDetail addOrderDetail);
         public void addProduct(Product addProduct);
         public void addCategory(Category category);
+        public Category getCategoryById(int id);
+        public void updateCategory(Category updateCategory);
+        public void deleteCategory(int id);
+
+        public void deleteProduct(int id);
         public void saveChanges();
 
     }

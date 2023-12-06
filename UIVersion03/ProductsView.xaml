@@ -31,7 +31,7 @@
             </Button>
 
             <Button x:Name="btnListProductTypes" Style="{StaticResource normalButton}" 
-                    Tag="{StaticResource titleColor1}" Margin="0,0,10,0" >
+                    Tag="{StaticResource titleColor1}" Margin="0,0,10,0" Click="btnListProductTypes_Click" >
                 <TextBlock Text="Categories" />
             </Button>
         </StackPanel>

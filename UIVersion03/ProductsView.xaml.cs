@@ -74,7 +74,17 @@ namespace UIVersion03
 
         private void btnDeleteItem_Click(object sender, RoutedEventArgs e)
         {
-
+            dynamic selectedItem = productsList.SelectedItem;
+            if (selectedItem != null)
+            {
+                int id = selectedItem.GetType().GetProperty("Id").GetValue(selectedItem);
+                var result = MessageBox.Show("Are you sure to delete this product?", "Delete", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    _bus.deleteProduct(id);
+                    loadProducts();
+                }
+            }
         }
 
         private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -215,6 +225,14 @@ namespace UIVersion03
             var addProductWindow = new AddProductWindow(_bus);
             addProductWindow.ShowDialog();
             loadProducts();
+        }
+
+        private void btnListProductTypes_Click(object sender, RoutedEventArgs e)
+        {
+            var categoryWindow = new CategoryWindow(_bus);
+            categoryWindow.ShowDialog();
+            loadProducts();
+
         }
     }
 }

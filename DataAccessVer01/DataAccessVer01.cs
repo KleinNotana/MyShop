@@ -139,5 +139,36 @@ namespace DataAccessVer01
             product.Amount = updateProduct.Amount;
             database.context.SaveChanges();
         }
+
+        public void deleteProduct(int id)
+        {
+            Database database = Database.Instance;
+            var product = database.context.Products.Where(p => p.Id == id).FirstOrDefault();
+            database.context.Products.Remove(product);
+            database.context.SaveChanges();
+
+        }
+
+        public Category getCategoryById(int id)
+        {
+            Database database = Database.Instance;
+            return database.context.Categories.Where(c => c.Id == id).FirstOrDefault();
+        }
+
+        public void updateCategory(Category updateCategory)
+        {
+            Database database = Database.Instance;
+            var category = database.context.Categories.Where(c => c.Id == updateCategory.Id).FirstOrDefault();
+            category.Name = updateCategory.Name;
+            database.context.SaveChanges();
+        }
+
+        public void deleteCategory(int id)
+        {
+            Database database = Database.Instance;
+            var category = database.context.Categories.Where(c => c.Id == id).FirstOrDefault();
+            database.context.Categories.Remove(category);
+            database.context.SaveChanges();
+        }
     }
 }

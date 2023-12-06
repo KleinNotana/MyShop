@@ -30,9 +30,13 @@ namespace Contract
         public void addOrder(Order1 addOrder);
         public void addOrderDetail(OrderDetail addOrderDetail);
         public bool addProduct(Product addProduct);
-       public bool addCategory(Category category);
+        public bool addCategory(Category category);
+        public Category getCategoryById(int id);
+        public void updateCategory(Category updateCategory);
+        public void deleteCategory(int id);
         public Product getProductById(int id);
         public void updateProduct(Product updateProduct);
+        public void deleteProduct(int id);
         void DepensOn(IDataAccess data);
     }
 }
