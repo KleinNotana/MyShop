@@ -70,9 +70,9 @@ namespace BusVersion01
             return result;
         }
 
-        public BindingList<Product> GetProducts()
+        public List<Product> GetProducts()
         {
-            return new BindingList<Product>(_data.GetProducts());
+            return new List<Product>(_data.GetProducts());
         }
 
         public IEnumerable<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1,int itemPerPage = 5)
@@ -118,6 +118,10 @@ namespace BusVersion01
         public void addOrderDetail(OrderDetail addOrderDetail)
         {
             _data.addOrderDetail(addOrderDetail);
+            //update stock
+            var product = _data.getProductById(addOrderDetail.ProductId);
+            product.Amount -= addOrderDetail.Amount;
+            _data.saveChanges();
         }
 
 
@@ -165,6 +169,29 @@ namespace BusVersion01
             _data.updateProduct(updateProduct);
         }
 
+        public Customer getCustomerByName(string name)
+        {
+            var customers = _data.GetCustomer();
+            var result = customers.Where(c => c.CustomerName.ToLower().Contains(name.ToLower())).FirstOrDefault();
+            return result;
+        }
+
+        public void addCustomer(Customer addCustomer)
+        {
+            _data.addCustomer(addCustomer);
+        }
+
+        public Order1 getOrderById(int id)
+        {
+            return _data.getOrderById(id);
+        }
+
+        public void deleteOrderDetail(OrderDetail deleteOrderDetail)
+        {
+            _data.deleteOrderDetail(deleteOrderDetail);
+            
+        }
+    }
         public void deleteProduct(int id)
         {
             _data.deleteProduct(id);

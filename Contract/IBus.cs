@@ -22,13 +22,22 @@ namespace Contract
 
         List<Customer> GetCustomers();
         void saveChanges();
-        BindingList<Product> GetProducts();
-        BindingList<Category> GetCategories();
+        List<Product> GetProducts();
+        List<Category> GetCategories();
         IEnumerable<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1, int itemPerPage = 10);
         public List<dynamic> GetOrderByFilter(string dateFrom, string dateTo, int currentPage = 1, int itemPerPage = 10);
+
+        public Order1 getOrderById(int id);
         public void DeleteOrder(int DelId);
         public void addOrder(Order1 addOrder);
         public void addOrderDetail(OrderDetail addOrderDetail);
+        public void deleteOrderDetail(OrderDetail deleteOrderDetail);
+
+
+
+        public Customer getCustomerByName(string name);
+        public void addCustomer(Customer addCustomer);
+
         public bool addProduct(Product addProduct);
         public bool addCategory(Category category);
         public Category getCategoryById(int id);

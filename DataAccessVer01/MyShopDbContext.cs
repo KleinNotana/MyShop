@@ -12,8 +12,6 @@ public partial class MyShopDbContext : DbContext
         connectionString = con;
     }
 
-    
-
     public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<Customer> Customers { get; set; }
@@ -90,18 +88,12 @@ public partial class MyShopDbContext : DbContext
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.OrderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ORDER_DETAIL_ORDER1");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.OrderDetailProducts)
+            entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ORDER_DETAIL_PRODUCT");
-
-            entity.HasOne(d => d.Pr).WithMany(p => p.OrderDetailPrs)
-                .HasPrincipalKey(p => new { p.Id, p.Price })
-                .HasForeignKey(d => new { d.ProductId, d.Price })
-                .HasConstraintName("FK_ORDER_DETAIL_PRODUCTPRICE");
         });
 
         modelBuilder.Entity<Product>(entity =>
@@ -109,8 +101,6 @@ public partial class MyShopDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__PRODUCT__3214EC27976716B6");
 
             entity.ToTable("PRODUCT");
-
-            entity.HasIndex(e => new { e.Id, e.Price }, "CK_PRODUCT").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Amount).HasColumnName("AMOUNT");
@@ -122,9 +112,7 @@ public partial class MyShopDbContext : DbContext
                 .HasMaxLength(50)
                 .IsFixedLength()
                 .HasColumnName("IMG_PATH");
-            entity.Property(e => e.Price)
-                .IsRequired()
-                .HasColumnName("PRICE");
+            entity.Property(e => e.Price).HasColumnName("PRICE");
             entity.Property(e => e.ProductName)
                 .HasMaxLength(30)
                 .HasColumnName("PRODUCT_NAME");

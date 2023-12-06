@@ -140,6 +140,28 @@ namespace DataAccessVer01
             database.context.SaveChanges();
         }
 
+        public void addCustomer(Customer addCustomer)
+        {
+            Database DB = Database.Instance;
+            DB.context.Customers.Add(addCustomer);
+            DB.context.SaveChanges();
+        }
+
+        public Order1 getOrderById(int id)
+        {
+            Database DB = Database.Instance;
+            return DB.context.Order1s.Where(o => o.Id == id).FirstOrDefault();
+
+        }
+
+        public void deleteOrderDetail(OrderDetail delOrderDetail)
+        {
+            Database DB = Database.Instance;
+            DB.context.OrderDetails.Remove(delOrderDetail);
+            DB.context.SaveChanges();
+            
+        }
+
         public void deleteProduct(int id)
         {
             Database database = Database.Instance;

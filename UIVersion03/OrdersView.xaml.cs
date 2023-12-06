@@ -30,6 +30,9 @@ namespace UIVersion03
         int _currentPage = 1;
         int _totalPage = 1;
         int _totalItems = 1;
+
+        string fromDate="1/1/1900";
+        string toDate="1/1/2100";
         public OrdersView(IBus bus)
         {   
 
@@ -39,7 +42,7 @@ namespace UIVersion03
         }
         private void loadOrders()
         {
-            var orderslist = _bus.GetOrderByFilter("1/1/1900", "1/1/2100", _currentPage, _itemPerPage);
+            var orderslist = _bus.GetOrderByFilter(fromDate, toDate, _currentPage, _itemPerPage);
             orders = new BindingList<dynamic>(orderslist);
             OrderDataGrid.ItemsSource = orders;
             if (orders.Count > 0)
@@ -121,7 +124,11 @@ namespace UIVersion03
 
         private void btnEditItem_Click(object sender, RoutedEventArgs e)
         {
-
+            var order = OrderDataGrid.SelectedItem;
+            int id = (int)order.GetType().GetProperty("Id").GetValue(order);
+            var editOrderWindow = new EditOrderWindow(_bus,id);
+            editOrderWindow.ShowDialog();
+            loadOrders();
         }
 
         private void btnDeleteItem_Click(object sender, RoutedEventArgs e)
@@ -142,7 +149,7 @@ namespace UIVersion03
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            Order1 order = new Order1();
+            /*Order1 order = new Order1();
             order.OrderDate = DateTime.Now;
             order.CustomerId = 1;
             _bus.addOrder(order);
@@ -153,7 +160,25 @@ namespace UIVersion03
             orderDetail.Amount = 1;
             orderDetail.Price = 20;
             orderDetail.TotalPrice = 20;
-            _bus.addOrderDetail(orderDetail);
+            _bus.addOrderDetail(orderDetail);*/
+            var addOrderWindow = new AddOrderWindow(_bus);
+            addOrderWindow.ShowDialog();
+            loadOrders();
+        }
+
+        private void btnFilter_Click(object sender, RoutedEventArgs e)
+        {
+            fromDate = txtFromDate.Text;
+            toDate = txtToDate.Text;
+            try {
+                DateTime.Parse(fromDate);
+                DateTime.Parse(toDate);
+             }
+            catch (Exception)
+            {
+                fromDate = "1/1/1900";
+                toDate = "1/1/2100";
+            }
             loadOrders();
         }
     }
