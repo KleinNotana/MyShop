@@ -37,41 +37,31 @@
                 <TextBlock Text="From Date" Foreground="{StaticResource titleColor1}" FontSize="15" 
                        VerticalAlignment="Center" Margin="0,0,10,0"/>
                 <TextBox x:Name="txtFromDate" Width="172" Height="30" TextAlignment="Center" FontSize="20" 
-                     Background="{StaticResource searchColor}" Foreground="{StaticResource titleColor2}" KeyDown="txtSearch_KeyDown"/>
+                     Style="{StaticResource textBoxStyle2}" KeyDown="txtSearch_KeyDown"/>
 
             </StackPanel>
             <StackPanel Orientation="Horizontal" Background="{StaticResource backItemColor}">
                 <TextBlock Text="To Date " Foreground="{StaticResource titleColor1}" FontSize="15" 
                        VerticalAlignment="Center" Margin="0,0,10,0"/>
                 <TextBox x:Name="txtToDate" Width="172" Height="30" TextAlignment="Center" FontSize="20" 
-                 Background="{StaticResource searchColor}" Foreground="{StaticResource titleColor2}" KeyDown="txtSearch_KeyDown"/>
+                 Style="{StaticResource textBoxStyle2}" KeyDown="txtSearch_KeyDown"/>
 
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBlock Text="Sort By" Foreground="{StaticResource titleColor1}" FontSize="15" 
-                   VerticalAlignment="Center" Margin="0,0,10,0"/>
-            <ComboBox x:Name="sortComboBox" 
-              Width="100" 
-              Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="filterComboBox_SelectionChanged" 
-      >
-                <ComboBox.Style>
-                    <Style TargetType="ComboBox">
-                        <Setter Property="Background" Value="{StaticResource searchColor}" />
-                        <Setter Property="Foreground" Value="{StaticResource titleColor1}" />
-                    </Style>
-                </ComboBox.Style>
-                <ComboBox.Resources>
-                    <Style TargetType="ComboBoxItem">
-                        <Setter Property="Background" Value="{StaticResource searchColor}"/>
-                    </Style>
-                </ComboBox.Resources>
-
-            </ComboBox>
             <Button x:Name="btnAdd" Style="{StaticResource normalButton}" 
         Tag="{StaticResource titleColor1}" Margin="50,0,10,0" Click="btnAdd_Click" >
                 <TextBlock Text="Add Order" />
             </Button>
+            <TextBlock 
+                Foreground="{StaticResource titleColor1}" 
+                VerticalAlignment="Center" Margin="50,0,10,0" FontSize="15">
+                Page Size:
+            </TextBlock>
+
+            <TextBox x:Name="txtPageSize" Width="50" Height="30" Margin="10,0,0,0" 
+              FontSize="20" Style="{StaticResource textBoxStyle1}"
+              KeyDown="txtPageSize_KeyDown" LostFocus="txtPageSize_LostFocus"/>
 
 
             <TextBlock  x:Name="txtPages" 

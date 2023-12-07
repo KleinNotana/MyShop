@@ -3,6 +3,7 @@ using Entity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace UIVersion03
         int _currentPage = 1;
         int _totalPage = 1;
         int _totalItems = 1;
-
+        int _changedItemPerPage = 5;
         string fromDate="1/1/1900";
         string toDate="1/1/2100";
         public OrdersView(IBus bus)
@@ -60,6 +61,14 @@ namespace UIVersion03
         }
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            _itemPerPage = int.Parse(ConfigurationManager.AppSettings["OrderPageSize"]);
+
+            if (_itemPerPage <= 0)
+            {
+                _itemPerPage = 5;
+            }
+
+            txtPageSize.Text = _itemPerPage.ToString();
             loadOrders();
 
         }
@@ -180,6 +189,50 @@ namespace UIVersion03
                 toDate = "1/1/2100";
             }
             loadOrders();
+        }
+
+        private void txtPageSize_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key < Key.D0 || e.Key > Key.D9)
+            {
+                e.Handled = true;
+            }
+
+            if (e.Key == Key.Enter)
+            {
+                if (txtPageSize.Text != "")
+                {
+                    _changedItemPerPage = int.Parse(txtPageSize.Text);
+                    if (_changedItemPerPage > 0)
+                    {
+                        _itemPerPage = _changedItemPerPage;
+                        var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                        config.AppSettings.Settings["OrderPageSize"].Value = _itemPerPage.ToString();
+                        config.Save(ConfigurationSaveMode.Minimal);
+
+                        ConfigurationManager.RefreshSection("appSettings");
+                        loadOrders();
+                    }
+                }
+            }
+        }
+
+        private void txtPageSize_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (txtPageSize.Text != "")
+            {
+                _changedItemPerPage = int.Parse(txtPageSize.Text);
+                if (_changedItemPerPage > 0)
+                {
+                    _itemPerPage = _changedItemPerPage;
+                    var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                    config.AppSettings.Settings["OrderPageSize"].Value = _itemPerPage.ToString();
+                    config.Save(ConfigurationSaveMode.Minimal);
+
+                    ConfigurationManager.RefreshSection("appSettings");
+                    loadOrders();
+                }
+            }
         }
     }
 }
