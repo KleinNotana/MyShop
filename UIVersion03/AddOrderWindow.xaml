@@ -169,9 +169,9 @@
                         FontFamily="Montserrat" Canvas.Left="353" Canvas.Top="117"/>
                     <TextBox x:Name="txtAmount"
                         
-                        Height="28"
-                        VerticalContentAlignment="Center"
-                        Padding="20,0,0,0" RenderTransformOrigin="7.517,2.364" Canvas.Left="402" Canvas.Top="100" HorizontalAlignment="Left" VerticalAlignment="Top" Width="53" Style="{StaticResource textBoxStyle2}">
+                        Height="35"
+                        
+                         Canvas.Left="402" Canvas.Top="100"  Width="60" Style="{StaticResource textBoxStyle2}">
 
                     </TextBox>
 
@@ -187,7 +187,7 @@
                         FontFamily="Montserrat" Canvas.Left="201" Canvas.Top="22"/>
                     <TextBox x:Name="txtCustomerName"
                       
-                      Height="28"
+                      Height="35"
                       VerticalContentAlignment="Center"
                       Padding="20,0,0,0" RenderTransformOrigin="7.517,2.364" Canvas.Left="294" Canvas.Top="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Style="{StaticResource textBoxStyle2}">
 

@@ -36,14 +36,14 @@
                     Width="400" Background="{StaticResource backItemColor}">
                 <TextBlock Text="From Date" Foreground="{StaticResource titleColor1}" FontSize="15" 
                        VerticalAlignment="Center" Margin="0,0,10,0"/>
-                <TextBox x:Name="txtFromDate" Width="172" Height="30" TextAlignment="Center" FontSize="20" 
-                     Style="{StaticResource textBoxStyle2}" KeyDown="txtSearch_KeyDown"/>
+                <TextBox x:Name="txtFromDate" Width="172" Height="35" 
+                     Style="{StaticResource textBoxStyle2}" KeyDown="txtSearch_KeyDown" Text=""/>
 
             </StackPanel>
             <StackPanel Orientation="Horizontal" Background="{StaticResource backItemColor}">
                 <TextBlock Text="To Date " Foreground="{StaticResource titleColor1}" FontSize="15" 
                        VerticalAlignment="Center" Margin="0,0,10,0"/>
-                <TextBox x:Name="txtToDate" Width="172" Height="30" TextAlignment="Center" FontSize="20" 
+                <TextBox x:Name="txtToDate" Width="172" Height="35" 
                  Style="{StaticResource textBoxStyle2}" KeyDown="txtSearch_KeyDown"/>
 
             </StackPanel>

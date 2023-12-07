@@ -55,6 +55,11 @@ namespace UIVersion03
                 dynamic pageNumbers = new { Current = _currentPage, Total = _totalPage };
                 txtPages.DataContext = pageNumbers;
             }
+            else
+            {
+                dynamic pageNumbers = new { Current = 0, Total = 0 };
+                txtPages.DataContext = pageNumbers;
+            }
 
 
 
@@ -177,8 +182,8 @@ namespace UIVersion03
 
         private void btnFilter_Click(object sender, RoutedEventArgs e)
         {
-            fromDate = txtFromDate.Text;
-            toDate = txtToDate.Text;
+            fromDate = convertdate(txtFromDate.Text);
+            toDate = convertdate(txtToDate.Text);
             try {
                 DateTime.Parse(fromDate);
                 DateTime.Parse(toDate);
@@ -187,6 +192,7 @@ namespace UIVersion03
             {
                 fromDate = "1/1/1900";
                 toDate = "1/1/2100";
+                MessageBox.Show("Invalid date format");
             }
             loadOrders();
         }
@@ -233,6 +239,20 @@ namespace UIVersion03
                     loadOrders();
                 }
             }
+        }
+
+        public string convertdate(string mmddyyyydate)
+        {
+            string result = "";
+            if (mmddyyyydate.Length>0) {
+            string[] date = mmddyyyydate.Split('/');
+            result = date[1] + "/" + date[0] + "/" + date[2];
+            }
+            
+            
+            return result;
+            
+
         }
     }
 }
