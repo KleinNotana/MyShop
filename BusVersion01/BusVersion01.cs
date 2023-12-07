@@ -212,7 +212,31 @@ namespace BusVersion01
             _data.deleteCategory(id);
         }
 
+        public dynamic getDetailProduct(int id)
+        {
+            var prduct = _data.getProductById(id);
 
+           if(prduct != null)
+            {
+                var soldProduct = _data.GetOrderDetail().Where(o => o.ProductId == id).Sum(o => o.Amount);
+                Category category = _data.getCategoryById(prduct.CategoryId ?? 0);
+
+                var result = new
+                {
+                    ProductName = prduct.ProductName,
+                    Price = prduct.Price,
+                    Description = prduct.Description,
+                    ImgPath = prduct.ImgPath,
+                    Amount = prduct.Amount,
+                    CategoryName = category.Name,
+                    Sold = soldProduct
+                };
+
+                return result;
+            }
+
+            return null;
+        }
     }
 
 }

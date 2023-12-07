@@ -46,6 +46,8 @@ namespace Contract
         public Product getProductById(int id);
         public void updateProduct(Product updateProduct);
         public void deleteProduct(int id);
+
+        dynamic getDetailProduct(int id);
         void DepensOn(IDataAccess data);
     }
 }

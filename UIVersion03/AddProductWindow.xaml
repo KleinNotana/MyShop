@@ -169,31 +169,16 @@
                         FontFamily="Montserrat"                             
                         Margin="0,20,0,0"/>
                     <ComboBox x:Name="categoryComboBox" 
-                              Background="{StaticResource searchColor}"
-                               Foreground="{StaticResource titleColor1}"  Height="30" IsReadOnly="True" >
+                              Style="{StaticResource ComboBoxStyle1}"
+                              Width="350"
+                               Height="30"  >
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}" >
-                                    <TextBlock.Background>
-                                        <ImageBrush
-                                            Stretch="None"
-                                            AlignmentX="Left"/>
-                                    </TextBlock.Background>
-                                </TextBlock>
+                                <TextBlock Text="{Binding Name}" />
+
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
-                        <ComboBox.ItemContainerStyle>
-                            <Style TargetType="ComboBoxItem">
-                                <Setter Property="Background" Value="{StaticResource searchColor}"/>
-                            </Style>
-            
-                        </ComboBox.ItemContainerStyle>
-   
-                        <ComboBox.Resources>
-                            <Style TargetType="ComboBoxItem">
-                                <Setter Property="Background" Value="{StaticResource searchColor}"/>
-                            </Style>
-                        </ComboBox.Resources>
+                       
                     </ComboBox>
 
                     <TextBlock Text="Price"

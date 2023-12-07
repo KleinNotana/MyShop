@@ -89,7 +89,13 @@ namespace UIVersion03
 
         private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            dynamic selectedItem = productsList.SelectedItem;
+            if (selectedItem != null)
+            {
+                int id = selectedItem.GetType().GetProperty("Id").GetValue(selectedItem);
+                var detailProductWindow = new DetailProductWindow(_bus.getDetailProduct(id));
+                detailProductWindow.ShowDialog();
+            }
         }
 
         
