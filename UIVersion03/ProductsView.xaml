@@ -39,9 +39,7 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" >
             <StackPanel Orientation="Horizontal"  
                         Width="400" Background="{StaticResource backItemColor}">
-                <TextBox x:Name="txtSearch" Width="300" Height="30" Margin="10,0,0,0" TextAlignment="Center"
-                         VerticalAlignment="Center" FontSize="20" 
-                         Background="{StaticResource searchColor}" Foreground="{StaticResource titleColor2}" KeyDown="txtSearch_KeyDown"/>
+                <TextBox x:Name="txtSearch" Width="300" Height="30" Style="{StaticResource textBoxStyle2}" Tag="Search Product" KeyDown="txtSearch_KeyDown"/>
                 <Button x:Name="btnSearch" Style="{StaticResource iconButton2}" 
                     Tag="{StaticResource titleColor1}" Margin="10,0,0,0" Width="50" Height="35" Click="btnSearch_Click">
 
@@ -52,13 +50,10 @@
             <StackPanel Orientation="Horizontal" Background="{StaticResource backItemColor}">
                 <TextBlock Text="Price Filter" Foreground="{StaticResource titleColor1}" FontSize="15" 
                            VerticalAlignment="Center" Margin="0,0,10,0"/>
-                <ComboBox x:Name="filterComboBox" Background="{StaticResource searchColor}"
-                          Foreground="{StaticResource titleColor1}" Width="300" Height="30" SelectionChanged="filterComboBox_SelectionChanged">
-                    <ComboBox.Resources>
-                        <Style TargetType="ComboBoxItem">
-                            <Setter Property="Background" Value="{StaticResource searchColor}"/>
-                        </Style>
-                    </ComboBox.Resources>
+                <ComboBox x:Name="filterComboBox" Style="{StaticResource ComboBoxStyle1}"
+                          Tag="Price Filter"
+                           Width="300" Height="30" SelectionChanged="filterComboBox_SelectionChanged">
+                    
                 </ComboBox>
             </StackPanel>
         </StackPanel>
@@ -68,19 +63,12 @@
                        VerticalAlignment="Center" Margin="0,0,10,0"/>
             <ComboBox x:Name="sortComboBox" 
                   Width="100" 
-                  Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="filterComboBox_SelectionChanged" 
+                  Height="30" 
+                      Style="{StaticResource ComboBoxStyle1}"
+                      Tag="Sort Type"
+                      HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="filterComboBox_SelectionChanged" 
           >
-                <ComboBox.Style>
-                    <Style TargetType="ComboBox">
-                        <Setter Property="Background" Value="{StaticResource searchColor}" />
-                        <Setter Property="Foreground" Value="{StaticResource titleColor1}" />
-                    </Style>
-                </ComboBox.Style>
-                <ComboBox.Resources>
-                    <Style TargetType="ComboBoxItem">
-                        <Setter Property="Background" Value="{StaticResource searchColor}"/>
-                    </Style>
-                </ComboBox.Resources>
+                
 
             </ComboBox>
 
@@ -95,9 +83,9 @@
             Page Size:
             </TextBlock>
 
-            <TextBox x:Name="txtPageSize" Width="50" Height="30" Margin="10,0,0,0" TextAlignment="Center"
-                         VerticalAlignment="Center" FontSize="20" 
-                         Background="{StaticResource searchColor}" Foreground="{StaticResource titleColor2}" KeyDown="txtPageSize_KeyDown" LostFocus="txtPageSize_LostFocus"/>
+            <TextBox x:Name="txtPageSize" Width="50" Height="30" Margin="10,0,0,0" 
+                         FontSize="20" Style="{StaticResource textBoxStyle1}"
+                         KeyDown="txtPageSize_KeyDown" LostFocus="txtPageSize_LostFocus"/>
 
             <TextBlock  x:Name="txtPages" 
                        Foreground="{StaticResource titleColor1}" 

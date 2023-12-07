@@ -140,7 +140,7 @@
                                     FontWeight="Medium"
                                     FontFamily="Montserrat"                             
                                     Margin="0,20,0,0"/>
-                                                           <TextBox x:Name="txtName"
+                         <TextBox x:Name="txtName"
                                      FontSize="13"
                                      FontWeight="Medium"
                                      FontFamily="Montserrat"                            
@@ -157,7 +157,7 @@
                                     Stretch="None"
                                         AlignmentX="Left"/>    
                             </TextBox.Background>
-                        </TextBox>
+                         </TextBox>
 
                     </StackPanel>
 

@@ -8,6 +8,7 @@
     <Color x:Key="secondaryBackColor2">#210F55</Color>
     <Color x:Key="gridColor1">#2C001E</Color>
     <Color x:Key="backGridColor">#FBEEE6</Color>
+    <!--gradient color-->
     <LinearGradientBrush x:Key="backItemColor" StartPoint="1,1" EndPoint="0,0">
         <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
         <GradientStop Color="{StaticResource gridColor1}" Offset="0.5"/>
@@ -16,6 +17,15 @@
     <LinearGradientBrush x:Key="backContentColor" StartPoint="1,1" EndPoint="0,0">
         <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
         <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="cs_Background" StartPoint="0,0" EndPoint="0,5">
+        <GradientStop Color="#FF10658C" Offset="0.0"/>
+        <GradientStop Color="#FFF5ECEB" Offset="0.5"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="cs_PopupBackground" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="#FF2F84AC" Offset="0.0"/>
+        <GradientStop Color="#FF97D5F2" Offset="1.2"/>
     </LinearGradientBrush>
     <SolidColorBrush x:Key="searchColor">#808080</SolidColorBrush>
 
@@ -44,13 +54,17 @@
     <SolidColorBrush x:Key="plainTextColor2" Color="#7C80C2"/>
     <SolidColorBrush x:Key="plainTextColor3" Color="#7376BD"/>
     <SolidColorBrush x:Key="warningTextColor4" Color="#C13A22"/>
+    <SolidColorBrush x:Key="cs_TextColor" Color="#FF333333"/>
 
     <!--Panel Colors-->
     <SolidColorBrush x:Key="panelColor" Color="#200F53"/>
     <SolidColorBrush x:Key="panelOverColor" Color="#281269"/>
     <SolidColorBrush x:Key="panelActiveColor" Color="#2B1372"/>
-    
-    
+    <SolidColorBrush x:Key="cs_BorderBrush" Color="#FF97CEDA"/>
+    <SolidColorBrush x:Key="cs_Clouds" Color="#FFF5ECEB"/>
+    <SolidColorBrush x:Key="cs_PinkSoft" Color="#F58F84"/>
+
+
 
 
     <!--Button Colors-->
