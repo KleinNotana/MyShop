@@ -168,16 +168,10 @@
                         FontWeight="Medium"
                         FontFamily="Montserrat" Canvas.Left="353" Canvas.Top="117"/>
                     <TextBox x:Name="txtAmount"
-                        FontSize="13"
-                        FontWeight="Medium"
-                        FontFamily="Montserrat"                            
-                        Foreground="{StaticResource titleColor1}"
-                        CaretBrush="LightGray"
-                        BorderBrush="{StaticResource titleColor2}"
-                         BorderThickness="0,0,0,2"
+                        
                         Height="28"
                         VerticalContentAlignment="Center"
-                        Padding="20,0,0,0" RenderTransformOrigin="7.517,2.364" Canvas.Left="425" Canvas.Top="108" HorizontalAlignment="Left" VerticalAlignment="Center" Width="53">
+                        Padding="20,0,0,0" RenderTransformOrigin="7.517,2.364" Canvas.Left="402" Canvas.Top="96" HorizontalAlignment="Left" VerticalAlignment="Top" Width="53" Style="{StaticResource textBoxStyle2}">
                         <TextBox.Background>
                             <ImageBrush 
                             Stretch="None"
@@ -196,22 +190,9 @@
                         FontWeight="Medium"
                         FontFamily="Montserrat" Canvas.Left="201" Canvas.Top="22"/>
                     <TextBox x:Name="txtCustomerName"
-                      FontSize="13"
-                      FontWeight="Medium"
-                      FontFamily="Montserrat"                            
-                      Foreground="{StaticResource titleColor1}"
-                      CaretBrush="LightGray"
-                      BorderBrush="{StaticResource titleColor2}"
-                      BorderThickness="0,0,0,2"
-                      Height="28"
+                      
                       VerticalContentAlignment="Center"
-                      Padding="20,0,0,0" RenderTransformOrigin="7.517,2.364" Canvas.Left="305" Canvas.Top="15" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200">
-                        <TextBox.Background>
-                            <ImageBrush 
-                                 Stretch="None"
-                                 AlignmentX="Left"/>
-                        </TextBox.Background>
-                    </TextBox>
+                      Padding="20,0,0,0" RenderTransformOrigin="7.517,2.364" Canvas.Left="294" VerticalAlignment="Top" Width="200" Style="{StaticResource textBoxStyle2}" Height="29"/>
 
                     <Button x:Name="btnAdd" Style="{StaticResource normalButton}" 
                             Tag="{StaticResource titleColor1}" 
@@ -238,7 +219,7 @@
                         </DataGrid.Resources>
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                
+
                                 <MenuItem Header="Remove" Click="btnDeleteItem_Click">
                                     <MenuItem.Icon>
                                         <Image Source="images/delete.png"/>
