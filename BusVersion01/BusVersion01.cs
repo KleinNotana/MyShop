@@ -252,6 +252,13 @@ namespace BusVersion01
 
             return null;
         }
+
+        public double getTotalPrice(int OrderId)
+        {
+            var orderDetails = _data.GetOrderDetail();
+            var result = orderDetails.Where(o => o.OrderId == OrderId).Sum(o => o.Amount * o.Price);
+            return (double)result;
+        }
     }
 
 }

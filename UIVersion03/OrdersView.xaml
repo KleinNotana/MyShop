@@ -107,6 +107,11 @@
             </DataGrid.Resources>
             <DataGrid.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Header="Detail" Click="btnDetailItem_Click">
+                        <MenuItem.Icon>
+                            <Image Source="images/detail.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem Header="Edit" Click="btnEditItem_Click">
                         <MenuItem.Icon>
                             <Image Source="images/edit.png"/>
