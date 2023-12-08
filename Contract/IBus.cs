@@ -32,7 +32,7 @@ namespace Contract
         public void addOrder(Order1 addOrder);
         public void addOrderDetail(OrderDetail addOrderDetail);
         public void deleteOrderDetail(OrderDetail deleteOrderDetail);
-
+        public double getTotalPrice(int OrderId);
 
 
         public Customer getCustomerByName(string name);

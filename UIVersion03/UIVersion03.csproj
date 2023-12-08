@@ -10,6 +10,7 @@
     <None Remove="Images\avatar01.jpg" />
     <None Remove="Images\background.jpg" />
     <None Remove="Images\delete.png" />
+    <None Remove="Images\detail.png" />
     <None Remove="Images\edit.png" />
     <None Remove="Images\key-icon.png" />
     <None Remove="Images\logo.png" />
@@ -31,10 +32,17 @@
     <Resource Include="Images\avatar01.jpg" />
     <Resource Include="Images\background.jpg" />
     <Resource Include="Images\delete.png" />
+    <Resource Include="Images\detail.png" />
     <Resource Include="Images\edit.png" />
     <Resource Include="Images\key-icon.png" />
     <Resource Include="Images\logo.png" />
     <Resource Include="Images\user-icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="ViewDetailOrderWindow .xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>
