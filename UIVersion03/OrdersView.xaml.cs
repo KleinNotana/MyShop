@@ -139,6 +139,11 @@ namespace UIVersion03
         private void btnEditItem_Click(object sender, RoutedEventArgs e)
         {
             var order = OrderDataGrid.SelectedItem;
+            if (order == null)
+            {
+                MessageBox.Show("Please choose an order");
+                return;
+            }
             int id = (int)order.GetType().GetProperty("Id").GetValue(order);
             var editOrderWindow = new EditOrderWindow(_bus,id);
             editOrderWindow.ShowDialog();
@@ -148,6 +153,11 @@ namespace UIVersion03
         private void btnDeleteItem_Click(object sender, RoutedEventArgs e)
         {
             var order = OrderDataGrid.SelectedItem;
+            if (order == null)
+            {
+                MessageBox.Show("Please choose an order");
+                return;
+            }
             orders.Remove(order);
             
             int id = (int)order.GetType().GetProperty("Id").GetValue(order);
@@ -258,8 +268,17 @@ namespace UIVersion03
         private void btnDetailItem_Click(object sender, RoutedEventArgs e)
         {
             var order = OrderDataGrid.SelectedItem;
+           if(order==null)
+            {
+                MessageBox.Show("Please choose an order");
+                return;
+            }
             int id = (int)order.GetType().GetProperty("Id").GetValue(order);
+            
             var viewDetailOrderWindow = new ViewDetailOrderWindow(_bus, id);
+            
+
+
             viewDetailOrderWindow.ShowDialog();
 
         }

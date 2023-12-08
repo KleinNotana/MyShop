@@ -199,7 +199,7 @@
                     </Button>
 
                     <DataGrid x:Name="OrderDataGrid" Grid.Row="3"
-          AutoGenerateColumns="False" IsReadOnly="True" Canvas.Left="75" Canvas.Top="190" HorizontalAlignment="Center" VerticalAlignment="Top" Width="536" Height="337">
+          AutoGenerateColumns="False" IsReadOnly="True" Canvas.Left="45" Canvas.Top="190" HorizontalAlignment="Left" VerticalAlignment="Center" Width="604" Height="337">
                         <DataGrid.Resources>
                             <!-- Style cho Header -->
                             <Style TargetType="DataGridColumnHeader">
