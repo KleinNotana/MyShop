@@ -192,15 +192,8 @@
     </Style>
 
     <Style x:Key="DefaultCellStyle" TargetType="DataGridCell">
-        <Setter Property="Background">
-            <Setter.Value>
-                <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
-                    <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
-                    <GradientStop Color="{StaticResource gridColor1}" Offset="0.5"/>
-                    <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1" />
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Background" Value="{StaticResource lightBackground}"/>
+
         <Setter Property="Foreground" Value="{StaticResource titleColor1}" />
     </Style>
 
@@ -365,7 +358,7 @@
     
     <ImageBrush x:Key="ic_search" Stretch="None" AlignmentX="Left" />
     <Style x:Key="textBoxStyle2" TargetType="{x:Type TextBox}">
-        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontFamily" Value="Montserrat"/>
         <Setter Property="Background" Value="{StaticResource cs_BorderBrush}"/>
         <Setter Property="Foreground" Value="Beige"/>

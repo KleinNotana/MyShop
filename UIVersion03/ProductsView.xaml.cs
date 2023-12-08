@@ -1,4 +1,5 @@
 ﻿using Contract;
+using Entity;
 using FontAwesome.Sharp;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace UIVersion03
         IBus _bus = null;
         List<string> priceFilters;
         List<string> sortTypes;
+        BindingList<Category> categories;
         int _itemPerPage = 5;
         int _changedItemPerPage = 5;
         int _currentPage = 1;
@@ -44,12 +46,15 @@ namespace UIVersion03
         {
            
             sortTypes = new List<string>() { "Name", "Price" };
-            priceFilters = new List<string>() { "All", "0 - 100", "100 - 200", "200 - 300", "300 - 400", "400 - 500" };
+            priceFilters = new List<string>() { "All", "0 - 100", "200 - 500", "500 - 700", "700 - 1000", "Over 1000" };
             sortComboBox.ItemsSource = sortTypes;
             filterComboBox.ItemsSource = priceFilters;
             sortComboBox.SelectedIndex = 0;
             filterComboBox.SelectedIndex = 0;
             _itemPerPage = int.Parse(ConfigurationManager.AppSettings["PageSize"]);
+            categories = _bus.GetCategories();
+            categories.Insert(0, new Category() { Id = -1, Name = "All" });
+            cb_category.ItemsSource = categories;
 
             if(_itemPerPage <= 0)
             {
@@ -113,8 +118,17 @@ namespace UIVersion03
         {
             String sortType = sortComboBox.SelectedItem as String;
             String priceFilter = filterComboBox.SelectedItem as String;
+            var priceFrom = -1;
+            var priceTo = -1;
+            var category = cb_category.SelectedItem as Category;
+            var categoryId = -1;
 
-            if(sortType == null)
+            if(category != null)
+            {
+                categoryId = category.Id;
+            }
+
+            if (sortType == null)
             {
                 sortType = "Name";
             }
@@ -124,16 +138,26 @@ namespace UIVersion03
                 priceFilter = "All";
             }
 
-            var priceFrom = -1;
-            var priceTo = -1;
+            
 
             if (priceFilter != "All")
             {
-                var priceFilterArr = priceFilter.Split('-');
-                priceFrom = int.Parse(priceFilterArr[0]);
-                priceTo = int.Parse(priceFilterArr[1]);
+                if(priceFilter == "Over 1000")
+                {
+                    priceFrom = 1000;
+                    priceTo = int.MaxValue;
+                }
+                else
+                {
+                    var priceRange = priceFilter.Split('-');
+                    priceFrom = int.Parse(priceRange[0]);
+                    priceTo = int.Parse(priceRange[1]);
+                }   
             }
-            var products = _bus.GetProductsByFilter(txtSearch.Text, sortType, priceFrom, priceTo, _currentPage, _itemPerPage);
+
+
+            var products = _bus.GetProductsByFilter(txtSearch.Text, sortType, priceFrom, priceTo, _currentPage, _itemPerPage, categoryId);
+
             productsList.ItemsSource = products;
 
             if (products.Count() > 0)
@@ -237,8 +261,16 @@ namespace UIVersion03
         {
             var categoryWindow = new CategoryWindow(_bus);
             categoryWindow.ShowDialog();
+            categories = _bus.GetCategories();
+            categories.Insert(0, new Category() { Id = -1, Name = "All" });
+            cb_category.ItemsSource = categories;
             loadProducts();
 
+        }
+
+        private void cb_category_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            loadProducts();
         }
     }
 }

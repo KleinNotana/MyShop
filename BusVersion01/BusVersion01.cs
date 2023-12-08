@@ -75,16 +75,31 @@ namespace BusVersion01
             return new List<Product>(_data.GetProducts());
         }
 
-        public IEnumerable<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1,int itemPerPage = 5)
+        public BindingList<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, 
+            int priceTo = -1, int currentPage = 1,int itemPerPage = 5, int categoryID = -1)
         {
            var products = _data.GetProducts();
+            var detailOrders = _data.GetOrderDetail();
+            // get list product and join with orderdetail to get sold product
             var list = from p in products
-                         where p.ProductName.ToLower().Contains(name.ToLower())
-                         select new {Id = p.Id, ImgPath = p.ImgPath, Name = p.ProductName, Price = p.Price, Stock = 500, Sold = 1000 };
+                       join d in detailOrders on p.Id equals d.ProductId into temp
+                       from d in temp.DefaultIfEmpty()
+                       select new { Id = p.Id, ImgPath = p.ImgPath, Name = p.ProductName, Price = p.Price, 
+                           Stock = p.Amount, Sold = d == null ? 0 : d.Amount, CategoryId = p.CategoryId };
+
+            if (name != "")
+            {
+                list = list.Where(p => p.Name.ToLower().Contains(name.ToLower()));
+            }
 
             if (priceFrom != -1 && priceTo != -1)
             {
                 list = list.Where(p => p.Price >= priceFrom && p.Price <= priceTo);
+            }
+
+            if(categoryID != -1)
+            {
+                list = list.Where(p => p.CategoryId == categoryID);
             }
 
             if (sortType == "Price")
@@ -97,11 +112,13 @@ namespace BusVersion01
             }
 
             int count = list.Count();
+
             var result = from p in list
-                     select new { Id = p.Id, ImgPath = p.ImgPath, Name = p.Name, Price = p.Price, Stock = 500, Sold = 1000, Total = count };
+                     select new { Id = p.Id, ImgPath = p.ImgPath, Name = p.Name, Price = p.Price, Stock = p.Stock, Sold = p.Sold, Total = count };
             result = result.Skip((currentPage - 1) * itemPerPage).Take(itemPerPage);
+
+            return new BindingList<dynamic>(result.ToList<dynamic>());
             
-            return result;
         }
 
         public async Task<bool> Login(string username, string password)
@@ -258,6 +275,54 @@ namespace BusVersion01
         }
 
         
+        public BindingList<dynamic> getOutOfStockProducts()
+        {
+            var products = _data.GetProducts();
+            var category = _data.GetCategory();
+            var result = from p in products
+                         join c in category on p.CategoryId equals c.Id
+                         where p.Amount <= 5
+                         select new { Id = p.Id, Name = p.ProductName, Category = c.Name, Price = p.Price, Stock = p.Amount };
+            return new BindingList<dynamic>(result.ToList<dynamic>());
+        }
+
+        public dynamic getTotalSales()
+        {
+            var orderDetails = _data.GetOrderDetail().Sum(o => o.Amount * o.Price);
+            var orders = _data.GetOrder();
+
+            var sales = from o in orders
+                        join d in _data.GetOrderDetail() on o.Id equals d.OrderId
+                        select new { Id = o.Id, Date = o.OrderDate, Total = d.Amount * d.Price };
+
+            var salesToday = sales.Where(s => s.Date == DateTime.Today).Sum(s => s.Total);
+            var salesYesterday = sales.Where(s => s.Date == DateTime.Today.AddDays(-1)).Sum(s => s.Total);
+
+            var percent = salesToday / salesYesterday * 100;
+            string Compare = "";
+            
+            if (percent > 100)
+            {
+                Compare = "Up";
+            }
+            else if (percent < 100)
+            {
+                Compare = "Down";
+            }
+            else
+            {
+                Compare = "Equal";
+            }
+
+            var result = new
+            {
+                TotalSale = salesToday,
+                Percent = percent,
+                Compare = Compare
+            };
+
+            return result;
+        }
     }
 
 }
