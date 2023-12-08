@@ -365,7 +365,7 @@
     
     <ImageBrush x:Key="ic_search" Stretch="None" AlignmentX="Left" />
     <Style x:Key="textBoxStyle2" TargetType="{x:Type TextBox}">
-        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontFamily" Value="Montserrat"/>
         <Setter Property="Background" Value="{StaticResource cs_BorderBrush}"/>
         <Setter Property="Foreground" Value="Beige"/>

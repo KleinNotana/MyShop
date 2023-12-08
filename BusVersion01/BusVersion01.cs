@@ -75,16 +75,31 @@ namespace BusVersion01
             return new List<Product>(_data.GetProducts());
         }
 
-        public IEnumerable<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1,int itemPerPage = 5)
+        public IEnumerable<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, 
+            int priceTo = -1, int currentPage = 1,int itemPerPage = 5, int categoryID = -1)
         {
            var products = _data.GetProducts();
+            var detailOrders = _data.GetOrderDetail();
+            // get list product and join with orderdetail to get sold product
             var list = from p in products
-                         where p.ProductName.ToLower().Contains(name.ToLower())
-                         select new {Id = p.Id, ImgPath = p.ImgPath, Name = p.ProductName, Price = p.Price, Stock = 500, Sold = 1000 };
+                       join d in detailOrders on p.Id equals d.ProductId into temp
+                       from d in temp.DefaultIfEmpty()
+                       select new { Id = p.Id, ImgPath = p.ImgPath, Name = p.ProductName, Price = p.Price, 
+                           Stock = p.Amount, Sold = d == null ? 0 : d.Amount, CategoryId = p.CategoryId };
+
+            if (name != "")
+            {
+                list = list.Where(p => p.Name.ToLower().Contains(name.ToLower()));
+            }
 
             if (priceFrom != -1 && priceTo != -1)
             {
                 list = list.Where(p => p.Price >= priceFrom && p.Price <= priceTo);
+            }
+
+            if(categoryID != -1)
+            {
+                list = list.Where(p => p.CategoryId == categoryID);
             }
 
             if (sortType == "Price")
@@ -98,7 +113,7 @@ namespace BusVersion01
 
             int count = list.Count();
             var result = from p in list
-                     select new { Id = p.Id, ImgPath = p.ImgPath, Name = p.Name, Price = p.Price, Stock = 500, Sold = 1000, Total = count };
+                     select new { Id = p.Id, ImgPath = p.ImgPath, Name = p.Name, Price = p.Price, Stock = p.Stock, Sold = p.Sold, Total = count };
             result = result.Skip((currentPage - 1) * itemPerPage).Take(itemPerPage);
             
             return result;
