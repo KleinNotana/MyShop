@@ -33,7 +33,8 @@ namespace UIVersion03
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            outOfStockProducts.ItemsSource = _bus.GetProducts();
+            outOfStockProducts.ItemsSource = _bus.getOutOfStockProducts();
+            totalSales.DataContext = _bus.getTotalSales();
         }
     }
 }

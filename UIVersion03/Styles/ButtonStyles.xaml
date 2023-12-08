@@ -192,15 +192,8 @@
     </Style>
 
     <Style x:Key="DefaultCellStyle" TargetType="DataGridCell">
-        <Setter Property="Background">
-            <Setter.Value>
-                <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
-                    <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
-                    <GradientStop Color="{StaticResource gridColor1}" Offset="0.5"/>
-                    <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1" />
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Background" Value="{StaticResource lightBackground}"/>
+
         <Setter Property="Foreground" Value="{StaticResource titleColor1}" />
     </Style>
 

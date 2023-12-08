@@ -24,7 +24,7 @@ namespace Contract
         void saveChanges();
         List<Product> GetProducts();
         BindingList<Category> GetCategories();
-        IEnumerable<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1, int itemPerPage = 10, int categoryId = -1);
+        BindingList<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1, int itemPerPage = 10, int categoryId = -1);
         public List<dynamic> GetOrderByFilter(string dateFrom, string dateTo, int currentPage = 1, int itemPerPage = 10);
 
         public Order1 getOrderById(int id);
@@ -48,6 +48,8 @@ namespace Contract
         public void deleteProduct(int id);
 
         dynamic getDetailProduct(int id);
+        BindingList<dynamic> getOutOfStockProducts();
+        dynamic getTotalSales();
         void DepensOn(IDataAccess data);
     }
 }

@@ -75,7 +75,7 @@ namespace BusVersion01
             return new List<Product>(_data.GetProducts());
         }
 
-        public IEnumerable<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, 
+        public BindingList<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, 
             int priceTo = -1, int currentPage = 1,int itemPerPage = 5, int categoryID = -1)
         {
            var products = _data.GetProducts();
@@ -112,11 +112,13 @@ namespace BusVersion01
             }
 
             int count = list.Count();
+
             var result = from p in list
                      select new { Id = p.Id, ImgPath = p.ImgPath, Name = p.Name, Price = p.Price, Stock = p.Stock, Sold = p.Sold, Total = count };
             result = result.Skip((currentPage - 1) * itemPerPage).Take(itemPerPage);
+
+            return new BindingList<dynamic>(result.ToList<dynamic>());
             
-            return result;
         }
 
         public async Task<bool> Login(string username, string password)
@@ -258,6 +260,55 @@ namespace BusVersion01
             var orderDetails = _data.GetOrderDetail();
             var result = orderDetails.Where(o => o.OrderId == OrderId).Sum(o => o.Amount * o.Price);
             return (double)result;
+        }
+
+        public BindingList<dynamic> getOutOfStockProducts()
+        {
+            var products = _data.GetProducts();
+            var category = _data.GetCategory();
+            var result = from p in products
+                         join c in category on p.CategoryId equals c.Id
+                         where p.Amount <= 5
+                         select new { Id = p.Id, Name = p.ProductName, Category = c.Name, Price = p.Price, Stock = p.Amount };
+            return new BindingList<dynamic>(result.ToList<dynamic>());
+        }
+
+        public dynamic getTotalSales()
+        {
+            var orderDetails = _data.GetOrderDetail().Sum(o => o.Amount * o.Price);
+            var orders = _data.GetOrder();
+
+            var sales = from o in orders
+                        join d in _data.GetOrderDetail() on o.Id equals d.OrderId
+                        select new { Id = o.Id, Date = o.OrderDate, Total = d.Amount * d.Price };
+
+            var salesToday = sales.Where(s => s.Date == DateTime.Today).Sum(s => s.Total);
+            var salesYesterday = sales.Where(s => s.Date == DateTime.Today.AddDays(-1)).Sum(s => s.Total);
+
+            var percent = salesToday / salesYesterday * 100;
+            string Compare = "";
+            
+            if (percent > 100)
+            {
+                Compare = "Up";
+            }
+            else if (percent < 100)
+            {
+                Compare = "Down";
+            }
+            else
+            {
+                Compare = "Equal";
+            }
+
+            var result = new
+            {
+                TotalSale = salesToday,
+                Percent = percent,
+                Compare = Compare
+            };
+
+            return result;
         }
     }
 

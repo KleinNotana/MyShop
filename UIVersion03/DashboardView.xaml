@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UIVersion03"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="700" d:DesignWidth="800"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              Loaded="UserControl_Loaded"
              >
@@ -14,6 +14,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/ButtonStyles.xaml" />
                 <ResourceDictionary Source="Styles/Colors.xaml" />
+                <ResourceDictionary Source="Styles/DataGridStyle.xaml" />
                 <ResourceDictionary>
                     <Style x:Key="CenteredCellStyle" TargetType="TextBlock">
                         <Setter Property="HorizontalAlignment" Value="Center" />
@@ -31,15 +32,8 @@
         </Grid.RowDefinitions>
 
         <UniformGrid Grid.Row="0" Columns="4" >
-            <Border CornerRadius="0,10,10,0" Margin="5">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
-                        <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
-                        <GradientStop Color="{StaticResource gridColor1}" Offset="0.5"/>
-                        <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1" />
-                    </LinearGradientBrush>
-                </Border.Background>
-                <Grid>
+            <Border CornerRadius="0,10,10,0" Margin="5"  Background="{StaticResource lightBackground}">
+                <Grid x:Name="totalSales">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -47,23 +41,26 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Total Sales" HorizontalAlignment="Center" 
                VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
-                    <TextBlock Grid.Row="1" Text="$100" HorizontalAlignment="Center" FontSize="20"
+                    <TextBlock Grid.Row="1"  HorizontalAlignment="Center" FontSize="20"
                FontWeight="Bold"
-                VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
-                    <TextBlock Grid.Row="2" Text="3.75% up to last month" HorizontalAlignment="Center"
-                VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
+                VerticalAlignment="Center" Foreground="{StaticResource titleColor1}">
+                        <Run Text="$"/>
+                        <Run Text="{Binding TotalSales, Mode=OneTime}"/>
+                    </TextBlock>
+                    <TextBlock Grid.Row="2"  HorizontalAlignment="Center"
+                VerticalAlignment="Center" Foreground="{StaticResource titleColor1}">
+                        <Run Text="{Binding Percent, Mode=OneTime}" />
+                          
+                        <Run Text="% "/>
+                        <Run Text="{Binding Compare, Mode=OneTime}"/>
+                         <Run Text=" last month"/>
+                    </TextBlock>
                 </Grid>
             </Border>
 
-            <Border CornerRadius="0,10,10,0" Margin="5">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
-                        <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
-                        <GradientStop Color="{StaticResource gridColor1}" Offset="0.5"/>
-                        <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1" />
-                    </LinearGradientBrush>
-                </Border.Background>
-                <Grid>
+            <Border CornerRadius="0,10,10,0" Margin="5"  Background="{StaticResource lightBackground}">
+                
+                <Grid x:Name="totalSellingProducts">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -80,15 +77,9 @@
                 </Grid>
             </Border>
 
-            <Border CornerRadius="0,10,10,0" Margin="5">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
-                        <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
-                        <GradientStop Color="{StaticResource gridColor1}" Offset="0.5"/>
-                        <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1" />
-                    </LinearGradientBrush>
-                </Border.Background>
-                <Grid>
+            <Border CornerRadius="0,10,10,0" Margin="5"  Background="{StaticResource lightBackground}">
+                
+                <Grid x:Name="totalSoldProducts">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -104,15 +95,9 @@
                 </Grid>
             </Border>
 
-            <Border CornerRadius="0,10,10,0" Margin="5">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
-                        <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
-                        <GradientStop Color="{StaticResource gridColor1}" Offset="0.5"/>
-                        <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1" />
-                    </LinearGradientBrush>
-                </Border.Background>
-                <Grid>
+            <Border CornerRadius="0,10,10,0" Margin="5" Background="{StaticResource lightBackground}">
+               
+                <Grid x:Name="totalCustomers">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -138,30 +123,16 @@
                 <ColumnDefinition Width="300"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" CornerRadius="0,10,10,0">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
-                        <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
-                        <GradientStop Color="{StaticResource gridColor1}" Offset="0.5"/>
-                        <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1" />
-                    </LinearGradientBrush>
-                   
-                </Border.Background>
+            <Border Grid.Column="0" CornerRadius="0,10,10,0" Background="{StaticResource lightBackground}">
+                
                 <lvc:PieChart  LegendLocation="Bottom" Grid.Column="0" Series="{Binding DataCollection}">
                 </lvc:PieChart>
                 
                         
             </Border>
 
-            <Border Grid.Column="1" CornerRadius="0,10,10,0">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
-                        <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
-                        <GradientStop Color="{StaticResource gridColor1}" Offset="0.5"/>
-                        <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1" />
-                    </LinearGradientBrush>
-
-                </Border.Background>
+            <Border Grid.Column="1" CornerRadius="0,10,10,0" Background="{StaticResource lightBackground}">
+                
 
                 <lvc:CartesianChart Name="lineChart">
                     <!-- ... -->
@@ -170,55 +141,49 @@
 
         </Grid>
 
-        <Border Grid.Row="2" CornerRadius="0,10,10,0">
-            <Border.Background>
-                <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
-                    <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
-                    <GradientStop Color="{StaticResource gridColor1}" Offset="0.5"/>
-                    <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1" />
-                </LinearGradientBrush>
+        <Grid Grid.Row="2"  >
 
-            </Border.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            <DataGrid x:Name="outOfStockProducts" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                      AutoGenerateColumns="False" IsReadOnly="True">
-                <DataGrid.Resources>
-                    <!-- Style cho Header -->
-                    <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="Background" Value="{StaticResource backItemColor}" />
-                        <Setter Property="Foreground" Value="{StaticResource titleColor1}" />
-                        <Setter Property="BorderBrush" Value="{StaticResource backItemColor}" />
-                        <Setter Property="BorderThickness" Value="1" />
-                    </Style>
+            <TextBlock Grid.Row="0" Text="Out of Stock Products" HorizontalAlignment="Center" 
+                 VerticalAlignment="Center" Foreground="{StaticResource titleColor1}" FontSize="20" FontWeight="Bold"/>
+            <DataGrid Grid.Row="1"
+                    RowStyle="{DynamicResource DataGridRowStyle1}"
+                     ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
+                     CellStyle="{DynamicResource DataGridCellStyle1}"
+                     Style="{DynamicResource DataGridStyle1}"
+                      AutoGenerateColumns="False" IsReadOnly="True"
+                   
+                     Margin="100 10 100 35"
+                      x:Name="outOfStockProducts">
 
-                    <!-- Style cho Border của DataGrid -->
-                    <Style TargetType="DataGrid">
-                        <Setter Property="BorderBrush" Value="{StaticResource backItemColor}" />
-                        <Setter Property="BorderThickness" Value="1" />
-                    </Style>
-                </DataGrid.Resources>
-
-                <DataGrid.Background>
-                    <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
-                        <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
-                        <GradientStop Color="{StaticResource gridColor1}" Offset="0.5"/>
-                        <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1" />
-                    </LinearGradientBrush>
-                </DataGrid.Background>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*" 
-                                        ElementStyle="{StaticResource CenteredCellStyle}"
-                                        CellStyle="{StaticResource DefaultCellStyle}"/>
-                    <DataGridTextColumn Header="Name" Binding="{Binding ProductName}" Width="*"
-                                        ElementStyle="{StaticResource CenteredCellStyle}"
-                                        CellStyle="{StaticResource DefaultCellStyle}"/>
-                    <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="*"
-                                        ElementStyle="{StaticResource CenteredCellStyle}"
-                                        CellStyle="{StaticResource DefaultCellStyle}"/>
+
+                    <DataGridTextColumn Header="Product Name" Binding="{Binding Name, Mode=OneTime}" Width="*"
+                                        
+                                        />
+
+                    <DataGridTextColumn Header="Stock" Binding="{Binding Stock, Mode=OneTime}" Width="*"
+                                       
+                                        />
+                    <DataGridTextColumn Header="Price" Binding="{Binding Price, Mode=OneTime}" Width="*"
+                                        
+                                        />
+                    <DataGridTextColumn Header="Category" Binding="{Binding Category, Mode=OneTime}" Width="*"
+                                        
+                                        />
+                    
+
+
                 </DataGrid.Columns>
-                
+
             </DataGrid>
-        </Border>
+
+
+        </Grid>
         
     </Grid>
 

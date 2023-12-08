@@ -8,6 +8,11 @@
     <Color x:Key="secondaryBackColor2">#210F55</Color>
     <Color x:Key="gridColor1">#2C001E</Color>
     <Color x:Key="backGridColor">#FBEEE6</Color>
+
+    <!--Window Border Colors-->
+    <Color x:Key="winBorderColor1">#6D2FFF</Color>
+    <Color x:Key="winBorderColor2">#FB539B</Color>
+    <Color x:Key="winBorderColor3">#836EFB</Color>
     <!--gradient color-->
     <LinearGradientBrush x:Key="backItemColor" StartPoint="1,1" EndPoint="0,0">
         <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
@@ -27,12 +32,15 @@
         <GradientStop Color="#FF2F84AC" Offset="0.0"/>
         <GradientStop Color="#FF97D5F2" Offset="1.2"/>
     </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="lightBackground" StartPoint="0,0" EndPoint="1,0.7">
+        <GradientStop Color="{StaticResource secondaryBackColor1}" Offset="0"/>
+        <GradientStop Color="{StaticResource secondaryBackColor2}" Offset="1" />
+    </LinearGradientBrush>
+
     <SolidColorBrush x:Key="searchColor">#808080</SolidColorBrush>
 
-    <!--Window Border Colors-->
-    <Color x:Key="winBorderColor1">#6D2FFF</Color>
-    <Color x:Key="winBorderColor2">#FB539B</Color>
-    <Color x:Key="winBorderColor3">#836EFB</Color>
+   
 
     <!--Color Palette-->
     <SolidColorBrush x:Key="color1" Color="#E285DE"/>
