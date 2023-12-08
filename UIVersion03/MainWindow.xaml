@@ -109,7 +109,7 @@
                     </RadioButton>
 
                     <RadioButton Style="{StaticResource menuButton}" x:Name="ReportsNav"
-                                Tag="{StaticResource color5}">
+                                Tag="{StaticResource color5}" Checked="ReportsNav_Checked">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="Pager" 
                                           Style="{StaticResource menuButtonIcon}"/>

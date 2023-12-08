@@ -45,7 +45,7 @@
                     <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
-            <Grid>
+            <Grid x:Name="DetailGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
                     <RowDefinition/>
@@ -170,6 +170,8 @@
                             Click="btnClose2_Click" Canvas.Left="278" Canvas.Top="565">
                         <TextBlock Text="Close" />
                     </Button>
+
+                    
 
                     <DataGrid x:Name="OrderDataGrid" Grid.Row="3"
           AutoGenerateColumns="False" IsReadOnly="True" Canvas.Left="75" Canvas.Top="190" HorizontalAlignment="Center" VerticalAlignment="Top" Width="536" Height="337">

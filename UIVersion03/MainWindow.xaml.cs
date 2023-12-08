@@ -109,5 +109,12 @@ namespace UIVersion03
             MessageBox.Show(products[0].ProductName);*/
 
         }
+
+        private void ReportsNav_Checked(object sender, RoutedEventArgs e)
+        {
+            dataObject.Content = new ReportView(_bus);
+            dataObject.Icon = IconChar.Pager;
+            dataObject.Title = "Report";
+        }
     }
 }

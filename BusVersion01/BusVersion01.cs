@@ -244,6 +244,20 @@ namespace BusVersion01
             var result = orderDetails.Where(o => o.OrderId == OrderId).Sum(o => o.Amount * o.Price);
             return (double)result;
         }
+
+        public List<dynamic> GetMonthlyReport()
+        {
+            var orderdetails = _data.GetOrderDetail();
+            var orders = _data.GetOrder();
+            //get all order detail group by month
+            var list = from o in orders
+                       join od in orderdetails on o.Id equals od.OrderId
+                       group od by new { o.OrderDate.Value.Month, o.OrderDate.Value.Year } into g
+                       select new { Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+            return list.ToList<dynamic>();
+        }
+
+        
     }
 
 }

@@ -34,6 +34,10 @@ namespace Contract
         public void deleteOrderDetail(OrderDetail deleteOrderDetail);
         public double getTotalPrice(int OrderId);
 
+        
+        
+        public List<dynamic> GetMonthlyReport();
+
 
         public Customer getCustomerByName(string name);
         public void addCustomer(Customer addCustomer);
