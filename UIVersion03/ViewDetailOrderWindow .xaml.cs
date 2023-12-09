@@ -41,7 +41,7 @@ namespace UIVersion03
             order = _bus.getOrderById(Id);
             txtCustomerName.Text = order.Customer.CustomerName;
             orderDetails = _bus.GetOrdersDetailById(Id);
-            txtOrderDate.Text = order.OrderDate.ToString();
+            txtOrderDate.Text = order.OrderDate.Value.Day +"/"+order.OrderDate.Value.Month + "/"+ order.OrderDate.Value.Year;
             txtTotalPrice.Text = _bus.getTotalPrice(Id).ToString();
         }
 
@@ -95,6 +95,31 @@ namespace UIVersion03
 
         }
 
-       
+        private void btnExport_Click(object sender, RoutedEventArgs e)
+        {
+            //export to png
+            btnClose2.Visibility = Visibility.Hidden;
+            btnExport.Visibility = Visibility.Hidden;
+            
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "PNG Image|*.png";
+            saveFileDialog.Title = "Save an Image File";
+            saveFileDialog.ShowDialog();
+
+            if (saveFileDialog.FileName != "")
+            {
+                RenderTargetBitmap rtb = new RenderTargetBitmap((int)OrderInfor.ActualWidth, (int)OrderInfor.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+                rtb.Render(OrderInfor);
+                PngBitmapEncoder png = new PngBitmapEncoder();
+                png.Frames.Add(BitmapFrame.Create(rtb));
+
+                using (System.IO.Stream stream = System.IO.File.Create(saveFileDialog.FileName))
+                {
+                    png.Save(stream);
+                }
+            }
+            btnClose2.Visibility = Visibility.Visible;
+            btnExport.Visibility = Visibility.Visible;
+        }
     }
 }

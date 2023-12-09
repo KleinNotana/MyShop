@@ -161,7 +161,7 @@ namespace UIVersion03
             orders.Remove(order);
             
             int id = (int)order.GetType().GetProperty("Id").GetValue(order);
-            MessageBox.Show(id.ToString());
+            //MessageBox.Show(id.ToString());
            _bus.DeleteOrder(id); 
             loadOrders();
             //test order detail

@@ -22,7 +22,8 @@
 
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
+    <Grid >
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="50" />

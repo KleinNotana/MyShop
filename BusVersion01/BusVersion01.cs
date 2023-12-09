@@ -49,7 +49,7 @@ namespace BusVersion01
             var list = from o in orders join c in _data.GetCustomer() on o.CustomerId equals c.Id where o.OrderDate >= datefrom && o.OrderDate <= dateto select new { Id = o.Id, Name = c.CustomerName, Date = o.OrderDate };
             int count = list.Count();
             var result = from o in list
-                         select new { Id = o.Id, Name = o.Name, Date = o.Date, Total = count };
+                         select new { Id = o.Id, Name = o.Name, Date = o.Date.Value.Day.ToString()+"/"+ o.Date.Value.Month.ToString()+"/"+o.Date.Value.Year.ToString(), Total = count };
             result = result.Skip((currentPage - 1) * itemPerPage).Take(itemPerPage);
             return result.ToList<dynamic>();
 

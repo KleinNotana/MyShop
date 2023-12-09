@@ -137,7 +137,7 @@
                     FontFamily="Montserrat" Canvas.Left="45" Canvas.Top="117"/>
                     <ComboBox x:Name="categoryComboBox" 
           Background="{StaticResource searchColor}"
-           Foreground="{StaticResource titleColor1}"  Height="30" IsReadOnly="True" Canvas.Left="125" Canvas.Top="109" HorizontalAlignment="Left" VerticalAlignment="Center" Width="164" >
+           Foreground="BlueViolet"  Height="30" IsReadOnly="True" Canvas.Left="125" Canvas.Top="109" HorizontalAlignment="Left" VerticalAlignment="Center" Width="164" >
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding ProductName}" >
