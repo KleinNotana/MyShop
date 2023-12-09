@@ -30,7 +30,22 @@
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="Group By" Foreground="{StaticResource titleColor1}" FontSize="15" 
+           VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <ComboBox x:Name="GroupComboBox" 
+                Width="100" 
+                Height="30" 
+                Style="{StaticResource ComboBoxStyle1}"
+                Tag="Group Type"
+                HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="GroupTypeComboBox_SelectionChanged" 
+>
 
+
+            </ComboBox>
+
+        </StackPanel>
 
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" >
@@ -51,7 +66,7 @@
             </StackPanel>
         </StackPanel>
 
-        <DataGrid x:Name="ReportByMonthDataGrid" Grid.Row="3"
+        <DataGrid x:Name="ReportByTimeDataGrid" Grid.Row="3"
           AutoGenerateColumns="False" IsReadOnly="True" RowStyle="{DynamicResource DataGridRowStyle1}"
           ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
             CellStyle="{DynamicResource DataGridCellStyle1}"
@@ -60,10 +75,9 @@
            
             <DataGrid.Columns>
                 
-                <DataGridTextColumn Header="Month" Binding="{Binding Month}" Width="*"
+                <DataGridTextColumn Header="Time" Binding="{Binding Time}" Width="*"
                             />
-                <DataGridTextColumn Header="Month" Binding="{Binding Year}" Width="*"
-                            />
+                
                 <DataGridTextColumn Header="Income" Binding="{Binding Total}" Width="*"
                             />
             </DataGrid.Columns>

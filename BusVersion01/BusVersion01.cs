@@ -262,19 +262,54 @@ namespace BusVersion01
             return (double)result;
         }
 
-        public List<dynamic> GetMonthlyReport()
+        public List<dynamic> GetMonthlyReport(string dateFrom = "1/1/1990", string dateTo = "1/1/2100")
         {
             var orderdetails = _data.GetOrderDetail();
-            var orders = _data.GetOrder();
+            
+            //get order fileter by date
+            DateTime datefrom = DateTime.Parse(dateFrom);
+            DateTime dateto = DateTime.Parse(dateTo);
+            var orders = _data.GetOrder().Where(o => o.OrderDate >= datefrom && o.OrderDate <= dateto);
             //get all order detail group by month
             var list = from o in orders
                        join od in orderdetails on o.Id equals od.OrderId
                        group od by new { o.OrderDate.Value.Month, o.OrderDate.Value.Year } into g
-                       select new { Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+                       select new {Time = g.Key.Month.ToString() + "/" + g.Key.Year.ToString() ,Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
             return list.ToList<dynamic>();
         }
 
-        
+        public List<dynamic> GetDailyReport(string dateFrom, string dateTo)
+        {
+            var orderdetails = _data.GetOrderDetail();
+
+            //get order fileter by date
+            DateTime datefrom = DateTime.Parse(dateFrom);
+            DateTime dateto = DateTime.Parse(dateTo);
+            var orders = _data.GetOrder().Where(o => o.OrderDate >= datefrom && o.OrderDate <= dateto);
+            //get all order detail group by day
+            var list = from o in orders
+                       join od in orderdetails on o.Id equals od.OrderId
+                       group od by new { o.OrderDate.Value.Day, o.OrderDate.Value.Month, o.OrderDate.Value.Year } into g
+                       select new { Time = g.Key.Day.ToString() + "/" + g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Day = g.Key.Day, Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+            return list.ToList<dynamic>();
+
+        }
+        public List<dynamic> GetYearlyReport(string dateFrom, string dateTo)
+        {
+            var orderdetails = _data.GetOrderDetail();
+
+            //get order fileter by date
+            DateTime datefrom = DateTime.Parse(dateFrom);
+            DateTime dateto = DateTime.Parse(dateTo);
+            var orders = _data.GetOrder().Where(o => o.OrderDate >= datefrom && o.OrderDate <= dateto);
+            //get all order detail group by year
+            var list = from o in orders
+                       join od in orderdetails on o.Id equals od.OrderId
+                       group od by new { o.OrderDate.Value.Year } into g
+                       select new { Time = g.Key.Year.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+            return list.ToList<dynamic>();
+        }
+
         public BindingList<dynamic> getOutOfStockProducts()
         {
             var products = _data.GetProducts();
@@ -323,6 +358,8 @@ namespace BusVersion01
 
             return result;
         }
+
+        
     }
 
 }

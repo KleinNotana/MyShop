@@ -34,6 +34,9 @@ namespace UIVersion03
         int _changedItemPerPage = 5;
         string fromDate="1/1/1900";
         string toDate="1/1/2100";
+
+        int currentGroupByType = 0;
+        
         public ReportView(IBus bus)
         {   
 
@@ -43,9 +46,24 @@ namespace UIVersion03
         }
         private void loadMonthlyReport()
         {
-            List<dynamic> orderslist = _bus.GetMonthlyReport();
+            List<dynamic> orderslist = _bus.GetMonthlyReport(fromDate,toDate);
             orders = new BindingList<dynamic>(orderslist);
-            ReportByMonthDataGrid.ItemsSource = orders;
+            ReportByTimeDataGrid.ItemsSource = orders;
+
+        }
+        private void loadDailyReport()
+        {
+            List<dynamic> orderslist = _bus.GetDailyReport(fromDate, toDate);
+            orders = new BindingList<dynamic>(orderslist);
+            ReportByTimeDataGrid.ItemsSource = orders;
+
+        }
+
+        private void loadYearlyReport()
+        {
+            List<dynamic> orderslist = _bus.GetYearlyReport(fromDate, toDate);
+            orders = new BindingList<dynamic>(orderslist);
+            ReportByTimeDataGrid.ItemsSource = orders;
 
         }
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -59,7 +77,11 @@ namespace UIVersion03
 
             txtPageSize.Text = _itemPerPage.ToString();
             loadOrders();*/
-            loadMonthlyReport();
+
+            GroupComboBox.ItemsSource = new List<string> { "Daily", "Monthly","Yearly"  };
+            GroupComboBox.SelectedIndex = 0;
+            //loadMonthlyReport();
+            loadDailyReport();
 
         }
 
@@ -90,10 +112,7 @@ namespace UIVersion03
 
        
 
-        private void filterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+        
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
@@ -111,19 +130,34 @@ namespace UIVersion03
 
         private void btnFilter_Click(object sender, RoutedEventArgs e)
         {
-            /*fromDate = convertdate(txtFromDate.Text);
+            fromDate = convertdate(txtFromDate.Text);
             toDate = convertdate(txtToDate.Text);
-            try {
+            try
+            {
                 DateTime.Parse(fromDate);
                 DateTime.Parse(toDate);
-             }
+            }
             catch (Exception)
             {
                 fromDate = "1/1/1900";
                 toDate = "1/1/2100";
                 MessageBox.Show("Invalid date format");
             }
-            loadOrders();*/
+            
+            if(currentGroupByType==0)
+            {
+                loadDailyReport();
+                
+            }
+            else if(currentGroupByType==1)
+            {
+                loadMonthlyReport();
+            }
+            else if(currentGroupByType==2)
+            {
+                loadYearlyReport();
+            }
+
         }
 
         
@@ -142,6 +176,25 @@ namespace UIVersion03
 
         }
 
-        
+        private void GroupTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (GroupComboBox.SelectedIndex == 0)
+            {   
+                currentGroupByType = 0;
+                loadDailyReport();
+            }
+            else if (GroupComboBox.SelectedIndex == 1)
+            {   
+                currentGroupByType = 1;
+                loadMonthlyReport();
+                
+            }
+            else if (GroupComboBox.SelectedIndex == 2)
+            {
+                currentGroupByType = 2;
+                loadYearlyReport();
+            }
+
+        }
     }
 }
