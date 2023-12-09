@@ -48,7 +48,7 @@ namespace DataAccessVer01
                 return false;
             }
         }
-
+        
         public List<Product> GetProducts()
         {
             Database DB = Database.Instance;

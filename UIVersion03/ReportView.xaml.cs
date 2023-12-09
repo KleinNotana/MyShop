@@ -57,6 +57,15 @@ namespace UIVersion03
             orders = new BindingList<dynamic>(orderslist);
             ReportByTimeDataGrid.ItemsSource = orders;
 
+
+        }
+
+        private void loadWeeklyReport()
+        {
+
+            List<dynamic> orderslist = _bus.GetWeeklyReport(fromDate, toDate);
+            orders = new BindingList<dynamic>(orderslist);
+            ReportByTimeDataGrid.ItemsSource = orders;
         }
 
         private void loadYearlyReport()
@@ -78,7 +87,7 @@ namespace UIVersion03
             txtPageSize.Text = _itemPerPage.ToString();
             loadOrders();*/
 
-            GroupComboBox.ItemsSource = new List<string> { "Daily", "Monthly","Yearly"  };
+            GroupComboBox.ItemsSource = new List<string> { "Daily", "Monthly","Yearly", "Weekly"  };
             GroupComboBox.SelectedIndex = 0;
             //loadMonthlyReport();
             loadDailyReport();
@@ -157,6 +166,10 @@ namespace UIVersion03
             {
                 loadYearlyReport();
             }
+            else if(currentGroupByType==3)
+            {
+                loadWeeklyReport();
+            }
 
         }
 
@@ -193,6 +206,11 @@ namespace UIVersion03
             {
                 currentGroupByType = 2;
                 loadYearlyReport();
+            }
+            else if (GroupComboBox.SelectedIndex == 3)
+            {
+                currentGroupByType = 3;
+                loadWeeklyReport();
             }
 
         }

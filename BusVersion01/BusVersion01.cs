@@ -309,6 +309,35 @@ namespace BusVersion01
                        select new { Time = g.Key.Year.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
             return list.ToList<dynamic>();
         }
+        public List<dynamic> GetWeeklyReport(string dateFrom, string dateTo)
+        {
+            var orderdetails = _data.GetOrderDetail();
+
+            //get order fileter by date
+            DateTime datefrom = DateTime.Parse(dateFrom);
+            DateTime dateto = DateTime.Parse(dateTo);
+            var orders = _data.GetOrder().Where(o => o.OrderDate >= datefrom && o.OrderDate <= dateto);
+            //get min date
+            var minDate = orders.Min(o => o.OrderDate);
+            //get all order detail group by week
+            var list = from o in orders
+                       join od in orderdetails on o.Id equals od.OrderId
+                       group od by new { week= getWeek(minDate?? DateTime.Now, o.OrderDate??DateTime.Now), o.OrderDate.Value.Year } into g
+                       select new { Time = "Week " + g.Key.week.ToString(), Week = g.Key.week.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+            return list.ToList<dynamic>();
+        }
+        public int getWeek(DateTime startDay, DateTime endDay)
+        {
+               int week = 1;
+            for (DateTime date = startDay; date <= endDay; date = date.AddDays(1))
+            {
+                if (date.DayOfWeek == DayOfWeek.Monday)
+                {
+                    week++;
+                }
+            }
+            return week;
+        }
 
         public BindingList<dynamic> getOutOfStockProducts()
         {

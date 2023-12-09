@@ -38,7 +38,7 @@ namespace Contract
         
         public List<dynamic> GetMonthlyReport(string dateFrom, string dateTo);
         public List<dynamic> GetDailyReport(string dateFrom, string dateTo);
-
+        public List<dynamic> GetWeeklyReport(string dateFrom, string dateTo);
         public List<dynamic> GetYearlyReport(string dateFrom, string dateTo);
 
 
@@ -57,6 +57,8 @@ namespace Contract
         dynamic getDetailProduct(int id);
         BindingList<dynamic> getOutOfStockProducts();
         dynamic getTotalSales();
+
+        public int getWeek(DateTime startDay, DateTime endDay);
         void DepensOn(IDataAccess data);
     }
 }

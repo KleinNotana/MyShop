@@ -39,6 +39,7 @@ namespace Contract
         public void updateCategory(Category updateCategory);
         public void deleteCategory(int id);
 
+        
         public void deleteProduct(int id);
         public void saveChanges();
 
