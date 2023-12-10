@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:local="clr-namespace:UIVersion03"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded">
@@ -30,8 +31,20 @@
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Width="467">
+            <TextBlock Text="Mode" Foreground="{StaticResource titleColor1}" FontSize="15" 
+           VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <ComboBox x:Name="ModeComboBox" 
+                Width="100" 
+                Height="30" 
+                Style="{StaticResource ComboBoxStyle1}"
+                Tag="Mode"
+                HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="ModeComboBox_SelectionChanged" Margin="0 0 30 0"
+>
+
+
+            </ComboBox>
             <TextBlock Text="Group By" Foreground="{StaticResource titleColor1}" FontSize="15" 
            VerticalAlignment="Center" Margin="0,0,10,0"/>
             <ComboBox x:Name="GroupComboBox" 
@@ -39,7 +52,7 @@
                 Height="30" 
                 Style="{StaticResource ComboBoxStyle1}"
                 Tag="Group Type"
-                HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="GroupTypeComboBox_SelectionChanged" 
+                HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="GroupTypeComboBox_SelectionChanged" Margin="0 0 0 0"
 >
 
 
@@ -65,29 +78,66 @@
 
             </StackPanel>
         </StackPanel>
-
-        <DataGrid x:Name="ReportByTimeDataGrid" Grid.Row="3"
-          AutoGenerateColumns="False" IsReadOnly="True" RowStyle="{DynamicResource DataGridRowStyle1}"
-          ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
+        <Canvas x:Name="ReportByProfitZone" Grid.Row="3" >
+            <DataGrid x:Name="ReportByTimeDataGrid" Width="273"
+   
+             AutoGenerateColumns="False" IsReadOnly="True" RowStyle="{DynamicResource DataGridRowStyle1}"
+             ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
             CellStyle="{DynamicResource DataGridCellStyle1}"
-            Style="{DynamicResource DataGridStyle1}"
-            Margin="100 10 100 35">
-           
-            <DataGrid.Columns>
-                
-                <DataGridTextColumn Header="Time" Binding="{Binding Time}" Width="*"
-                            />
-                
-                <DataGridTextColumn Header="Income" Binding="{Binding Total}" Width="*"
-                            />
-            </DataGrid.Columns>
+                Style="{DynamicResource DataGridStyle1}" Canvas.Left="10" HorizontalAlignment="Center" Height="280" VerticalAlignment="Top"  >
 
-        </DataGrid>
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn Header="Time" Binding="{Binding Time}" Width="*"
+                     />
+
+                    <DataGridTextColumn Header="Income" Binding="{Binding Total}" Width="*"
+                     />
+                </DataGrid.Columns>
+
+            </DataGrid>
+            <Canvas x:Name="graphzone"  Canvas.Bottom="0" Width="408" HorizontalAlignment="Left" Height="280" Canvas.Top="10" VerticalAlignment="Top" RenderTransformOrigin="1.338,0.469" Canvas.Left="363">
+                <lvc:PieChart LegendLocation="Bottom" 
+              Hoverable="False"  Canvas.Left="0" Canvas.Top="0" Height="150" Width="218" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <lvc:PieChart.Series>
+                        <lvc:PieSeries Title="X" Values="50" DataLabels="True" />
+                        <lvc:PieSeries Title="Y" Values="50" DataLabels="True" />
+                        <lvc:PieSeries Title="Y" Values="20" DataLabels="True" />
+                    </lvc:PieChart.Series>
+
+
+                </lvc:PieChart>
+
+            </Canvas>
+        </Canvas>
+        <Canvas x:Name="ReportByProductZone" Grid.Row="3" d:Visibility="Hidden">
+            <DataGrid x:Name="ReportProductByTimeDataGrid" Width="440" Canvas.Bottom="0"
+                AutoGenerateColumns="False" IsReadOnly="True" RowStyle="{DynamicResource DataGridRowStyle1}"
+                ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
+                CellStyle="{DynamicResource DataGridCellStyle1}"
+                Style="{DynamicResource DataGridStyle1}" Canvas.Left="24" Canvas.Top="20" HorizontalAlignment="Left" Height="262" VerticalAlignment="Center"   >
+
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn Header="Product Name" Binding="{Binding Name}" Width="*"
+                />
+                    <DataGridTextColumn Header="Time" Binding="{Binding Time}" Width="*"
+/>
+
+                    <DataGridTextColumn Header="Income" Binding="{Binding Total}" Width="*"
+                />
+                </DataGrid.Columns>
+
+            </DataGrid>
+        </Canvas>
+
+
         <Canvas Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button x:Name="btnFilter" Style="{StaticResource normalButton}" 
                 Tag="{StaticResource titleColor1}" Click="btnFilter_Click" Canvas.Left="174" Canvas.Top="-24" >
                 <TextBlock Text="Go" />
             </Button>
         </Canvas>
+
     </Grid>
 </UserControl>

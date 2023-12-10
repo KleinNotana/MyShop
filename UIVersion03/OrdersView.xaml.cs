@@ -158,6 +158,11 @@ namespace UIVersion03
                 MessageBox.Show("Please choose an order");
                 return;
             }
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this order?", "Delete", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
             orders.Remove(order);
             
             int id = (int)order.GetType().GetProperty("Id").GetValue(order);

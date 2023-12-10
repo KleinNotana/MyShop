@@ -262,7 +262,7 @@ namespace BusVersion01
             return (double)result;
         }
 
-        public List<dynamic> GetMonthlyReport(string dateFrom = "1/1/1990", string dateTo = "1/1/2100")
+        public List<dynamic> GetMonthlyReport(string dateFrom, string dateTo , int mode)
         {
             var orderdetails = _data.GetOrderDetail();
             
@@ -271,14 +271,26 @@ namespace BusVersion01
             DateTime dateto = DateTime.Parse(dateTo);
             var orders = _data.GetOrder().Where(o => o.OrderDate >= datefrom && o.OrderDate <= dateto);
             //get all order detail group by month
-            var list = from o in orders
+            if (mode == 0)
+            {
+                var list = from o in orders
                        join od in orderdetails on o.Id equals od.OrderId
                        group od by new { o.OrderDate.Value.Month, o.OrderDate.Value.Year } into g
-                       select new {Time = g.Key.Month.ToString() + "/" + g.Key.Year.ToString() ,Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
-            return list.ToList<dynamic>();
+                       select new { Time = g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+                return list.ToList<dynamic>();
+            }
+            else
+            {
+                var list = from o in orders
+                           join od in orderdetails on o.Id equals od.OrderId
+                           join p in _data.GetProducts() on od.ProductId equals p.Id
+                           group od by new { o.OrderDate.Value.Month, o.OrderDate.Value.Year, p.ProductName } into g
+                           select new { Name = g.Key.ProductName, Time = g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+                return list.ToList<dynamic>();
+            }
         }
 
-        public List<dynamic> GetDailyReport(string dateFrom, string dateTo)
+        public List<dynamic> GetDailyReport(string dateFrom, string dateTo, int mode)
         {
             var orderdetails = _data.GetOrderDetail();
 
@@ -287,14 +299,26 @@ namespace BusVersion01
             DateTime dateto = DateTime.Parse(dateTo);
             var orders = _data.GetOrder().Where(o => o.OrderDate >= datefrom && o.OrderDate <= dateto);
             //get all order detail group by day
-            var list = from o in orders
-                       join od in orderdetails on o.Id equals od.OrderId
-                       group od by new { o.OrderDate.Value.Day, o.OrderDate.Value.Month, o.OrderDate.Value.Year } into g
-                       select new { Time = g.Key.Day.ToString() + "/" + g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Day = g.Key.Day, Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
-            return list.ToList<dynamic>();
+            if(mode==0)
+            {
+                var list = from o in orders
+                           join od in orderdetails on o.Id equals od.OrderId
+                           group od by new { o.OrderDate.Value.Day, o.OrderDate.Value.Month, o.OrderDate.Value.Year } into g
+                           select new { Time = g.Key.Day.ToString() + "/" + g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Day = g.Key.Day, Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+                return list.ToList<dynamic>();
+            }
+            else
+            {
+                var list = from o in orders
+                           join od in orderdetails on o.Id equals od.OrderId
+                           join p in _data.GetProducts() on od.ProductId equals p.Id
+                           group od by new { o.OrderDate.Value.Day, o.OrderDate.Value.Month, o.OrderDate.Value.Year, p.ProductName } into g
+                           select new {Name=g.Key.ProductName, Time = g.Key.Day.ToString() + "/" + g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Day = g.Key.Day, Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+                return list.ToList<dynamic>();
+            }
 
         }
-        public List<dynamic> GetYearlyReport(string dateFrom, string dateTo)
+        public List<dynamic> GetYearlyReport(string dateFrom, string dateTo, int mode)
         {
             var orderdetails = _data.GetOrderDetail();
 
@@ -303,13 +327,25 @@ namespace BusVersion01
             DateTime dateto = DateTime.Parse(dateTo);
             var orders = _data.GetOrder().Where(o => o.OrderDate >= datefrom && o.OrderDate <= dateto);
             //get all order detail group by year
-            var list = from o in orders
-                       join od in orderdetails on o.Id equals od.OrderId
-                       group od by new { o.OrderDate.Value.Year } into g
-                       select new { Time = g.Key.Year.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
-            return list.ToList<dynamic>();
+            if(mode==0)
+            {
+                var list = from o in orders
+                           join od in orderdetails on o.Id equals od.OrderId
+                           group od by new { o.OrderDate.Value.Year } into g
+                           select new { Time = g.Key.Year.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+                return list.ToList<dynamic>();
+            }
+            else
+            {
+                var list = from o in orders
+                           join od in orderdetails on o.Id equals od.OrderId
+                           join p in _data.GetProducts() on od.ProductId equals p.Id
+                           group od by new { o.OrderDate.Value.Year, p.ProductName } into g
+                           select new { Name = g.Key.ProductName, Time = g.Key.Year.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+                return list.ToList<dynamic>();
+            }
         }
-        public List<dynamic> GetWeeklyReport(string dateFrom, string dateTo)
+        public List<dynamic> GetWeeklyReport(string dateFrom, string dateTo, int mode)
         {
             var orderdetails = _data.GetOrderDetail();
 
@@ -320,11 +356,25 @@ namespace BusVersion01
             //get min date
             var minDate = orders.Min(o => o.OrderDate);
             //get all order detail group by week
-            var list = from o in orders
-                       join od in orderdetails on o.Id equals od.OrderId
-                       group od by new { week= getWeek(minDate?? DateTime.Now, o.OrderDate??DateTime.Now), o.OrderDate.Value.Year } into g
-                       select new { Time = "Week " + g.Key.week.ToString(), Week = g.Key.week.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
-            return list.ToList<dynamic>();
+            if(mode==0)
+            {
+                var list = from o in orders
+                           join od in orderdetails on o.Id equals od.OrderId
+                           join p in _data.GetProducts() on od.ProductId equals p.Id
+                           group od by new { week = getWeek(minDate ?? DateTime.Now, o.OrderDate ?? DateTime.Now), o.OrderDate.Value.Year } into g
+                           select new {  Time = "Week " + g.Key.week.ToString(), Week = g.Key.week.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+                return list.ToList<dynamic>();
+            }
+            else
+            {
+                var list = from o in orders
+                           join od in orderdetails on o.Id equals od.OrderId
+                           join p in _data.GetProducts() on od.ProductId equals p.Id
+                           group od by new { week = getWeek(minDate ?? DateTime.Now, o.OrderDate ?? DateTime.Now), o.OrderDate.Value.Year, p.ProductName } into g
+                           select new { Name = g.Key.ProductName, Time = "Week " + g.Key.week.ToString(), Week = g.Key.week.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+                return list.ToList<dynamic>();
+                
+            }
         }
         public int getWeek(DateTime startDay, DateTime endDay)
         {

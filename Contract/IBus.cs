@@ -36,10 +36,10 @@ namespace Contract
 
         
         
-        public List<dynamic> GetMonthlyReport(string dateFrom, string dateTo);
-        public List<dynamic> GetDailyReport(string dateFrom, string dateTo);
-        public List<dynamic> GetWeeklyReport(string dateFrom, string dateTo);
-        public List<dynamic> GetYearlyReport(string dateFrom, string dateTo);
+        public List<dynamic> GetMonthlyReport(string dateFrom, string dateTo, int mode);
+        public List<dynamic> GetDailyReport(string dateFrom, string dateTo, int mode);
+        public List<dynamic> GetWeeklyReport(string dateFrom, string dateTo, int mode);
+        public List<dynamic> GetYearlyReport(string dateFrom, string dateTo, int mode);
 
 
         public Customer getCustomerByName(string name);

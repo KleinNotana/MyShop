@@ -16,6 +16,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LiveCharts;
+using LiveCharts.Wpf;
 
 namespace UIVersion03
 {
@@ -34,6 +36,7 @@ namespace UIVersion03
         int _changedItemPerPage = 5;
         string fromDate="1/1/1900";
         string toDate="1/1/2100";
+        int currentMode = 0;
 
         int currentGroupByType = 0;
         
@@ -44,36 +47,59 @@ namespace UIVersion03
             _bus = bus;
             
         }
+
+        public void loadReport()
+        {
+            if (currentGroupByType == 0)
+            {
+                loadDailyReport();
+
+            }
+            else if (currentGroupByType == 1)
+            {
+                loadMonthlyReport();
+            }
+            else if (currentGroupByType == 2)
+            {
+                loadYearlyReport();
+            }
+            else if (currentGroupByType == 3)
+            {
+                loadWeeklyReport();
+            }
+        }
         private void loadMonthlyReport()
         {
-            List<dynamic> orderslist = _bus.GetMonthlyReport(fromDate,toDate);
+            List<dynamic> orderslist = _bus.GetMonthlyReport(fromDate,toDate,currentMode);
             orders = new BindingList<dynamic>(orderslist);
             ReportByTimeDataGrid.ItemsSource = orders;
+            ReportProductByTimeDataGrid.ItemsSource = orders;
 
         }
         private void loadDailyReport()
         {
-            List<dynamic> orderslist = _bus.GetDailyReport(fromDate, toDate);
+            List<dynamic> orderslist = _bus.GetDailyReport(fromDate, toDate, currentMode);
             orders = new BindingList<dynamic>(orderslist);
             ReportByTimeDataGrid.ItemsSource = orders;
-
+            ReportProductByTimeDataGrid.ItemsSource = orders;
 
         }
 
         private void loadWeeklyReport()
         {
 
-            List<dynamic> orderslist = _bus.GetWeeklyReport(fromDate, toDate);
+            List<dynamic> orderslist = _bus.GetWeeklyReport(fromDate, toDate, currentMode);
             orders = new BindingList<dynamic>(orderslist);
             ReportByTimeDataGrid.ItemsSource = orders;
+            ReportProductByTimeDataGrid.ItemsSource = orders;
         }
 
         private void loadYearlyReport()
         {
-            List<dynamic> orderslist = _bus.GetYearlyReport(fromDate, toDate);
+            List<dynamic> orderslist = _bus.GetYearlyReport(fromDate, toDate, currentMode);
             orders = new BindingList<dynamic>(orderslist);
             ReportByTimeDataGrid.ItemsSource = orders;
-
+            ReportProductByTimeDataGrid.ItemsSource = orders;
         }
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {/*
@@ -89,6 +115,9 @@ namespace UIVersion03
 
             GroupComboBox.ItemsSource = new List<string> { "Daily", "Monthly","Yearly", "Weekly"  };
             GroupComboBox.SelectedIndex = 0;
+
+            ModeComboBox.ItemsSource = new List<string> { "By Profit", "By Product" };
+            ModeComboBox.SelectedIndex = 0;
             //loadMonthlyReport();
             loadDailyReport();
 
@@ -152,24 +181,8 @@ namespace UIVersion03
                 toDate = "1/1/2100";
                 MessageBox.Show("Invalid date format");
             }
-            
-            if(currentGroupByType==0)
-            {
-                loadDailyReport();
-                
-            }
-            else if(currentGroupByType==1)
-            {
-                loadMonthlyReport();
-            }
-            else if(currentGroupByType==2)
-            {
-                loadYearlyReport();
-            }
-            else if(currentGroupByType==3)
-            {
-                loadWeeklyReport();
-            }
+
+            loadReport();
 
         }
 
@@ -194,25 +207,45 @@ namespace UIVersion03
             if (GroupComboBox.SelectedIndex == 0)
             {   
                 currentGroupByType = 0;
-                loadDailyReport();
+                
             }
             else if (GroupComboBox.SelectedIndex == 1)
             {   
                 currentGroupByType = 1;
-                loadMonthlyReport();
                 
+
+
             }
             else if (GroupComboBox.SelectedIndex == 2)
             {
                 currentGroupByType = 2;
-                loadYearlyReport();
+                
             }
             else if (GroupComboBox.SelectedIndex == 3)
             {
                 currentGroupByType = 3;
-                loadWeeklyReport();
+                
             }
+            loadReport();
 
+        }
+
+        private void ModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(ModeComboBox.SelectedIndex == 0)
+            {   
+                ReportByProfitZone.Visibility = Visibility.Visible;
+                ReportByProductZone.Visibility = Visibility.Hidden;
+                currentMode = 0;
+            }
+            else if (ModeComboBox.SelectedIndex == 1)
+            {   
+                ReportByProfitZone.Visibility = Visibility.Hidden;
+                ReportByProductZone.Visibility = Visibility.Visible;
+
+                currentMode = 1;
+            }
+            loadReport();
         }
     }
 }
