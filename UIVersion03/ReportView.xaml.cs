@@ -68,12 +68,28 @@ namespace UIVersion03
                 loadWeeklyReport();
             }
         }
+
+        
         private void loadMonthlyReport()
         {
             List<dynamic> orderslist = _bus.GetMonthlyReport(fromDate,toDate,currentMode);
             orders = new BindingList<dynamic>(orderslist);
             ReportByTimeDataGrid.ItemsSource = orders;
             ReportProductByTimeDataGrid.ItemsSource = orders;
+
+            if(currentMode == 0)
+            {
+                SeriesCollection series = new SeriesCollection();
+                foreach (var order in orders)
+                {
+                    double total = order.GetType().GetProperty("Total").GetValue(order);
+                    string time = order.GetType().GetProperty("Time").GetValue(order);
+                    series.Add(new PieSeries { Title = time, Values = new ChartValues<double> { total } });
+                }
+                ProfitPieChart.Series = series;
+            }
+            
+
 
         }
         private void loadDailyReport()
@@ -82,6 +98,17 @@ namespace UIVersion03
             orders = new BindingList<dynamic>(orderslist);
             ReportByTimeDataGrid.ItemsSource = orders;
             ReportProductByTimeDataGrid.ItemsSource = orders;
+            if (currentMode == 0)
+            {
+                SeriesCollection series = new SeriesCollection();
+                foreach (var order in orders)
+                {
+                    double total = order.GetType().GetProperty("Total").GetValue(order);
+                    string time = order.GetType().GetProperty("Time").GetValue(order);
+                    series.Add(new PieSeries { Title = time, Values = new ChartValues<double> { total } });
+                }
+                ProfitPieChart.Series = series;
+            }
 
         }
 
@@ -92,6 +119,17 @@ namespace UIVersion03
             orders = new BindingList<dynamic>(orderslist);
             ReportByTimeDataGrid.ItemsSource = orders;
             ReportProductByTimeDataGrid.ItemsSource = orders;
+            if (currentMode == 0)
+            {
+                SeriesCollection series = new SeriesCollection();
+                foreach (var order in orders)
+                {
+                    double total = order.GetType().GetProperty("Total").GetValue(order);
+                    string time = order.GetType().GetProperty("Time").GetValue(order);
+                    series.Add(new PieSeries { Title = time, Values = new ChartValues<double> { total } });
+                }
+                ProfitPieChart.Series = series;
+            }
         }
 
         private void loadYearlyReport()
@@ -100,6 +138,17 @@ namespace UIVersion03
             orders = new BindingList<dynamic>(orderslist);
             ReportByTimeDataGrid.ItemsSource = orders;
             ReportProductByTimeDataGrid.ItemsSource = orders;
+            if (currentMode == 0)
+            {
+                SeriesCollection series = new SeriesCollection();
+                foreach (var order in orders)
+                {
+                    double total = order.GetType().GetProperty("Total").GetValue(order);
+                    string time = order.GetType().GetProperty("Time").GetValue(order);
+                    series.Add(new PieSeries { Title = time, Values = new ChartValues<double> { total } });
+                }
+                ProfitPieChart.Series = series;
+            }
         }
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {/*
