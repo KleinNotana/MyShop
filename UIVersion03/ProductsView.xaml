@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:converter="clr-namespace:UIVersion03.Converters"
              xmlns:local="clr-namespace:UIVersion03"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
@@ -13,8 +14,12 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/ButtonStyles.xaml" />
                 <ResourceDictionary Source="Styles/Colors.xaml" />
+                
             </ResourceDictionary.MergedDictionaries>
+            <converter:RelativeToAbsoluteConverter x:Key="RelativeToAbsoluteConverter"/>
+
         </ResourceDictionary>
+       
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -135,7 +140,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel VerticalAlignment="Center" Width="180" Height="200">
-                        <Image Source="{Binding ImgPath, Mode=OneTime}" Width="50" Height="50"
+                        <Image Source="{Binding ImgPath, Mode=OneTime, Converter={StaticResource RelativeToAbsoluteConverter}}" Width="50" Height="50"
                     Margin="5" />
                         <TextBlock Text="{Binding Name, Mode=OneTime}" Margin="5" FontSize="15"  Foreground="{StaticResource titleColor1}"
                                    TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap"

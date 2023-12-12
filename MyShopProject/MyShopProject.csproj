@@ -20,4 +20,10 @@
     <ProjectReference Include="..\UIVersion03\UIVersion03.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Images\1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

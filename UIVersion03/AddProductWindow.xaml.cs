@@ -123,10 +123,25 @@ namespace UIVersion03
             openFileDialog.Title = "Please select an image file.";
             if (openFileDialog.ShowDialog() == true)
             {
+                var fileName = openFileDialog.FileName;
+                var destFile = System.IO.Path.Combine("Images", System.IO.Path.GetFileName(fileName));
+                try
+                {
+                    System.IO.File.Copy(fileName, destFile, true);
+                }
+                catch (Exception ex)
+                {
+                    //MessageBox.Show(ex.Message);
+                }
 
-                string sourcePath = openFileDialog.FileName;
+                //string sourcePath = openFileDialog.FileName;
 
-                product.ImgPath = sourcePath;
+                product.ImgPath = destFile;
+
+
+                /*string sourcePath = openFileDialog.FileName;
+
+                product.ImgPath = sourcePath;*/
                 isSetImage = true;
             }
         }
