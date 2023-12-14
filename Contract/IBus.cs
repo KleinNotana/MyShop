@@ -58,6 +58,7 @@ namespace Contract
         BindingList<dynamic> getOutOfStockProducts();
         dynamic getTotalSales();
 
+        dynamic getSellingProductAmount();  
         public int getWeek(DateTime startDay, DateTime endDay);
         void DepensOn(IDataAccess data);
     }

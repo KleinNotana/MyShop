@@ -48,7 +48,7 @@
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" >
             <StackPanel Orientation="Horizontal"  
-                        Width="400" Background="{StaticResource backItemColor}">
+                        Width="400" Background="{StaticResource lightBackground}">
                 <TextBox x:Name="txtSearch" Width="300" Height="40" Style="{StaticResource textBoxStyle2}" Tag="Search Product" KeyDown="txtSearch_KeyDown"/>
                 <Button x:Name="btnSearch" Style="{StaticResource iconButton2}" 
                     Tag="{StaticResource titleColor1}" Margin="10,0,0,0" Width="50" Height="35" Click="btnSearch_Click">
@@ -57,7 +57,7 @@
                   Foreground="{StaticResource titleColor2}" />
                 </Button>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Background="{StaticResource backItemColor}">
+            <StackPanel Orientation="Horizontal" Background="{StaticResource lightBackground}">
                 <TextBlock Text="Price Filter" Foreground="{StaticResource titleColor1}" FontSize="15" 
                            VerticalAlignment="Center" Margin="0,0,10,0"/>
                 <ComboBox x:Name="filterComboBox" Style="{StaticResource ComboBoxStyle1}"

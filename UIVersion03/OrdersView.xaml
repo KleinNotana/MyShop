@@ -35,14 +35,14 @@
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" >
             <StackPanel Orientation="Horizontal"  
-                    Width="400" Background="{StaticResource backItemColor}">
+                    Width="400" Background="{StaticResource lightBackground}">
                 <TextBlock Text="From Date" Foreground="{StaticResource titleColor1}" FontSize="15" 
                        VerticalAlignment="Center" Margin="0,0,10,0"/>
                 <TextBox x:Name="txtFromDate" Width="172" Height="35" 
                      Style="{StaticResource textBoxStyle2}" KeyDown="txtSearch_KeyDown" Text=""/>
 
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Background="{StaticResource backItemColor}">
+            <StackPanel Orientation="Horizontal" Background="{StaticResource lightBackground}">
                 <TextBlock Text="To Date " Foreground="{StaticResource titleColor1}" FontSize="15" 
                        VerticalAlignment="Center" Margin="0,0,10,0"/>
                 <TextBox x:Name="txtToDate" Width="172" Height="35" 

@@ -438,7 +438,10 @@ namespace BusVersion01
             return result;
         }
 
-        
+        public dynamic getSellingProductAmount()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

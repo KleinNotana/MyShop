@@ -40,21 +40,16 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Total Sales" HorizontalAlignment="Center" 
-               VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
+               VerticalAlignment="Center" Foreground="{StaticResource titleColor2}"/>
                     <TextBlock Grid.Row="1"  HorizontalAlignment="Center" FontSize="20"
                FontWeight="Bold"
-                VerticalAlignment="Center" Foreground="{StaticResource titleColor1}">
+                VerticalAlignment="Center" Foreground="{StaticResource plainTextColor1}">
                         <Run Text="$"/>
                         <Run Text="{Binding TotalSales, Mode=OneTime}"/>
                     </TextBlock>
-                    <TextBlock Grid.Row="2"  HorizontalAlignment="Center"
-                VerticalAlignment="Center" Foreground="{StaticResource titleColor1}">
-                        <Run Text="{Binding Percent, Mode=OneTime}" />
-                          
-                        <Run Text="% "/>
-                        <Run Text="{Binding Compare, Mode=OneTime}"/>
-                         <Run Text=" last month"/>
-                    </TextBlock>
+                    <TextBlock Grid.Row="2"  HorizontalAlignment="Center" Text="{Binding Comment, Mode=OneTime}"
+                VerticalAlignment="Center" Foreground="{StaticResource plainTextColor2}"/>
+
                 </Grid>
             </Border>
 
@@ -67,13 +62,13 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Total Selling Products" HorizontalAlignment="Center" 
-                            VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"
+                            VerticalAlignment="Center" Foreground="{StaticResource titleColor2}"
                                />
-                    <TextBlock Grid.Row="1" Text="6546" HorizontalAlignment="Center" FontSize="20"
+                    <TextBlock Grid.Row="1" Text="{Binding SellingProducts, Mode=OneTime}" HorizontalAlignment="Center" FontSize="20"
                                  FontWeight="Bold"
-                                 VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
-                    <TextBlock Grid.Row="2" Text="3.75% up to last month" HorizontalAlignment="Center"
-                                VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
+                                 VerticalAlignment="Center" Foreground="{StaticResource plainTextColor1}"/>
+                    <TextBlock Grid.Row="2" Text="{Binding Comment, Mode=OneTime}" HorizontalAlignment="Center"
+                                VerticalAlignment="Center" Foreground="{StaticResource plainTextColor2}"/>
                 </Grid>
             </Border>
 
