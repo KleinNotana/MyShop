@@ -12,6 +12,8 @@ public partial class MyShopDbContext : DbContext
         connectionString = con;
     }
 
+    
+
     public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<Customer> Customers { get; set; }
@@ -31,7 +33,7 @@ public partial class MyShopDbContext : DbContext
     {
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__CATEGORY__3214EC27AA607E34");
+            entity.HasKey(e => e.Id).HasName("PK__CATEGORY__3214EC2711BCC878");
 
             entity.ToTable("CATEGORY");
 
@@ -43,7 +45,7 @@ public partial class MyShopDbContext : DbContext
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__CUSTOMER__3214EC27801F38D5");
+            entity.HasKey(e => e.Id).HasName("PK__CUSTOMER__3214EC27527FCE35");
 
             entity.ToTable("CUSTOMER");
 
@@ -59,7 +61,7 @@ public partial class MyShopDbContext : DbContext
 
         modelBuilder.Entity<Order1>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ORDER1__3214EC27CF7A3DD1");
+            entity.HasKey(e => e.Id).HasName("PK__ORDER1__3214EC275DFDF4B7");
 
             entity.ToTable("ORDER1");
 
@@ -92,7 +94,6 @@ public partial class MyShopDbContext : DbContext
 
             entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ORDER_DETAIL_PRODUCT");
         });
 
@@ -119,6 +120,7 @@ public partial class MyShopDbContext : DbContext
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_PRODUCT_CATEGORY");
         });
 
