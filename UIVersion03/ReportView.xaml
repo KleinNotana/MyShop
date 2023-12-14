@@ -125,7 +125,7 @@
                     <DataGridTextColumn Header="Time" Binding="{Binding Time}" Width="*"
 />
 
-                    <DataGridTextColumn Header="Income" Binding="{Binding Total}" Width="*"
+                    <DataGridTextColumn Header="Amount" Binding="{Binding Total}" Width="*"
                 />
                 </DataGrid.Columns>
 
