@@ -81,12 +81,12 @@ namespace BusVersion01
         {
            var products = _data.GetProducts();
             var detailOrders = _data.GetOrderDetail();
-            // get list product and join with orderdetail to get sold product
+            // get list product and join with orderdetail group by productID ground by product.ID, Sold = sum orderdetail.amount
             var list = from p in products
-                       join d in detailOrders on p.Id equals d.ProductId into temp
-                       from d in temp.DefaultIfEmpty()
-                       select new { Id = p.Id, ImgPath = p.ImgPath, Name = p.ProductName, Price = p.Price, 
-                           Stock = p.Amount, Sold = d == null ? 0 : d.Amount, CategoryId = p.CategoryId };
+                       join od in detailOrders on p.Id equals od.ProductId into g
+                       from od in g.DefaultIfEmpty()
+                       group od by new { p.Id, p.ProductName, p.Price, p.Amount, p.ImgPath, p.CategoryId, p.Description } into g
+                       select new { Id = g.Key.Id, Name = g.Key.ProductName, Price = g.Key.Price, Stock = g.Key.Amount, ImgPath = g.Key.ImgPath, Sold = g.Sum(od => od.Amount), CategoryId = g.Key.CategoryId, Description = g.Key.Description };
 
             if (name != "")
             {
