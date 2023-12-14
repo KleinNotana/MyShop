@@ -285,7 +285,7 @@ namespace BusVersion01
                            join od in orderdetails on o.Id equals od.OrderId
                            join p in _data.GetProducts() on od.ProductId equals p.Id
                            group od by new { o.OrderDate.Value.Month, o.OrderDate.Value.Year, p.ProductName } into g
-                           select new { Name = g.Key.ProductName, Time = g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+                           select new { Name = g.Key.ProductName, Time = g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount ) };
                 return list.ToList<dynamic>();
             }
         }
@@ -313,7 +313,7 @@ namespace BusVersion01
                            join od in orderdetails on o.Id equals od.OrderId
                            join p in _data.GetProducts() on od.ProductId equals p.Id
                            group od by new { o.OrderDate.Value.Day, o.OrderDate.Value.Month, o.OrderDate.Value.Year, p.ProductName } into g
-                           select new {Name=g.Key.ProductName, Time = g.Key.Day.ToString() + "/" + g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Day = g.Key.Day, Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+                           select new {Name=g.Key.ProductName, Time = g.Key.Day.ToString() + "/" + g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Day = g.Key.Day, Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount ) };
                 return list.ToList<dynamic>();
             }
 
@@ -341,7 +341,7 @@ namespace BusVersion01
                            join od in orderdetails on o.Id equals od.OrderId
                            join p in _data.GetProducts() on od.ProductId equals p.Id
                            group od by new { o.OrderDate.Value.Year, p.ProductName } into g
-                           select new { Name = g.Key.ProductName, Time = g.Key.Year.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+                           select new { Name = g.Key.ProductName, Time = g.Key.Year.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount ) };
                 return list.ToList<dynamic>();
             }
         }
@@ -371,7 +371,7 @@ namespace BusVersion01
                            join od in orderdetails on o.Id equals od.OrderId
                            join p in _data.GetProducts() on od.ProductId equals p.Id
                            group od by new { week = getWeek(minDate ?? DateTime.Now, o.OrderDate ?? DateTime.Now), o.OrderDate.Value.Year, p.ProductName } into g
-                           select new { Name = g.Key.ProductName, Time = "Week " + g.Key.week.ToString(), Week = g.Key.week.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+                           select new { Name = g.Key.ProductName, Time = "Week " + g.Key.week.ToString(), Week = g.Key.week.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount ) };
                 return list.ToList<dynamic>();
                 
             }
