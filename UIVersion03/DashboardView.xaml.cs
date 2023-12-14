@@ -35,6 +35,9 @@ namespace UIVersion03
         {
             outOfStockProducts.ItemsSource = _bus.getOutOfStockProducts();
             totalSales.DataContext = _bus.getTotalSales();
+            totalSellingProducts.DataContext = _bus.getSellingProductAmount();
+            totalSoldProducts.DataContext = _bus.getSoldProductAmount();
+            totalCustomers.DataContext = _bus.getTotalCustomers();
         }
     }
 }

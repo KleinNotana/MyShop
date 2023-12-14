@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using Contract;
 using Entity;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace BusVersion01
 {
@@ -409,30 +410,33 @@ namespace BusVersion01
                         join d in _data.GetOrderDetail() on o.Id equals d.OrderId
                         select new { Id = o.Id, Date = o.OrderDate, Total = d.Amount * d.Price };
 
-            var salesToday = sales.Where(s => s.Date == DateTime.Today).Sum(s => s.Total);
-            var salesYesterday = sales.Where(s => s.Date == DateTime.Today.AddDays(-1)).Sum(s => s.Total);
+            var currentMonthSales = sales.Where(s => s.Date.Value.Month == DateTime.Today.Month).Sum(s => s.Total);
+            var lastMonthSales = sales.Where(s => s.Date.Value.Month == DateTime.Today.Month - 1 ).Sum(s => s.Total);
 
-            var percent = salesToday / salesYesterday * 100;
-            string Compare = "";
-            
-            if (percent > 100)
+            var Comment = "";
+
+            if (lastMonthSales != 0)
             {
-                Compare = "Up";
-            }
-            else if (percent < 100)
-            {
-                Compare = "Down";
-            }
-            else
-            {
-                Compare = "Equal";
+                var percent = currentMonthSales / lastMonthSales * 100;
+
+                if (percent > 100)
+                {
+                    Comment = $"Increase by {percent - 100}% compared to last month. ";
+                }
+                else if (percent < 100)
+                {
+                    Comment = $"Decrease by {100 - percent}% compared to last month. "; ;
+                }
+                else
+                {
+                    Comment = "Equal to last month";
+                }
             }
 
             var result = new
             {
-                TotalSale = salesToday,
-                Percent = percent,
-                Compare = Compare
+                TotalSales = $"${currentMonthSales}",
+                Comment = Comment
             };
 
             return result;
@@ -440,7 +444,79 @@ namespace BusVersion01
 
         public dynamic getSellingProductAmount()
         {
-            throw new NotImplementedException();
+            var products = _data.GetProducts();
+
+            var totalSellingProducts = products.Sum(p => p.Amount);
+
+            dynamic result = new
+            {
+                TotalSellingProducts = totalSellingProducts
+            };
+
+            return result;
+        }
+
+        public dynamic getSoldProductAmount()
+        {
+            var orderDetails = _data.GetOrderDetail();
+
+            //count this month sold product
+            var soldProducts = from od in orderDetails
+                               join o in _data.GetOrder() on od.OrderId equals o.Id
+                               where o.OrderDate.Value.Month == DateTime.Today.Month && o.OrderDate.Value.Year == DateTime.Today.Year
+                               select new { Id = od.ProductId, Amount = od.Amount };
+
+            var totalSoldProducts = soldProducts.Sum(s => s.Amount);
+
+            var lastMonthSoldProducts = from od in orderDetails
+                                        join o in _data.GetOrder() on od.OrderId equals o.Id
+                                        where o.OrderDate.Value.Month == DateTime.Today.AddMonths(-1).Month && o.OrderDate.Value.Year == DateTime.Today.AddMonths(-1).Year
+                                        select new { Id = od.ProductId, Amount = od.Amount };
+
+            var lastMonthTotalSoldProducts = lastMonthSoldProducts.Sum(s => s.Amount);
+
+            string Comment = "";
+
+            if (lastMonthTotalSoldProducts != 0)
+            {
+                var percent = totalSoldProducts / lastMonthTotalSoldProducts * 100;
+
+                if (percent > 100)
+                {
+                    Comment = $"Increase by {percent - 100}% compared to last month. ";
+                }
+                else if (percent < 100)
+                {
+                    Comment = $"Decrease by {100 - percent}% compared to last month. "; ;
+                }
+                else
+                {
+                    Comment = "Equal to last month";
+                }
+            }
+            
+
+            dynamic result = new
+            {
+                TotalSoldProducts = totalSoldProducts,
+                Comment = Comment
+            };
+
+            return result;
+        }
+
+        public dynamic getTotalCustomers()
+        {
+            var customers = _data.GetCustomer();
+
+            var totalCustomers = customers.Count();
+
+            dynamic result = new
+            {
+                TotalCustomers = totalCustomers
+            };
+
+            return result;
         }
     }
 

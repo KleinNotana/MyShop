@@ -59,6 +59,8 @@ namespace Contract
         dynamic getTotalSales();
 
         dynamic getSellingProductAmount();  
+        dynamic getSoldProductAmount();
+        dynamic getTotalCustomers();
         public int getWeek(DateTime startDay, DateTime endDay);
         void DepensOn(IDataAccess data);
     }
