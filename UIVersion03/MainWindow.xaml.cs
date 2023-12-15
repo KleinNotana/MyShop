@@ -18,6 +18,8 @@ using Contract;
 using FontAwesome.Sharp;
 using System.Reflection.Metadata;
 using Entity;
+using System.Configuration;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace UIVersion03
 {
@@ -28,19 +30,35 @@ namespace UIVersion03
     public partial class MainWindow : Window
     {
         IBus _bus = null;
+
+        enum Menu
+        {
+            Dashboard,
+            Products,
+            Orders,
+            Reports
+        }
+
+        Menu currentMenu;
+
         MainWindowDataObject dataObject = null;
         public MainWindow(IBus bus)
         {
             InitializeComponent();
             this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             _bus = bus;
-            dataObject = new MainWindowDataObject
-            {
-                Content = new DashboardView(bus),
-                Icon = IconChar.Home,
-                Title = "Dashboard"
 
-            };
+            dataObject = new MainWindowDataObject();
+
+            var lastMenu = ConfigurationManager.AppSettings["LastView"];
+            if (lastMenu != null)
+            {
+                navigate((Menu)Enum.Parse(typeof(Menu), lastMenu));
+            }
+            else
+            {
+                navigate(Menu.Dashboard);
+            }
             DataContext = dataObject;
 
 
@@ -74,6 +92,13 @@ namespace UIVersion03
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            config.AppSettings.Settings["LastView"].Value = currentMenu.ToString();
+
+            config.Save(ConfigurationSaveMode.Minimal);
+
+            ConfigurationManager.RefreshSection("appSettings");
             Application.Current.Shutdown();
         }
 
@@ -87,6 +112,7 @@ namespace UIVersion03
             dataObject.Content = new DashboardView(_bus);
             dataObject.Icon = IconChar.Home;
             dataObject.Title = "Dashboard";
+            currentMenu = Menu.Dashboard;
         }
 
         private void ProductsNav_Checked(object sender, RoutedEventArgs e)
@@ -94,6 +120,7 @@ namespace UIVersion03
             dataObject.Content = new ProductsView(_bus);
             dataObject.Icon = IconChar.Boxes;
             dataObject.Title = "Products";
+            currentMenu = Menu.Products;
         }
 
         private void OrdersNav_Checked(object sender, RoutedEventArgs e)
@@ -101,6 +128,7 @@ namespace UIVersion03
             dataObject.Content = new OrdersView(_bus);
             dataObject.Icon = IconChar.ShoppingCart;
             dataObject.Title = "Orders";
+            currentMenu = Menu.Orders;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -115,6 +143,26 @@ namespace UIVersion03
             dataObject.Content = new ReportView(_bus);
             dataObject.Icon = IconChar.Pager;
             dataObject.Title = "Report";
+            currentMenu = Menu.Reports;
+        }
+
+        private void navigate(Menu menu)
+        {
+            switch (menu)
+            {
+                case Menu.Dashboard:
+                    DashboardNav.IsChecked = true;
+                    break;
+                case Menu.Products:
+                    ProductsNav.IsChecked = true;
+                    break;
+                case Menu.Orders:
+                    OrdersNav.IsChecked = true;
+                    break;
+                case Menu.Reports:
+                    ReportsNav.IsChecked = true;
+                    break;
+            }
         }
     }
 }
