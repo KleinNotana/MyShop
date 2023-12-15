@@ -43,6 +43,7 @@ namespace Contract
 
 
         public Customer getCustomerByName(string name);
+        public Customer getCustomerByPhone(string Phone);
         public void addCustomer(Customer addCustomer);
 
         public bool addProduct(Product addProduct);

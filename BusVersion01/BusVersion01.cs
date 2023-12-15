@@ -518,6 +518,13 @@ namespace BusVersion01
 
             return result;
         }
+
+        public Customer getCustomerByPhone(string Phone)
+        {
+            var customers = _data.GetCustomer();
+            var result = customers.Where(c => c.PhoneNumber == Phone).FirstOrDefault();
+            return result;
+        }
     }
 
 }
