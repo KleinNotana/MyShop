@@ -86,7 +86,8 @@ namespace BusVersion01
                        join od in detailOrders on p.Id equals od.ProductId into g
                        from od in g.DefaultIfEmpty()
                        group od by new { p.Id, p.ProductName, p.Price, p.Amount, p.ImgPath, p.CategoryId, p.Description } into g
-                       select new { Id = g.Key.Id, Name = g.Key.ProductName, Price = g.Key.Price, Stock = g.Key.Amount, ImgPath = g.Key.ImgPath, Sold = g.Sum(od => od.Amount), CategoryId = g.Key.CategoryId, Description = g.Key.Description };
+                       select new { Id = g.Key.Id, Name = g.Key.ProductName, Price = g.Key.Price, Stock = g.Key.Amount, ImgPath = g.Key.ImgPath,
+                           Sold = g.Sum(od => od != null ? od.Amount : 0), CategoryId = g.Key.CategoryId, Description = g.Key.Description };
 
             if (name != "")
             {
@@ -515,6 +516,48 @@ namespace BusVersion01
             {
                 TotalCustomers = totalCustomers
             };
+
+            return result;
+        }
+
+        public List<dynamic> getTopSaleProducts()
+        {
+            var orderDetails = _data.GetOrderDetail();
+            var products = _data.GetProducts();
+
+            var saleOfProducts = from od in orderDetails
+                                  join p in products on od.ProductId equals p.Id
+                                  group od by new { p.Id, p.ProductName } into g
+                                  select new { Name = g.Key.ProductName, Sold = g.Sum(od => od.Amount) };
+
+            var totalSaleProducts = saleOfProducts.Sum(t => t.Sold);
+
+            var topSaleProducts = saleOfProducts.OrderByDescending(p => p.Sold).Take(5);
+
+            var result = topSaleProducts.ToList<dynamic>();
+
+            result.Add(new { Name = "Other", Sold = totalSaleProducts - topSaleProducts.Sum(p => p.Sold) });
+
+            return result;
+        }
+
+        public List<dynamic> getCurrentDailySales()
+        {
+            var orders = _data.GetOrder();
+            var orderDetails = _data.GetOrderDetail();
+
+            var dailySales = from o in orders
+                             join od in orderDetails on o.Id equals od.OrderId
+                             group od by new { o.OrderDate } into g
+                             select new { Date = g.Key.OrderDate, Income = g.Sum(od => od.Amount * od.Price) };
+
+            var latestDays = dailySales.OrderByDescending(d => d.Date).Take(7);
+
+            var query = from d in latestDays
+                        orderby d.Date
+                        select new { Date = d.Date.Value.Day.ToString() + "/" + d.Date.Value.Month.ToString() + "/" + d.Date.Value.Year.ToString(), Income = d.Income };
+
+            var result = query.ToList<dynamic>();
 
             return result;
         }

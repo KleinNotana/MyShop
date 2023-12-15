@@ -61,6 +61,10 @@ namespace Contract
         dynamic getSellingProductAmount();  
         dynamic getSoldProductAmount();
         dynamic getTotalCustomers();
+
+        List<dynamic> getTopSaleProducts();
+
+        List<dynamic> getCurrentDailySales();
         public int getWeek(DateTime startDay, DateTime endDay);
         void DepensOn(IDataAccess data);
     }
