@@ -1,6 +1,7 @@
 ﻿using Contract;
 using Entity;
 using FontAwesome.Sharp;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -272,6 +273,29 @@ namespace UIVersion03
         private void cb_category_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
             loadProducts();
+        }
+
+        private void btnImportData_Click(object sender, RoutedEventArgs e)
+        {
+            var fileDialog = new OpenFileDialog();
+
+            fileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+
+            if (fileDialog.ShowDialog() == true)
+            {
+                var filePath = fileDialog.FileName;
+                var result = _bus.importData(filePath);
+                if (result)
+                {
+                    MessageBox.Show("Import data successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    cb_category.ItemsSource = _bus.GetCategories();
+                    loadProducts();
+                }
+                else
+                {
+                    MessageBox.Show("Import data failed", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }

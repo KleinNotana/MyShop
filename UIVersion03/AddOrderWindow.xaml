@@ -136,8 +136,8 @@
                     FontWeight="Medium"
                     FontFamily="Montserrat" Canvas.Left="54" Canvas.Top="198"/>
                     <ComboBox x:Name="categoryComboBox" 
-          Background="{StaticResource searchColor}"
-           Foreground="BlueViolet"  Height="30" IsReadOnly="True" Canvas.Left="125" Canvas.Top="187" HorizontalAlignment="Center" VerticalAlignment="Top" Width="164" >
+                        Style="{StaticResource ComboBoxStyle1}"
+            Height="30" IsReadOnly="True" Canvas.Left="125" Canvas.Top="187" HorizontalAlignment="Center" VerticalAlignment="Top" Width="164" >
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding ProductName}"  >
@@ -149,18 +149,7 @@
                                 </TextBlock>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
-                        <ComboBox.ItemContainerStyle>
-                            <Style TargetType="ComboBoxItem">
-                                <Setter Property="Background" Value="{StaticResource searchColor}"/>
-                            </Style>
-
-                        </ComboBox.ItemContainerStyle>
-
-                        <ComboBox.Resources>
-                            <Style TargetType="ComboBoxItem">
-                                <Setter Property="Background" Value="{StaticResource searchColor}"/>
-                            </Style>
-                        </ComboBox.Resources>
+                        
                     </ComboBox>
                     <TextBlock Text="Amount"
                         Foreground="{StaticResource titleColor2}"

@@ -5,6 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using Contract;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.VariantTypes;
 using Entity;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 
@@ -651,6 +654,121 @@ namespace BusVersion01
                        select new { Name = g.Key.ProductName, Sold = g.Sum(od => od.Amount) };
             var result = list.OrderByDescending(o => o.Sold).Take(3);
             return result.ToList<dynamic>();
+        }
+        
+        public bool importData(string filePath)
+        {
+            SpreadsheetDocument document;
+            try
+            {
+                document = SpreadsheetDocument.Open(filePath, false);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            var wbPart = document.WorkbookPart!;
+            var sheets = wbPart.Workbook.Descendants<Sheet>();
+
+            var categorySheet = sheets.FirstOrDefault(s => s.Name == "Category");
+            var wsPart = (WorksheetPart)wbPart.GetPartById(categorySheet.Id);
+            var rows = wsPart.Worksheet.Descendants<Row>();
+            //skip hearder
+            rows = rows.Skip(1);
+
+            foreach ( var row in rows)
+            {
+                var cells = row.Descendants<Cell>();
+                var category = new Category();
+                foreach (var cell in cells)
+                {
+                    var cellValue = cell.InnerText;
+                    if (cell.DataType != null && cell.DataType == CellValues.SharedString)
+                    {
+                        var stringTable = wbPart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault();
+                        if (stringTable != null)
+                        {
+                            cellValue = stringTable.SharedStringTable.ElementAt(int.Parse(cellValue)).InnerText;
+                        }
+                    }
+
+                    if (cell.CellReference == "A" + row.RowIndex)
+                    {
+                        category.Name = cellValue;
+                    }
+                    
+                }
+                addCategory(category);
+            }
+
+            var productSheet = sheets.FirstOrDefault(s => s.Name == "Product");
+            wsPart = (WorksheetPart)wbPart.GetPartById(productSheet.Id);
+            rows = wsPart.Worksheet.Descendants<Row>();
+
+            //skip hearder
+            rows = rows.Skip(1);
+
+            foreach ( var row in rows)
+            {
+                   var cells = row.Descendants<Cell>();
+                var product = new Product();
+                foreach (var cell in cells)
+                {
+                    var cellValue = cell.InnerText;
+                    if (cell.DataType != null && cell.DataType == CellValues.SharedString)
+                    {
+                        var stringTable = wbPart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault();
+                        if (stringTable != null)
+                        {
+                            cellValue = stringTable.SharedStringTable.ElementAt(int.Parse(cellValue)).InnerText;
+                        }
+                    }
+
+                    if (cell.CellReference == "A" + row.RowIndex)
+                    {
+                        product.ProductName = cellValue;
+                    }
+                    else if (cell.CellReference == "B" + row.RowIndex)
+                    {
+                        product.Price = int.Parse(cellValue);
+                    }
+                    else if (cell.CellReference == "C" + row.RowIndex)
+                    {
+                        product.Amount = int.Parse(cellValue);
+                    }
+                    else if (cell.CellReference == "D" + row.RowIndex)
+                    {
+                        product.ImgPath = cellValue;
+                    }
+                    else if (cell.CellReference == "E" + row.RowIndex)
+                    {
+                        product.Description = cellValue;
+                    }
+                    else if (cell.CellReference == "F" + row.RowIndex)
+                    {
+                        int categoryId = getCategoryID(cellValue);
+                        product.CategoryId = categoryId;
+                    }
+                }
+                addProduct(product);
+            }
+
+            return true;
+            
+        }
+
+        public int getCategoryID(string name)
+        {
+            var category = _data.GetCategory().Where(c => c.Name == name).FirstOrDefault();
+            if(category != null)
+            {
+                return category.Id;
+            }
+            else
+            {
+                return -1;
+            }
         }
     }
 
