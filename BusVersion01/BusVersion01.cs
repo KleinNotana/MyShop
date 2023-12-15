@@ -378,8 +378,8 @@ namespace BusVersion01
                 var list = from o in orders
                            join od in orderdetails on o.Id equals od.OrderId
                            join p in _data.GetProducts() on od.ProductId equals p.Id
-                           group od by new { week = getWeek(minDate ?? DateTime.Now, o.OrderDate ?? DateTime.Now), o.OrderDate.Value.Year } into g
-                           select new {  Time = "Week " + g.Key.week.ToString(), Week = g.Key.week, Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+                           group od by new { week = getWeek(minDate ?? DateTime.Now, o.OrderDate ?? DateTime.Now)} into g
+                           select new {  Time = "Week " + g.Key.week.ToString(), Week = g.Key.week,  Total = g.Sum(od => od.Amount * od.Price) };
                 //sort by time
                 var result = list.OrderBy(o => o.Week);
                 return result.ToList<dynamic>();
@@ -389,8 +389,8 @@ namespace BusVersion01
                 var list = from o in orders
                            join od in orderdetails on o.Id equals od.OrderId
                            join p in _data.GetProducts() on od.ProductId equals p.Id
-                           group od by new { week = getWeek(minDate ?? DateTime.Now, o.OrderDate ?? DateTime.Now), o.OrderDate.Value.Year, p.ProductName } into g
-                           select new { Name = g.Key.ProductName, Time = "Week " + g.Key.week, Week = g.Key.week.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount ) };
+                           group od by new { week = getWeek(minDate ?? DateTime.Now, o.OrderDate ?? DateTime.Now),  p.ProductName } into g
+                           select new { Name = g.Key.ProductName, Time = "Week " + g.Key.week, Week = g.Key.week.ToString(),  Total = g.Sum(od => od.Amount ) };
                 var result = list.OrderBy(o => o.Name).ThenBy(o => o.Week);
                 return result.ToList<dynamic>();
 
@@ -401,7 +401,7 @@ namespace BusVersion01
                int week = 1;
             for (DateTime date = startDay; date <= endDay; date = date.AddDays(1))
             {
-                if (date.DayOfWeek == DayOfWeek.Monday)
+                if (date.DayOfWeek == DayOfWeek.Monday && date!=startDay)
                 {
                     week++;
                 }

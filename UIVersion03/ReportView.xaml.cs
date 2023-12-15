@@ -104,14 +104,18 @@ namespace UIVersion03
             }
             TimeComboBox.ItemsSource = timelist;
             TimeComboBox.SelectedIndex = currentsiTimeCB;
-
-            currenttopdate = "1/"+TimeComboBox.SelectedItem.ToString();
-
-
-
-            //get top 3 selling product at current time
-            var topproduct = _bus.GetTop5productbymonth(convertdateback(currenttopdate));
-            topsellingproduct.ItemsSource = topproduct;
+            if (TimeComboBox.SelectedItem != null)
+            {
+                currenttopdate = "1/" + TimeComboBox.SelectedItem.ToString();
+                //get top 3 selling product at current time
+                var topproduct = _bus.GetTop5productbymonth(convertdateback(currenttopdate));
+                topsellingproduct.ItemsSource = topproduct;
+            }
+            else
+            {
+                topsellingproduct.ItemsSource = null;
+            }
+            
             if (currentMode == 0)
             {
                 SeriesCollection series = new SeriesCollection();
@@ -170,10 +174,17 @@ namespace UIVersion03
             }
             TimeComboBox.ItemsSource = timelist;
             TimeComboBox.SelectedIndex = currentsiTimeCB;
-            currenttopdate = TimeComboBox.SelectedItem.ToString();
-            //get top 3 selling product at current time
-            var topproduct=_bus.GetTop5productbyday(convertdateback(currenttopdate));
-            topsellingproduct.ItemsSource = topproduct;
+            if (TimeComboBox.SelectedItem != null) {
+                currenttopdate = TimeComboBox.SelectedItem.ToString();
+                //get top 3 selling product at current time
+                var topproduct = _bus.GetTop5productbyday(convertdateback(currenttopdate));
+                topsellingproduct.ItemsSource = topproduct;
+            }
+            else
+            {
+                topsellingproduct.ItemsSource = null;
+            }
+            
             if (currentMode == 0)
             {
                 SeriesCollection series = new SeriesCollection();
@@ -285,10 +296,19 @@ namespace UIVersion03
             }
             TimeComboBox.ItemsSource = timelist;
             TimeComboBox.SelectedIndex = currentsiTimeCB;
-            currenttopdate = TimeComboBox.SelectedItem.ToString();
-            //get top 3 selling product at current time
-            var topproduct = _bus.GetTop5productbyweek(fromDate,int.Parse(currenttopdate));
-            topsellingproduct.ItemsSource = topproduct;
+
+            if (TimeComboBox.SelectedItem != null)
+            {
+                currenttopdate = TimeComboBox.SelectedItem.ToString();
+                //get top 3 selling product at current time
+                var topproduct = _bus.GetTop5productbyweek(fromDate, int.Parse(currenttopdate));
+                topsellingproduct.ItemsSource = topproduct;
+            }
+            else
+            {
+                topsellingproduct.ItemsSource = null;
+            }
+            
 
             if (currentMode == 0)
             {
@@ -345,10 +365,19 @@ namespace UIVersion03
             }
             TimeComboBox.ItemsSource = timelist;
             TimeComboBox.SelectedIndex = currentsiTimeCB;
-            currenttopdate = "1/1/"+TimeComboBox.SelectedItem.ToString();
-            //get top 3 selling product at current time
-            var topproduct = _bus.GetTop5productbyyear(convertdateback(currenttopdate));
-            topsellingproduct.ItemsSource = topproduct;
+
+            if (TimeComboBox.SelectedItem != null)
+            {
+                currenttopdate = "1/1/" + TimeComboBox.SelectedItem.ToString();
+                //get top 3 selling product at current time
+                var topproduct = _bus.GetTop5productbyyear(convertdateback(currenttopdate));
+                topsellingproduct.ItemsSource = topproduct;
+            }
+            else
+            {
+                topsellingproduct.ItemsSource = null;
+            }
+            
 
 
             if (currentMode == 0)
@@ -554,7 +583,7 @@ namespace UIVersion03
             if(TimeComboBox.SelectedIndex>=0)
             {   
                 currentsiTimeCB = TimeComboBox.SelectedIndex;
-                currenttopdate = TimeComboBox.SelectedItem.ToString();
+                //currenttopdate = TimeComboBox.SelectedItem.ToString();
                 loadReport();
             }
 
