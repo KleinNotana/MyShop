@@ -159,6 +159,53 @@ namespace UIVersion03
                 ProfitCartesianChart.Series = ColummCollection;
                 
             }
+            else
+            {
+                //draw cartisian chart
+                //each line is a product
+                //each column is a day
+
+                SeriesCollection LineCollection= new SeriesCollection();
+                var values = new List<double>();
+                Labels.Clear();
+                //get list of products name in orders
+                List<string> productNames = new List<string>();
+                foreach (var order in orders)
+                {
+                    string name = order.GetType().GetProperty("Name").GetValue(order);
+                    if (!productNames.Contains(name))
+                    {
+                        productNames.Add(name);
+                    }
+                }
+
+                //create multiple line for each product
+                foreach (var productName in productNames)
+                {
+                    var values1 = new List<double>();
+                    foreach (var order in orders)
+                    {
+                        double total = order.GetType().GetProperty("Total").GetValue(order);
+                        string time = order.GetType().GetProperty("Time").GetValue(order);
+                        string name = order.GetType().GetProperty("Name").GetValue(order);
+                        if (name == productName)
+                        {
+                            values1.Add(total);
+                        }
+                    }
+                    LineCollection.Add(new LineSeries
+                    {
+                        Title = productName,
+                        Values = new ChartValues<double>(values1),
+                        DataLabels = true,
+                        LineSmoothness = 0,
+                        PointGeometrySize = 10
+                    });
+                }
+                
+                ProductCartesianChart.Series = LineCollection;
+
+            }
 
         }
 
