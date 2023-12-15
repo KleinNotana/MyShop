@@ -135,62 +135,114 @@
 
         </StackPanel>
 
-        <ListView Name="productsList" Grid.Row="3" Background="{StaticResource backContentColor}"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"   >
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel VerticalAlignment="Center" Width="180" Height="200">
-                        <Image Source="{Binding ImgPath, Mode=OneTime, Converter={StaticResource RelativeToAbsoluteConverter}}" Width="50" Height="50"
-                    Margin="5" />
-                        <TextBlock Text="{Binding Name, Mode=OneTime}" Margin="5" FontSize="15"  Foreground="{StaticResource titleColor1}"
-                                   TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap"
-                                   />
-                        <TextBlock  Margin="5" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
-                           <Run Text="Price: $"/>
-                           <Run Text="{Binding Price, Mode=OneTime}" FontStyle="Italic"/>
-                        </TextBlock>
-                        <TextBlock  Margin="5" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
-                           <Run Text="Stock: "/>
-                           <Run Text="{Binding Stock, Mode=OneTime}" />
-                        </TextBlock>
-                        <TextBlock  Margin="5" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
-                               <Run Text="Sold: "/>
-                               <Run Text="{Binding Sold, Mode=OneTime}"/>
-                        </TextBlock>
+        <DockPanel Grid.Row="3" LastChildFill="True" >
+
+            <Grid x:Name="DetailProduct" Visibility="Collapsed" DockPanel.Dock="Right" Width="300" Background="{StaticResource lightBackground}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Product Detail" Foreground="{StaticResource titleColor1}" FontSize="20" 
+                           VerticalAlignment="Center" Margin="0,0,10,0" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,0,0,0">
+                    <TextBlock Text="Name: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding ProductName}" TextWrapping="Wrap" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10,0,0,0">
+                    <TextBlock Text="Price: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
+                    <TextBlock  FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat">
+                            <Run Text="$ "/>
+                            <Run Text="{Binding Price, Mode=OneTime}"/> 
+                    </TextBlock>
+
+                </StackPanel>
+
+                <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10,0,0,0">
+                    <TextBlock Text="Quantity: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Amount}" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="10,0,0,0">
+                    <TextBlock Text="Category: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding CategoryName}" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="10,0,0,0">
+                    <TextBlock Text="Description: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Description}" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="10,0,0,0">
+                    <TextBlock Text="Sold: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Sold}" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
+
+                </StackPanel>
+            </Grid>
+            <ListView Name="productsList" Grid.Row="3" Background="{StaticResource backContentColor}"
+          ScrollViewer.HorizontalScrollBarVisibility="Disabled"   >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel VerticalAlignment="Center" Width="180" Height="200">
+                            <Image Source="{Binding ImgPath, Mode=OneTime, Converter={StaticResource RelativeToAbsoluteConverter}}" Width="50" Height="50"
+            Margin="5" />
+                            <TextBlock Text="{Binding Name, Mode=OneTime}" Margin="5" FontSize="15"  Foreground="{StaticResource titleColor1}"
+                           TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap"
+                           />
+                            <TextBlock  Margin="5" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
+                   <Run Text="Price: $"/>
+                   <Run Text="{Binding Price, Mode=OneTime}" FontStyle="Italic"/>
+                            </TextBlock>
+                            <TextBlock  Margin="5" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
+                   <Run Text="Stock: "/>
+                   <Run Text="{Binding Stock, Mode=OneTime}" />
+                            </TextBlock>
+                            <TextBlock  Margin="5" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
+                       <Run Text="Sold: "/>
+                       <Run Text="{Binding Sold, Mode=OneTime}"/>
+                            </TextBlock>
 
 
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
 
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel/>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
 
-            <ListView.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Edit" Click="btnEditItem_Click">
-                        <MenuItem.Icon>
-                            <Image Source="images/edit.png"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Remove" Click="btnDeleteItem_Click">
-                        <MenuItem.Icon>
-                            <Image Source="images/delete.png"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                </ContextMenu>
-            </ListView.ContextMenu>
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Edit" Click="btnEditItem_Click">
+                            <MenuItem.Icon>
+                                <Image Source="images/edit.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Remove" Click="btnDeleteItem_Click">
+                            <MenuItem.Icon>
+                                <Image Source="images/delete.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </ListView.ContextMenu>
 
-            <ListView.Resources>
-                <Style TargetType="{x:Type ListViewItem}">
-                    <EventSetter Event="MouseDoubleClick"
-                        Handler="ListViewItem_MouseDoubleClick"/>
-                </Style>
-            </ListView.Resources>
+                <ListView.Resources>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <EventSetter Event="MouseDoubleClick"
+                Handler="ListViewItem_MouseDoubleClick"/>
+                    </Style>
+                </ListView.Resources>
 
-        </ListView>
+            </ListView>
+        </DockPanel>
     </Grid>
 </UserControl>
