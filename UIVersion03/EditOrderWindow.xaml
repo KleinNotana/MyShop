@@ -134,10 +134,10 @@
                     Foreground="{StaticResource titleColor2}"
                     FontSize="16"
                     FontWeight="Medium"
-                    FontFamily="Montserrat" Canvas.Left="45" Canvas.Top="117"/>
+                    FontFamily="Montserrat" Canvas.Left="45" Canvas.Top="215" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                     <ComboBox x:Name="categoryComboBox" 
           Background="{StaticResource searchColor}"
-           Foreground="BlueViolet"  Height="30" IsReadOnly="True" Canvas.Left="125" Canvas.Top="109" HorizontalAlignment="Left" VerticalAlignment="Center" Width="164" >
+           Foreground="BlueViolet"  Height="30" IsReadOnly="True" Canvas.Left="125" Canvas.Top="204" HorizontalAlignment="Center" VerticalAlignment="Top" Width="164" >
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding ProductName}" >
@@ -166,11 +166,11 @@
                         Foreground="{StaticResource titleColor2}"
                         FontSize="12"
                         FontWeight="Medium"
-                        FontFamily="Montserrat" Canvas.Left="353" Canvas.Top="117"/>
+                        FontFamily="Montserrat" Canvas.Left="343" Canvas.Top="210"/>
                     <TextBox x:Name="txtAmount"
                         
                         Height="35"
-                         Canvas.Left="402" Canvas.Top="96" Width="60" Style="{StaticResource textBoxStyle2}">
+                         Canvas.Left="411" Canvas.Top="190" Width="60" Style="{StaticResource textBoxStyle2}" HorizontalAlignment="Left" VerticalAlignment="Top">
                         <TextBox.Background>
                             <ImageBrush 
                             Stretch="None"
@@ -180,17 +180,36 @@
 
                     <Button x:Name="btnAddProduct" Style="{StaticResource normalButton}" 
                         Tag="{StaticResource titleColor1}" 
-                        Click="btnAddProduct_Click" Canvas.Left="509" Canvas.Top="100" HorizontalAlignment="Left" VerticalAlignment="Center" Width="157">
+                        Click="btnAddProduct_Click" Canvas.Left="519" Canvas.Top="191" HorizontalAlignment="Left" VerticalAlignment="Top" Width="157">
                         <TextBlock Text="Add" />
                     </Button>
                     <TextBlock Text="Customer Name"
                         Foreground="{StaticResource titleColor2}"
                         FontSize="12"
                         FontWeight="Medium"
-                        FontFamily="Montserrat" Canvas.Left="201" Canvas.Top="22"/>
+                        FontFamily="Montserrat" Canvas.Left="195" Canvas.Top="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox x:Name="txtCustomerName"
                       
-                       Canvas.Left="294"  Width="200" Style="{StaticResource textBoxStyle2}" Height="35"/>
+                       Canvas.Left="294"  Width="200" Style="{StaticResource textBoxStyle2}"  Canvas.Top="-6" />
+                    <TextBlock Text="Phone Number"
+                        Foreground="{StaticResource titleColor2}"
+                        FontSize="12"
+                        FontWeight="Medium"
+                        FontFamily="Montserrat" Canvas.Left="201" Canvas.Top="66" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtCustomerPhone"
+  
+                            Height="35"
+                            
+                             Canvas.Left="294" Canvas.Top="39"  Width="200" Style="{StaticResource textBoxStyle2}"/>
+                    <TextBlock Text="Age"
+                            Foreground="{StaticResource titleColor2}"
+                            FontSize="12"
+                            FontWeight="Medium"
+                            FontFamily="Montserrat" Canvas.Left="262" Canvas.Top="112" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtCustomerAge"
+  
+                       
+                             Canvas.Left="294" Canvas.Top="84"  Width="200" Style="{StaticResource textBoxStyle2}"/>
 
                     <Button x:Name="btnAdd" Style="{StaticResource normalButton}" 
                             Tag="{StaticResource titleColor1}" 
@@ -199,7 +218,7 @@
                     </Button>
 
                     <DataGrid x:Name="OrderDataGrid" Grid.Row="3"
-          AutoGenerateColumns="False" IsReadOnly="True" Canvas.Left="45" Canvas.Top="190" HorizontalAlignment="Left" VerticalAlignment="Center" Width="604" Height="337">
+          AutoGenerateColumns="False" IsReadOnly="True" Canvas.Left="45" Canvas.Top="283" HorizontalAlignment="Center" VerticalAlignment="Top" Width="604" Height="244">
                         <DataGrid.Resources>
                             <!-- Style cho Header -->
                             <Style TargetType="DataGridColumnHeader">

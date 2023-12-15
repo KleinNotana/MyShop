@@ -59,17 +59,57 @@ namespace UIVersion03
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+
+            //validate
+            if (txtCustomerName.Text == "" || txtCustomerPhone.Text == "" || txtCustomerAge.Text == "")
+            {
+                MessageBox.Show("Please fill all the fields", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            int age = 0;
+            //try to parse age
+            try
+            {
+                age = int.Parse(txtCustomerAge.Text);
+                if (age < 0)
+                {
+                    MessageBox.Show("Age must be positive", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please enter a number", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             Order1 order = new Order1();
             order.OrderDate = DateTime.Now;
             order.CustomerId = 1;
             _bus.addOrder(order);
-            Customer customer = _bus.getCustomerByName(txtCustomerName.Text);
-            if (customer != null) { order.CustomerId = customer.Id; }
+            Customer customer = _bus.getCustomerByPhone(txtCustomerPhone.Text);
+            if (customer != null) {
+                //show option to use old customer or create new customer
+                MessageBoxResult result = MessageBox.Show("Customer with this phone number already exists. Do you want to update this customer", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    //add new customer
+                    //Customer newCustomer = new Customer();
+                    customer.CustomerName = txtCustomerName.Text;
+                    customer.PhoneNumber = txtCustomerPhone.Text;
+                    customer.Age = age;
+                    _bus.saveChanges();
+                    order.CustomerId = customer.Id;
+                }
+                else
+                order.CustomerId = customer.Id; 
+            }
             else
             {
                 //add new customer
                 Customer newCustomer = new Customer();
                 newCustomer.CustomerName = txtCustomerName.Text;
+                newCustomer.PhoneNumber = txtCustomerPhone.Text;
+                newCustomer.Age = int.Parse(txtCustomerAge.Text);
                 _bus.addCustomer(newCustomer);
                 order.CustomerId = newCustomer.Id;
 
