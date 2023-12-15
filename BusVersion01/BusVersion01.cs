@@ -589,6 +589,69 @@ namespace BusVersion01
 
             return result;
         }
+
+        public List<dynamic> GetTop5productbyday( string date)
+        {
+            var orderdetails = _data.GetOrderDetail();
+            DateTime curdate = DateTime.Parse(date);
+            
+            var orders = _data.GetOrder().Where(o => o.OrderDate ==curdate);
+            var list = from o in orders
+                       join od in orderdetails on o.Id equals od.OrderId
+                       join p in _data.GetProducts() on od.ProductId equals p.Id
+                       group od by new { p.ProductName } into g
+                       select new { Name = g.Key.ProductName, Sold = g.Sum(od => od.Amount) };
+            var result = list.OrderByDescending(o => o.Sold).Take(3);
+            return result.ToList<dynamic>();
+            
+        }
+
+        public List<dynamic> GetTop5productbyweek(string datefrom,int week)
+        {   
+            DateTime ddatefrom = DateTime.Parse(datefrom);
+            var orderdetails = _data.GetOrderDetail();
+            //select order >datefrom 
+            var orders = _data.GetOrder().Where(o => o.OrderDate>=ddatefrom);
+            var minDate = orders.Min(o => o.OrderDate);
+            var order2= orders.Where(o => getWeek(minDate ?? DateTime.Now, o.OrderDate ?? DateTime.Now) == week);
+            var list = from o in order2
+                       join od in orderdetails on o.Id equals od.OrderId
+                       join p in _data.GetProducts() on od.ProductId equals p.Id
+                       group od by new { p.ProductName } into g
+                       select new { Name = g.Key.ProductName, Sold = g.Sum(od => od.Amount) };
+            var result = list.OrderByDescending(o => o.Sold).Take(3);
+            return result.ToList<dynamic>();
+
+
+        }
+
+        public List<dynamic> GetTop5productbymonth(string date)
+        {
+            var orderdetails = _data.GetOrderDetail();
+            DateTime curdate = DateTime.Parse(date);
+            var orders = _data.GetOrder().Where(o => o.OrderDate.Value.Month == curdate.Month && o.OrderDate.Value.Year == curdate.Year);
+            var list = from o in orders
+                       join od in orderdetails on o.Id equals od.OrderId
+                       join p in _data.GetProducts() on od.ProductId equals p.Id
+                       group od by new { p.ProductName } into g
+                       select new { Name = g.Key.ProductName, Sold = g.Sum(od => od.Amount) };
+            var result = list.OrderByDescending(o => o.Sold).Take(3);
+            return result.ToList<dynamic>();
+        }
+
+        public List<dynamic> GetTop5productbyyear(string date)
+        {
+            var orderdetails = _data.GetOrderDetail();
+            DateTime curdate = DateTime.Parse(date);
+            var orders = _data.GetOrder().Where(o => o.OrderDate.Value.Year == curdate.Year);
+            var list = from o in orders
+                       join od in orderdetails on o.Id equals od.OrderId
+                       join p in _data.GetProducts() on od.ProductId equals p.Id
+                       group od by new { p.ProductName } into g
+                       select new { Name = g.Key.ProductName, Sold = g.Sum(od => od.Amount) };
+            var result = list.OrderByDescending(o => o.Sold).Take(3);
+            return result.ToList<dynamic>();
+        }
     }
 
 }

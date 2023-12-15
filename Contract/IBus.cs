@@ -42,6 +42,11 @@ namespace Contract
         public List<dynamic> GetYearlyReport(string dateFrom, string dateTo, int mode);
 
 
+        public List<dynamic> GetTop5productbyday(string date);
+        public List<dynamic> GetTop5productbyweek(string datefrom, int week);
+        public List<dynamic> GetTop5productbymonth( string date);
+        public List<dynamic> GetTop5productbyyear( string date);
+
         public Customer getCustomerByName(string name);
         public Customer getCustomerByPhone(string Phone);
         public void addCustomer(Customer addCustomer);
