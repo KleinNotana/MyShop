@@ -85,7 +85,7 @@ namespace UIVersion03
             Order1 order = new Order1();
             order.OrderDate = DateTime.Now;
             order.CustomerId = 1;
-            _bus.addOrder(order);
+            
             Customer customer = _bus.getCustomerByPhone(txtCustomerPhone.Text);
             if (customer != null) {
                 //show option to use old customer or create new customer
@@ -116,7 +116,7 @@ namespace UIVersion03
             }
 
             //add order
-
+            _bus.addOrder(order);
             //add order details
             foreach (var orderDetail in orderDetails)
             {
