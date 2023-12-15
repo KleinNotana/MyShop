@@ -31,7 +31,7 @@
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,0,10,0">
             <Button x:Name="btnImportData" Style="{StaticResource normalButton}" 
-                    Tag="{StaticResource titleColor1}" Margin="0,0,10,0" >
+                    Tag="{StaticResource titleColor1}" Margin="0,0,10,0" Click="btnImportData_Click" >
                 <TextBlock Text="Import Data" />
             </Button>
 

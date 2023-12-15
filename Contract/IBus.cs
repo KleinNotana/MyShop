@@ -66,7 +66,10 @@ namespace Contract
         List<dynamic> getTopSaleProducts();
 
         List<dynamic> getCurrentDailySales();
+
+        int getCategoryID(string name);
         public int getWeek(DateTime startDay, DateTime endDay);
         void DepensOn(IDataAccess data);
+        bool importData(string filePath);
     }
 }
