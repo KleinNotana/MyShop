@@ -274,12 +274,14 @@ namespace BusVersion01
             var orders = _data.GetOrder().Where(o => o.OrderDate >= datefrom && o.OrderDate <= dateto);
             //get all order detail group by month
             if (mode == 0)
-            {
+            {   //order by time
                 var list = from o in orders
                        join od in orderdetails on o.Id equals od.OrderId
                        group od by new { o.OrderDate.Value.Month, o.OrderDate.Value.Year } into g
                        select new { Time = g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
-                return list.ToList<dynamic>();
+                //sort by time
+                var result = list.OrderBy(o => o.Year).ThenBy(o => o.Month);
+                return result.ToList<dynamic>();
             }
             else
             {
@@ -288,6 +290,9 @@ namespace BusVersion01
                            join p in _data.GetProducts() on od.ProductId equals p.Id
                            group od by new { o.OrderDate.Value.Month, o.OrderDate.Value.Year, p.ProductName } into g
                            select new { Name = g.Key.ProductName, Time = g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount ) };
+                //sort by product name and then time
+
+                var result = list.OrderBy(o => o.Name).ThenBy(o => o.Year).ThenBy(o => o.Month);
                 return list.ToList<dynamic>();
             }
         }
@@ -307,7 +312,9 @@ namespace BusVersion01
                            join od in orderdetails on o.Id equals od.OrderId
                            group od by new { o.OrderDate.Value.Day, o.OrderDate.Value.Month, o.OrderDate.Value.Year } into g
                            select new { Time = g.Key.Day.ToString() + "/" + g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Day = g.Key.Day, Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
-                return list.ToList<dynamic>();
+                //sort by time
+                var result = list.OrderBy(o => o.Year).ThenBy(o => o.Month).ThenBy(o => o.Day);
+                return result.ToList<dynamic>();
             }
             else
             {
@@ -316,7 +323,9 @@ namespace BusVersion01
                            join p in _data.GetProducts() on od.ProductId equals p.Id
                            group od by new { o.OrderDate.Value.Day, o.OrderDate.Value.Month, o.OrderDate.Value.Year, p.ProductName } into g
                            select new {Name=g.Key.ProductName, Time = g.Key.Day.ToString() + "/" + g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Day = g.Key.Day, Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount ) };
-                return list.ToList<dynamic>();
+                //sort by product name and then time
+                var result = list.OrderBy(o => o.Name).ThenBy(o => o.Year).ThenBy(o => o.Month).ThenBy(o => o.Day);
+                return result.ToList<dynamic>();
             }
 
         }
@@ -335,7 +344,8 @@ namespace BusVersion01
                            join od in orderdetails on o.Id equals od.OrderId
                            group od by new { o.OrderDate.Value.Year } into g
                            select new { Time = g.Key.Year.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
-                return list.ToList<dynamic>();
+                var result = list.OrderBy(o => o.Year);
+                return result.ToList<dynamic>();
             }
             else
             {
@@ -344,7 +354,9 @@ namespace BusVersion01
                            join p in _data.GetProducts() on od.ProductId equals p.Id
                            group od by new { o.OrderDate.Value.Year, p.ProductName } into g
                            select new { Name = g.Key.ProductName, Time = g.Key.Year.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount ) };
-                return list.ToList<dynamic>();
+                //sort by product name and then time
+                var result = list.OrderBy(o => o.Name).ThenBy(o => o.Year);
+                return result.ToList<dynamic>();
             }
         }
         public List<dynamic> GetWeeklyReport(string dateFrom, string dateTo, int mode)
@@ -365,7 +377,9 @@ namespace BusVersion01
                            join p in _data.GetProducts() on od.ProductId equals p.Id
                            group od by new { week = getWeek(minDate ?? DateTime.Now, o.OrderDate ?? DateTime.Now), o.OrderDate.Value.Year } into g
                            select new {  Time = "Week " + g.Key.week.ToString(), Week = g.Key.week.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
-                return list.ToList<dynamic>();
+                //sort by time
+                var result = list.OrderBy(o => o.Week);
+                return result.ToList<dynamic>();
             }
             else
             {
@@ -374,8 +388,9 @@ namespace BusVersion01
                            join p in _data.GetProducts() on od.ProductId equals p.Id
                            group od by new { week = getWeek(minDate ?? DateTime.Now, o.OrderDate ?? DateTime.Now), o.OrderDate.Value.Year, p.ProductName } into g
                            select new { Name = g.Key.ProductName, Time = "Week " + g.Key.week.ToString(), Week = g.Key.week.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount ) };
-                return list.ToList<dynamic>();
-                
+                var result = list.OrderBy(o => o.Name).ThenBy(o => o.Week);
+                return result.ToList<dynamic>();
+
             }
         }
         public int getWeek(DateTime startDay, DateTime endDay)

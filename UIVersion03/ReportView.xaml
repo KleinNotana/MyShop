@@ -98,8 +98,8 @@
             </DataGrid>
             <Canvas x:Name="graphzone"  Canvas.Bottom="0" Width="408" HorizontalAlignment="Left" Height="280" Canvas.Top="10" VerticalAlignment="Top" RenderTransformOrigin="1.338,0.469" Canvas.Left="363">
                 <lvc:PieChart Name="ProfitPieChart" LegendLocation="Bottom" 
-              Hoverable="False"  Canvas.Left="0" Canvas.Top="0" Height="150" Width="218" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White">
-                    
+              Hoverable="False"  Canvas.Left="-26" Height="150" Width="218" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White">
+
                     <lvc:PieChart.Series>
                         <lvc:PieSeries Title="X" Values="50" DataLabels="True" />
                         <lvc:PieSeries Title="Y" Values="50" DataLabels="True" />
@@ -108,7 +108,19 @@
 
 
                 </lvc:PieChart>
-
+                <lvc:CartesianChart Name="ProfitCartesianChart" LegendLocation="Bottom" Canvas.Left="164" Height="176" Width="470" HorizontalAlignment="Left" VerticalAlignment="Center"  Foreground="White">
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Time" Labels="{Binding Labels}">
+                            <lvc:Axis.Separator >
+                                <lvc:Separator Step="1" IsEnabled="True" StrokeThickness="0"/>
+                            </lvc:Axis.Separator>
+                        </lvc:Axis>
+                        
+                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Income"  />
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
             </Canvas>
         </Canvas>
         <Canvas x:Name="ReportByProductZone" Grid.Row="3" d:Visibility="Hidden">

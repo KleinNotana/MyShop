@@ -18,6 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LiveCharts;
 using LiveCharts.Wpf;
+using Microsoft.Identity.Client;
 
 namespace UIVersion03
 {
@@ -38,14 +39,17 @@ namespace UIVersion03
         string toDate="1/1/2100";
         int currentMode = 0;
 
+        
         int currentGroupByType = 0;
+
         
         public ReportView(IBus bus)
         {   
 
             InitializeComponent();
             _bus = bus;
-            
+            DataContext = this;
+            Labels = new List<string>();
         }
 
         public void loadReport()
@@ -69,7 +73,7 @@ namespace UIVersion03
             }
         }
 
-        
+        public List<string> Labels { get; set; }
         private void loadMonthlyReport()
         {
             List<dynamic> orderslist = _bus.GetMonthlyReport(fromDate,toDate,currentMode);
@@ -87,6 +91,27 @@ namespace UIVersion03
                     series.Add(new PieSeries { Title = time, Values = new ChartValues<double> { total } });
                 }
                 ProfitPieChart.Series = series;
+
+                SeriesCollection ColummCollection = new SeriesCollection();
+                var values = new List<double>();
+                Labels.Clear();
+                foreach (var order in orders)
+                {
+                    double total = order.GetType().GetProperty("Total").GetValue(order);
+                    string time = order.GetType().GetProperty("Time").GetValue(order);
+                    values.Add(total);
+                    Labels.Add(time);
+
+                }
+                ColummCollection.Add(new ColumnSeries
+                {
+                    Title = "Daily Sales",
+                    Values = new ChartValues<double>(values),
+                    DataLabels = true,
+                    ColumnPadding = 10
+                });
+                //ProfitCartesianChart.DataContext = this;
+                ProfitCartesianChart.Series = ColummCollection;
             }
             
 
@@ -108,6 +133,31 @@ namespace UIVersion03
                     series.Add(new PieSeries { Title = time, Values = new ChartValues<double> { total } });
                 }
                 ProfitPieChart.Series = series;
+
+
+               
+                
+                SeriesCollection ColummCollection = new SeriesCollection();
+                var values = new List<double>();
+                Labels.Clear();
+                foreach (var order in orders)
+                {
+                    double total = order.GetType().GetProperty("Total").GetValue(order);
+                    string time = order.GetType().GetProperty("Time").GetValue(order);
+                    values.Add(total);
+                    Labels.Add(time);
+                   
+                }
+                ColummCollection.Add(new ColumnSeries
+                {
+                    Title = "Daily Sales",
+                    Values = new ChartValues<double>(values),
+                    DataLabels = true,
+                    ColumnPadding = 10
+                });
+                //ProfitCartesianChart.DataContext = this;
+                ProfitCartesianChart.Series = ColummCollection;
+                
             }
 
         }
@@ -129,6 +179,27 @@ namespace UIVersion03
                     series.Add(new PieSeries { Title = time, Values = new ChartValues<double> { total } });
                 }
                 ProfitPieChart.Series = series;
+                SeriesCollection ColummCollection = new SeriesCollection();
+                var values = new List<double>();
+                Labels.Clear();
+
+                foreach (var order in orders)
+                {
+                    double total = order.GetType().GetProperty("Total").GetValue(order);
+                    string time = order.GetType().GetProperty("Time").GetValue(order);
+                    values.Add(total);
+                    Labels.Add(time);
+
+                }
+                ColummCollection.Add(new ColumnSeries
+                {
+                    Title = "Daily Sales",
+                    Values = new ChartValues<double>(values),
+                    DataLabels = true,
+                    ColumnPadding = 10
+                });
+                //ProfitCartesianChart.DataContext = this;
+                ProfitCartesianChart.Series = ColummCollection;
             }
         }
 
@@ -148,6 +219,26 @@ namespace UIVersion03
                     series.Add(new PieSeries { Title = time, Values = new ChartValues<double> { total } });
                 }
                 ProfitPieChart.Series = series;
+                SeriesCollection ColummCollection = new SeriesCollection();
+                var values = new List<double>();
+                Labels.Clear();
+                foreach (var order in orders)
+                {
+                    double total = order.GetType().GetProperty("Total").GetValue(order);
+                    string time = order.GetType().GetProperty("Time").GetValue(order);
+                    values.Add(total);
+                    Labels.Add(time);
+
+                }
+                ColummCollection.Add(new ColumnSeries
+                {
+                    Title = "Daily Sales",
+                    Values = new ChartValues<double>(values),
+                    DataLabels = true,
+                    ColumnPadding = 10
+                });
+                //ProfitCartesianChart.DataContext = this;
+                ProfitCartesianChart.Series = ColummCollection;
             }
         }
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
