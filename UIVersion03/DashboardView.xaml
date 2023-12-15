@@ -46,7 +46,7 @@
                 VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
 
                     <TextBlock Grid.Row="2"  HorizontalAlignment="Center" Text="{Binding Comment, Mode=OneTime}"
-                VerticalAlignment="Center" Foreground="{StaticResource plainTextColor2}"/>
+                VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
 
                 </Grid>
             </Border>
@@ -78,7 +78,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Total Sold Products" HorizontalAlignment="Center" 
-                 VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
+                 VerticalAlignment="Center" Foreground="{StaticResource titleColor2}"/>
                     <TextBlock Grid.Row="1" Text="{Binding TotalSoldProducts}" HorizontalAlignment="Center" FontSize="20"
                       FontWeight="Bold"
                       VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
@@ -96,7 +96,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Total Customers" HorizontalAlignment="Center" 
-                 VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
+                 VerticalAlignment="Center" Foreground="{StaticResource titleColor2}"/>
                     <TextBlock Grid.Row="1" Text="{Binding TotalCustomers}" HorizontalAlignment="Center" FontSize="20"
                       FontWeight="Bold"
                       VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>

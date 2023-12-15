@@ -98,8 +98,9 @@ namespace UIVersion03
             if (selectedItem != null)
             {
                 int id = selectedItem.GetType().GetProperty("Id").GetValue(selectedItem);
-                var detailProductWindow = new DetailProductWindow(_bus.getDetailProduct(id));
-                detailProductWindow.ShowDialog();
+
+                DetailProduct.Visibility = Visibility.Visible;
+                DetailProduct.DataContext = _bus.getDetailProduct(id);
             }
         }
 

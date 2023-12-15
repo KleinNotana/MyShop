@@ -433,7 +433,10 @@ namespace BusVersion01
 
             if (lastMonthSales != 0)
             {
-                var percent = currentMonthSales / lastMonthSales * 100;
+                var percent = (double) currentMonthSales / lastMonthSales * 100;
+
+                //round percent to 2 decimal places
+                percent = Math.Round((double)percent, 2);
 
                 if (percent > 100)
                 {
@@ -495,7 +498,10 @@ namespace BusVersion01
 
             if (lastMonthTotalSoldProducts != 0)
             {
-                var percent = totalSoldProducts / lastMonthTotalSoldProducts * 100;
+                var percent = (double) totalSoldProducts / lastMonthTotalSoldProducts * 100;
+
+                //round percent to 2 decimal places
+                percent = Math.Round((double)percent, 2);
 
                 if (percent > 100)
                 {
