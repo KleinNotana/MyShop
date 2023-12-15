@@ -27,7 +27,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
-            <RowDefinition Height="200" />
+            <RowDefinition Height="250" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -114,19 +114,50 @@
                 <ColumnDefinition Width="300"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" CornerRadius="0,10,10,0" Background="{StaticResource lightBackground}">
-                
-                <lvc:PieChart  LegendLocation="Bottom" Grid.Column="0" Series="{Binding DataCollection}">
-                </lvc:PieChart>
-                
-                        
+            <Border Grid.Column="0" CornerRadius="0,10,10,0" Background="{StaticResource lightBackground}" >
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock  Grid.Row="0" Text="Top Sale Products" HorizontalAlignment="Center" 
+                     VerticalAlignment="Center" Foreground="{StaticResource titleColor1}" FontSize="20" FontWeight="Bold"/>
+
+
+                    <lvc:PieChart Grid.Row="1" Height="180" x:Name="pieChart" LegendLocation="Bottom" 
+                                  Foreground="{StaticResource plainTextColor1}"
+                                  Series="{Binding PieChartSeriesCollection}">
+                    </lvc:PieChart>
+
+
+
+
+                </Grid>
             </Border>
 
             <Border Grid.Column="1" CornerRadius="0,10,10,0" Background="{StaticResource lightBackground}">
-                
 
-                <lvc:CartesianChart Name="lineChart">
-                    <!-- ... -->
+
+                <lvc:CartesianChart Name="columnChart" 
+                                    Foreground="{StaticResource plainTextColor1}"
+                                    Series="{Binding ColumnChartSeriesCollection}">
+                    <lvc:CartesianChart.AxisX >
+                        <lvc:Axis  Foreground="{StaticResource plainTextColor1}"
+                             Labels="{Binding Labels}"  >
+                            <lvc:Axis.Separator >
+                                <lvc:Separator Step="1" IsEnabled="True" StrokeThickness="0"/>
+                            </lvc:Axis.Separator>
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+
+                    <lvc:CartesianChart.AxisY >
+                        <lvc:Axis  Foreground="{StaticResource plainTextColor1}"
+                                Title="Revanue"  >
+                            <lvc:Axis.Separator >
+                                <lvc:Separator   StrokeThickness="0"/>
+                            </lvc:Axis.Separator>
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
                 </lvc:CartesianChart>
             </Border>
 
