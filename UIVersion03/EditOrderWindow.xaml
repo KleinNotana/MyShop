@@ -136,7 +136,7 @@
                     FontWeight="Medium"
                     FontFamily="Montserrat" Canvas.Left="45" Canvas.Top="215" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                     <ComboBox x:Name="categoryComboBox" 
-          Background="{StaticResource searchColor}"
+          
            Foreground="BlueViolet"  Height="30" IsReadOnly="True" Canvas.Left="125" Canvas.Top="204" HorizontalAlignment="Center" VerticalAlignment="Top" Width="164" >
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
