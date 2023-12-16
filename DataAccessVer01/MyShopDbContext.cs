@@ -12,8 +12,6 @@ public partial class MyShopDbContext : DbContext
         connectionString = con;
     }
 
-    
-
     public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<Customer> Customers { get; set; }
@@ -73,6 +71,7 @@ public partial class MyShopDbContext : DbContext
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Order1s)
                 .HasForeignKey(d => d.CustomerId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_ORDER1_CUSTOMER");
         });
 
@@ -109,13 +108,17 @@ public partial class MyShopDbContext : DbContext
             entity.Property(e => e.Description)
                 .HasMaxLength(50)
                 .HasColumnName("DESCRIPTION");
+            entity.Property(e => e.Discount).HasColumnName("DISCOUNT");
+            entity.Property(e => e.DiscountDate)
+                .HasColumnType("datetime")
+                .HasColumnName("DISCOUNT_DATE");
             entity.Property(e => e.ImgPath)
                 .HasMaxLength(50)
                 .IsFixedLength()
                 .HasColumnName("IMG_PATH");
             entity.Property(e => e.Price).HasColumnName("PRICE");
             entity.Property(e => e.ProductName)
-                .HasMaxLength(30)
+                .HasMaxLength(50)
                 .HasColumnName("PRODUCT_NAME");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)

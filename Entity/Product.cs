@@ -19,6 +19,10 @@ public partial class Product
 
     public int? Amount { get; set; }
 
+    public int? Discount { get; set; }
+
+    public DateTime? DiscountDate { get; set; }
+
     public virtual Category? Category { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
