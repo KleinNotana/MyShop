@@ -598,7 +598,7 @@ namespace BusVersion01
             var orderdetails = _data.GetOrderDetail();
             DateTime curdate = DateTime.Parse(date);
             
-            var orders = _data.GetOrder().Where(o => o.OrderDate ==curdate);
+            var orders = _data.GetOrder().Where(o => o.OrderDate.Value.Day==curdate.Day && o.OrderDate.Value.Month==curdate.Month&&o.OrderDate.Value.Year==curdate.Year);
             var list = from o in orders
                        join od in orderdetails on o.Id equals od.OrderId
                        join p in _data.GetProducts() on od.ProductId equals p.Id
