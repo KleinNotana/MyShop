@@ -103,7 +103,7 @@ namespace UIVersion03
                 }
             }
             TimeComboBox.ItemsSource = timelist;
-            TimeComboBox.SelectedIndex = currentsiTimeCB;
+            //TimeComboBox.SelectedIndex = currentsiTimeCB;
             if (TimeComboBox.SelectedItem != null)
             {
                 currenttopdate = "1/" + TimeComboBox.SelectedItem.ToString();
@@ -173,7 +173,8 @@ namespace UIVersion03
                 }
             }
             TimeComboBox.ItemsSource = timelist;
-            TimeComboBox.SelectedIndex = currentsiTimeCB;
+            
+            //TimeComboBox.SelectedIndex = currentsiTimeCB;
             if (TimeComboBox.SelectedItem != null) {
                 currenttopdate = TimeComboBox.SelectedItem.ToString();
                 //get top 3 selling product at current time
@@ -295,7 +296,7 @@ namespace UIVersion03
                 }
             }
             TimeComboBox.ItemsSource = timelist;
-            TimeComboBox.SelectedIndex = currentsiTimeCB;
+            //TimeComboBox.SelectedIndex = currentsiTimeCB;
 
             if (TimeComboBox.SelectedItem != null)
             {
@@ -364,7 +365,7 @@ namespace UIVersion03
                 }
             }
             TimeComboBox.ItemsSource = timelist;
-            TimeComboBox.SelectedIndex = currentsiTimeCB;
+            //TimeComboBox.SelectedIndex = currentsiTimeCB;
 
             if (TimeComboBox.SelectedItem != null)
             {
@@ -430,8 +431,8 @@ namespace UIVersion03
             ModeComboBox.ItemsSource = new List<string> { "By Profit", "By Product" };
             ModeComboBox.SelectedIndex = 0;
 
-            TimeComboBox.SelectedIndex = 0;
-            currentsiTimeCB = 0;
+            //TimeComboBox.SelectedIndex = 0;
+            //currentsiTimeCB = 0;
             //loadMonthlyReport();
             loadDailyReport();
 
@@ -527,7 +528,7 @@ namespace UIVersion03
         }
         private void GroupTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {   
-            currentsiTimeCB = 0;
+            //currentsiTimeCB = 0;
             if (GroupComboBox.SelectedIndex == 0)
             {   
                 currentGroupByType = 0;
@@ -559,7 +560,7 @@ namespace UIVersion03
 
         private void ModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            currentsiTimeCB = 0;
+            //currentsiTimeCB = 0;
             if (ModeComboBox.SelectedIndex == 0)
             {   
                 ReportByProfitZone.Visibility = Visibility.Visible;
@@ -582,7 +583,7 @@ namespace UIVersion03
         {
             if(TimeComboBox.SelectedIndex>=0)
             {   
-                currentsiTimeCB = TimeComboBox.SelectedIndex;
+                //currentsiTimeCB = TimeComboBox.SelectedIndex;
                 //currenttopdate = TimeComboBox.SelectedItem.ToString();
                 loadReport();
             }
