@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using LiveCharts;
 using LiveCharts.Wpf;
 using Microsoft.Identity.Client;
+using System.Windows.Media.Animation;
 
 namespace UIVersion03
 {
@@ -39,7 +40,9 @@ namespace UIVersion03
         string toDate="1/1/2100";
         int currentMode = 0;
 
-        
+
+        string currenttopdate = "";
+        int currentsiTimeCB = 0;
         int currentGroupByType = 0;
 
         
@@ -50,6 +53,8 @@ namespace UIVersion03
             _bus = bus;
             DataContext = this;
             Labels = new List<string>();
+            
+            
         }
 
         public void loadReport()
@@ -76,12 +81,42 @@ namespace UIVersion03
         public List<string> Labels { get; set; }
         private void loadMonthlyReport()
         {
+            
+
+
+
             List<dynamic> orderslist = _bus.GetMonthlyReport(fromDate,toDate,currentMode);
             orders = new BindingList<dynamic>(orderslist);
             ReportByTimeDataGrid.ItemsSource = orders;
             ReportProductByTimeDataGrid.ItemsSource = orders;
 
-            if(currentMode == 0)
+            BindingList<dynamic> top5sellingproduct;
+            List<string> timelist = new List<string>();
+
+
+            foreach (var order in orders)
+            {
+                string time = order.GetType().GetProperty("Time").GetValue(order);
+                if (!timelist.Contains(time))
+                {
+                    timelist.Add(time);
+                }
+            }
+            TimeComboBox.ItemsSource = timelist;
+            //TimeComboBox.SelectedIndex = currentsiTimeCB;
+            if (TimeComboBox.SelectedItem != null)
+            {
+                currenttopdate = "1/" + TimeComboBox.SelectedItem.ToString();
+                //get top 3 selling product at current time
+                var topproduct = _bus.GetTop5productbymonth(convertdateback(currenttopdate));
+                topsellingproduct.ItemsSource = topproduct;
+            }
+            else
+            {
+                topsellingproduct.ItemsSource = null;
+            }
+            
+            if (currentMode == 0)
             {
                 SeriesCollection series = new SeriesCollection();
                 foreach (var order in orders)
@@ -123,6 +158,34 @@ namespace UIVersion03
             orders = new BindingList<dynamic>(orderslist);
             ReportByTimeDataGrid.ItemsSource = orders;
             ReportProductByTimeDataGrid.ItemsSource = orders;
+
+            //get top 3 selling product at current time
+            BindingList<dynamic> top5sellingproduct;
+            List<string> timelist = new List<string>();
+
+
+            foreach (var order in orders)
+            {
+                string time = order.GetType().GetProperty("Time").GetValue(order);
+                if (!timelist.Contains(time))
+                {
+                    timelist.Add(time);
+                }
+            }
+            TimeComboBox.ItemsSource = timelist;
+            
+            //TimeComboBox.SelectedIndex = currentsiTimeCB;
+            if (TimeComboBox.SelectedItem != null) {
+                currenttopdate = TimeComboBox.SelectedItem.ToString();
+                //get top 3 selling product at current time
+                var topproduct = _bus.GetTop5productbyday(convertdateback(currenttopdate));
+                topsellingproduct.ItemsSource = topproduct;
+            }
+            else
+            {
+                topsellingproduct.ItemsSource = null;
+            }
+            
             if (currentMode == 0)
             {
                 SeriesCollection series = new SeriesCollection();
@@ -216,6 +279,38 @@ namespace UIVersion03
             orders = new BindingList<dynamic>(orderslist);
             ReportByTimeDataGrid.ItemsSource = orders;
             ReportProductByTimeDataGrid.ItemsSource = orders;
+
+
+            BindingList<dynamic> top5sellingproduct;
+            List<string> timelist = new List<string>();
+
+
+            foreach (var order in orders)
+            {   
+                
+                var week = order.GetType().GetProperty("Week").GetValue(order);
+                string time=week.ToString();
+                if (!timelist.Contains(time))
+                {
+                    timelist.Add(time);
+                }
+            }
+            TimeComboBox.ItemsSource = timelist;
+            //TimeComboBox.SelectedIndex = currentsiTimeCB;
+
+            if (TimeComboBox.SelectedItem != null)
+            {
+                currenttopdate = TimeComboBox.SelectedItem.ToString();
+                //get top 3 selling product at current time
+                var topproduct = _bus.GetTop5productbyweek(fromDate, int.Parse(currenttopdate));
+                topsellingproduct.ItemsSource = topproduct;
+            }
+            else
+            {
+                topsellingproduct.ItemsSource = null;
+            }
+            
+
             if (currentMode == 0)
             {
                 SeriesCollection series = new SeriesCollection();
@@ -256,6 +351,36 @@ namespace UIVersion03
             orders = new BindingList<dynamic>(orderslist);
             ReportByTimeDataGrid.ItemsSource = orders;
             ReportProductByTimeDataGrid.ItemsSource = orders;
+
+            BindingList<dynamic> top5sellingproduct;
+            List<string> timelist = new List<string>();
+
+
+            foreach (var order in orders)
+            {
+                string time = order.GetType().GetProperty("Time").GetValue(order);
+                if (!timelist.Contains(time))
+                {
+                    timelist.Add(time);
+                }
+            }
+            TimeComboBox.ItemsSource = timelist;
+            //TimeComboBox.SelectedIndex = currentsiTimeCB;
+
+            if (TimeComboBox.SelectedItem != null)
+            {
+                currenttopdate = "1/1/" + TimeComboBox.SelectedItem.ToString();
+                //get top 3 selling product at current time
+                var topproduct = _bus.GetTop5productbyyear(convertdateback(currenttopdate));
+                topsellingproduct.ItemsSource = topproduct;
+            }
+            else
+            {
+                topsellingproduct.ItemsSource = null;
+            }
+            
+
+
             if (currentMode == 0)
             {
                 SeriesCollection series = new SeriesCollection();
@@ -305,6 +430,9 @@ namespace UIVersion03
 
             ModeComboBox.ItemsSource = new List<string> { "By Profit", "By Product" };
             ModeComboBox.SelectedIndex = 0;
+
+            //TimeComboBox.SelectedIndex = 0;
+            //currentsiTimeCB = 0;
             //loadMonthlyReport();
             loadDailyReport();
 
@@ -388,12 +516,23 @@ namespace UIVersion03
             
 
         }
-
-        private void GroupTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public string convertdateback(string mmddyyyydate)
         {
+            string result = "";
+            if (mmddyyyydate.Length > 0)
+            {
+                string[] date = mmddyyyydate.Split('/');
+                result = date[1] + "/" + date[0] + "/" + date[2];
+            }
+            return result;
+        }
+        private void GroupTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {   
+            //currentsiTimeCB = 0;
             if (GroupComboBox.SelectedIndex == 0)
             {   
                 currentGroupByType = 0;
+                
                 
             }
             else if (GroupComboBox.SelectedIndex == 1)
@@ -407,11 +546,13 @@ namespace UIVersion03
             {
                 currentGroupByType = 2;
                 
+
             }
             else if (GroupComboBox.SelectedIndex == 3)
             {
                 currentGroupByType = 3;
                 
+
             }
             loadReport();
 
@@ -419,11 +560,13 @@ namespace UIVersion03
 
         private void ModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(ModeComboBox.SelectedIndex == 0)
+            //currentsiTimeCB = 0;
+            if (ModeComboBox.SelectedIndex == 0)
             {   
                 ReportByProfitZone.Visibility = Visibility.Visible;
                 ReportByProductZone.Visibility = Visibility.Hidden;
                 currentMode = 0;
+                
             }
             else if (ModeComboBox.SelectedIndex == 1)
             {   
@@ -431,8 +574,22 @@ namespace UIVersion03
                 ReportByProductZone.Visibility = Visibility.Visible;
 
                 currentMode = 1;
+                
             }
             loadReport();
+        }
+
+        private void TimeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(TimeComboBox.SelectedIndex>=0)
+            {   
+                //currentsiTimeCB = TimeComboBox.SelectedIndex;
+                //currenttopdate = TimeComboBox.SelectedItem.ToString();
+                loadReport();
+            }
+
+            //loadReport();
+
         }
     }
 }

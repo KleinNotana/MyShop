@@ -82,35 +82,7 @@ namespace UIVersion03
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            /*Order1 order = new Order1();
-            order.OrderDate = DateTime.Now;
-            order.CustomerId = 1;
-            _bus.addOrder(order);
-            Customer customer = _bus.getCustomerByName(txtCustomerName.Text);
-            if (customer != null) { order.CustomerId = customer.Id; }
-            else
-            {
-                //add new customer
-                Customer newCustomer = new Customer();
-                newCustomer.CustomerName = txtCustomerName.Text;
-                _bus.addCustomer(newCustomer);
-                order.CustomerId = newCustomer.Id;
-
-            }
-
-            //add order
-
-            //add order details
-            foreach (var orderDetail in orderDetails)
-            {
-                orderDetail.OrderId = order.Id;
-                _bus.addOrderDetail(orderDetail);
-            }
-            MessageBox.Show("Add order successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            this.Close();*/
-
-            //order.OrderDate = DateTime.Now;
-            //validate
+            
             if (txtCustomerName.Text == "" || txtCustomerPhone.Text=="" || txtCustomerAge.Text=="")
             {
                 MessageBox.Show("Please fill all the fields", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -161,15 +133,16 @@ namespace UIVersion03
 
             }
             _bus.saveChanges();
+            foreach (var orderDetail in deletedOrderDetails)
+            {
+                _bus.deleteOrderDetail(orderDetail);
+            }
             foreach (var orderDetail in newOrderDetails)
             {
                 orderDetail.OrderId = order.Id;
                 _bus.addOrderDetail(orderDetail);
             }
-            foreach (var orderDetail in deletedOrderDetails)
-            {
-                _bus.deleteOrderDetail(orderDetail);
-            }
+            
             MessageBox.Show("Edit order successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
 
