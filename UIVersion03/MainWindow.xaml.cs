@@ -36,7 +36,8 @@ namespace UIVersion03
             Dashboard,
             Products,
             Orders,
-            Reports
+            Reports, 
+            Discount
         }
 
         Menu currentMenu;
@@ -131,6 +132,14 @@ namespace UIVersion03
             currentMenu = Menu.Orders;
         }
 
+        private void DiscountNav_Checked(object sender, RoutedEventArgs e)
+        {
+            dataObject.Content = new DiscountView(_bus);
+            dataObject.Icon = IconChar.Tags;
+            dataObject.Title = "Discount";
+            currentMenu = Menu.Discount;
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             /*List<Product> products = _bus.GetProducts();
@@ -162,7 +171,12 @@ namespace UIVersion03
                 case Menu.Reports:
                     ReportsNav.IsChecked = true;
                     break;
+                case Menu.Discount:
+                    DiscountNav.IsChecked = true;
+                    break;
             }
         }
+
+        
     }
 }
