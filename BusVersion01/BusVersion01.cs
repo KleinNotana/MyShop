@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using Contract;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.VariantTypes;
@@ -251,7 +252,9 @@ namespace BusVersion01
                     ImgPath = prduct.ImgPath,
                     Amount = prduct.Amount,
                     CategoryName = category.Name,
-                    Sold = soldProduct
+                    Sold = soldProduct, 
+                    Discount = prduct.Discount ?? 0,
+                    ExpDate = prduct.DiscountDate != null ? $"{prduct.DiscountDate.Value.Day}/{prduct.DiscountDate.Value.Month}/{prduct.DiscountDate.Value.Year}" : ""
                 };
 
                 return result;
@@ -768,6 +771,95 @@ namespace BusVersion01
             else
             {
                 return -1;
+            }
+        }
+
+        public BindingList<dynamic> GetDiscountProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1, int itemPerPage = 10, int categoryId = -1)
+        {
+            var products = _data.GetProducts();
+            
+            var list = from p in products
+                        select new
+                        {
+                            Id = p.Id,
+                            Name = p.ProductName,
+                            Price = p.Price,
+                            Stock = p.Amount,
+                            ImgPath = p.ImgPath,
+                            Discount = p.Discount ?? 0,
+                            ExpDate = p.DiscountDate != null ? $"{p.DiscountDate.Value.Day}/{p.DiscountDate.Value.Month}/{p.DiscountDate.Value.Year}" : "",
+                             CategoryId = p.CategoryId,
+                     
+                        };
+
+            if (name != "")
+            {
+                list = list.Where(p => p.Name.ToLower().Contains(name.ToLower()));
+            }
+
+            if (priceFrom != -1 && priceTo != -1)
+            {
+                list = list.Where(p => p.Price >= priceFrom && p.Price <= priceTo);
+            }
+
+            if (categoryId != -1)
+            {
+                list = list.Where(p => p.CategoryId == categoryId);
+            }
+
+            if (sortType == "Price")
+            {
+                list = list.OrderBy(p => p.Price);
+            }
+            else if (sortType == "Name")
+            {
+                list = list.OrderBy(p => p.Name);
+            }
+
+            int count = list.Count();
+
+            var result = from p in list
+                         select new 
+                         { 
+                             Id = p.Id, 
+                             ImgPath = p.ImgPath, 
+                             Name = p.Name, 
+                             Price = p.Price, 
+                             Stock = p.Stock,
+                             Discount = p.Discount,
+                             ExpDate = p.ExpDate,
+                             Total = count 
+                         };
+            result = result.Skip((currentPage - 1) * itemPerPage).Take(itemPerPage);
+
+            return new BindingList<dynamic>(result.ToList<dynamic>());
+        }
+
+        public bool updateDiscountProduct(int id, int discount, DateTime expDate)
+        {
+            var product = _data.getProductById(id);
+            if(product != null)
+            {
+                product.Discount = discount;
+                product.DiscountDate = expDate;
+                _data.updateProduct(product);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void removeDiscountProduct(int id)
+        {
+            var product = _data.getProductById(id);
+
+            if(product != null)
+            {
+                product.Discount = null;
+                product.DiscountDate = null;
+                _data.updateProduct(product);
             }
         }
     }

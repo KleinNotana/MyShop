@@ -25,6 +25,7 @@ namespace Contract
         List<Product> GetProducts();
         BindingList<Category> GetCategories();
         BindingList<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1, int itemPerPage = 10, int categoryId = -1);
+        BindingList<dynamic> GetDiscountProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1, int itemPerPage = 10, int categoryId = -1);
         public List<dynamic> GetOrderByFilter(string dateFrom, string dateTo, int currentPage = 1, int itemPerPage = 10);
 
         public Order1 getOrderById(int id);
@@ -76,5 +77,9 @@ namespace Contract
         public int getWeek(DateTime startDay, DateTime endDay);
         void DepensOn(IDataAccess data);
         bool importData(string filePath);
+
+        bool updateDiscountProduct(int id, int discount, DateTime expDate);
+
+        void removeDiscountProduct(int id);
     }
 }

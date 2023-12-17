@@ -146,6 +146,8 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="Product Detail" Foreground="{StaticResource titleColor1}" FontSize="20" 
@@ -183,6 +185,18 @@
                 <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="10,0,0,0">
                     <TextBlock Text="Sold: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
                     <TextBlock Text="{Binding Sold}" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
+
+                </StackPanel>
+
+                <StackPanel Grid.Row="7" Orientation="Horizontal" Margin="10,0,0,0">
+                    <TextBlock Text="Discount: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Discount}" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
+
+                </StackPanel>
+
+                <StackPanel Grid.Row="8" Orientation="Horizontal" Margin="10,0,0,0">
+                    <TextBlock Text="Discount Expiry Date: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding ExpDate}" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
 
                 </StackPanel>
             </Grid>

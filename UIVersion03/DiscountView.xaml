@@ -7,7 +7,8 @@
              xmlns:converter="clr-namespace:UIVersion03.Converters"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -28,7 +29,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal"  Margin="0,0,10,0">
+        <StackPanel Grid.Row="0" Orientation="Horizontal"  Margin="0,0,10,0" HorizontalAlignment="Center">
             <TextBlock Text="Discount: " Foreground="{StaticResource titleColor1}" FontSize="15" 
                        VerticalAlignment="Center" Margin="0,0,10,0"/>
             <TextBox x:Name="txtDiscount" Width="100" Height="40" 
@@ -56,7 +57,7 @@
                 
             </DatePicker>
             <Button x:Name="btnAddDiscount" Style="{StaticResource normalButton}" 
-                Tag="{StaticResource titleColor1}" Margin="0,0,10,0" Click="btnAddDiscount_Click"  >
+                Tag="{StaticResource titleColor1}" Margin="20,0,10,0" Click="btnAddDiscount_Click"  >
                 <TextBlock Text="Add discount" />
             </Button>
 
@@ -203,28 +204,36 @@
 
                 </StackPanel>
             </Grid>
+            
+            
             <ListView Name="productsList" Grid.Row="3" Background="{StaticResource backContentColor}"
       ScrollViewer.HorizontalScrollBarVisibility="Disabled"   >
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel VerticalAlignment="Center" Width="180" Height="200">
+                        <StackPanel VerticalAlignment="Center" Width="180" Height="220">
                             <Image Source="{Binding ImgPath, Mode=OneTime, Converter={StaticResource RelativeToAbsoluteConverter}}" Width="50" Height="50"
-        Margin="5" />
+                                        Margin="2" />
                             <TextBlock Text="{Binding Name, Mode=OneTime}" Margin="5" FontSize="15"  Foreground="{StaticResource titleColor1}"
                        TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap"
                        />
-                            <TextBlock  Margin="5" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
-               <Run Text="Price: $"/>
-               <Run Text="{Binding Price, Mode=OneTime}" FontStyle="Italic"/>
+                            <TextBlock  Margin="2" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
+                                 <Run Text="Price: $"/>
+                                 <Run Text="{Binding Price, Mode=OneTime}" FontStyle="Italic"/>
                             </TextBlock>
-                            <TextBlock  Margin="5" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
-               <Run Text="Stock: "/>
-               <Run Text="{Binding Stock, Mode=OneTime}" />
+                            <TextBlock  Margin="2" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
+                                <Run Text="Stock: "/>
+                                <Run Text="{Binding Stock, Mode=OneTime}" />
                             </TextBlock>
-                            <TextBlock  Margin="5" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
-                   <Run Text="Sold: "/>
-                   <Run Text="{Binding Sold, Mode=OneTime}"/>
+                            <TextBlock  Margin="2" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
+                                <Run Text="Discount: "/>
+                                <Run Text="{Binding Discount, Mode=OneTime}"/>
                             </TextBlock>
+
+                            <TextBlock Text="Discount Expiry Date: " Margin="2" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}"/>
+                            <TextBlock Text="{Binding ExpDate, Mode=OneTime}" Margin="2" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}"/>
+
+
+
 
 
                         </StackPanel>
@@ -239,7 +248,7 @@
 
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Remove discount" Click="btnDeleteItem_Click">
+                        <MenuItem Header="Remove discount" Click="btnRemoveDiscount_Click">
                             <MenuItem.Icon>
                                 <Image Source="images/delete.png"/>
                             </MenuItem.Icon>

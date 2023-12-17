@@ -98,15 +98,6 @@
                         </StackPanel>
                     </RadioButton>
 
-                    <RadioButton Style="{StaticResource menuButton}" x:Name="StatisticsNav"
-                                Tag="{StaticResource color4}" >
-                        <StackPanel Orientation="Horizontal">
-                            <fa:IconImage Icon="PieChart" 
-                                        Style="{StaticResource menuButtonIcon}"/>
-                            <TextBlock Text="Statistics" Style="{StaticResource menuButtonText}"/>
-
-                        </StackPanel>
-                    </RadioButton>
 
                     <RadioButton Style="{StaticResource menuButton}" x:Name="ReportsNav"
                                 Tag="{StaticResource color5}" Checked="ReportsNav_Checked">
