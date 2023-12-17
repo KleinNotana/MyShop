@@ -127,9 +127,9 @@ namespace BusVersion01
             
         }
 
-        public async Task<bool> Login(string username, string password)
+        public async Task<bool> Login(string username, string password, string servername, string databasename)
         {
-            bool result = await _data.LoginAsync(username, password);
+            bool result = await _data.LoginAsync(username, password,servername, databasename);
             return result;
         }
 

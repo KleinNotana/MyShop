@@ -14,7 +14,7 @@ namespace Contract
         string Name { get; }
         string Description { get; }
 
-        Task<bool> Login(string username, string password);
+        Task<bool> Login(string username, string password, string servername, string databasename);
 
         List<Order1> GetOrders();
 

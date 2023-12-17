@@ -25,6 +25,8 @@ namespace UIVersion03
     public partial class LoginWindow : Window
     {
         IBus _bus = null;
+        string servername = ".\\SQLEXPRESS";
+        string databasename = "MyShopDB";
         public LoginWindow(IBus bus)
         {
             InitializeComponent();
@@ -44,11 +46,13 @@ namespace UIVersion03
 
             string username = txtUser.Text;
             string password = txtPass.Password;
-
+            servername = txtServer.Text;
+            databasename = txtDatabase.Text;
+            
             loading.Visibility = Visibility.Visible;
             loading.IsIndeterminate = true;
 
-            bool resultLogin = await _bus.Login(username, password);
+            bool resultLogin = await _bus.Login(username, password, servername, databasename);
 
             loading.IsIndeterminate = false;
             loading.Visibility = Visibility.Collapsed;
@@ -71,6 +75,9 @@ namespace UIVersion03
                     config.AppSettings.Settings["Username"].Value = username;
                     config.AppSettings.Settings["Password"].Value = passwordIn64;
                     config.AppSettings.Settings["Entropy"].Value = entropyIn64;
+                    config.AppSettings.Settings["Server"].Value = servername;
+                    config.AppSettings.Settings["Database"].Value = databasename;
+
                     config.Save(ConfigurationSaveMode.Minimal);
 
                     ConfigurationManager.RefreshSection("appSettings");
@@ -100,9 +107,20 @@ namespace UIVersion03
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
+        {   
             var passwordIn64 = ConfigurationManager.AppSettings["Password"];
-
+            var server = ConfigurationManager.AppSettings["Server"];
+            var db = ConfigurationManager.AppSettings["Database"];
+            servername= server;
+            databasename = db;
+            if (server.Length != 0)
+            {
+                txtServer.Text = server;
+            }
+            if (db.Length != 0)
+            {
+                txtDatabase.Text = db;
+            }
             if (passwordIn64.Length != 0)
             {
                 var entropyIn64 = ConfigurationManager.AppSettings["Entropy"];

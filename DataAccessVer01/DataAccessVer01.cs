@@ -16,11 +16,13 @@ namespace DataAccessVer01
 
         public string Description => "DataAccessVer01 - test";
 
-        public async Task<bool> LoginAsync(string username, string password)
+        public async Task<bool> LoginAsync(string username, string password, string servername, string databasename)
         {
             var builder = new SqlConnectionStringBuilder();
-            builder.DataSource = ".\\SQLEXPRESS";
-            builder.InitialCatalog = "MyShopDB";
+            //builder.DataSource = ".\\SQLEXPRESS";
+            builder.DataSource = servername;
+            //builder.InitialCatalog = "MyShopDB";
+            builder.InitialCatalog = databasename;
             //builder.IntegratedSecurity = true;
             builder.TrustServerCertificate = true;
             builder.UserID = username;
