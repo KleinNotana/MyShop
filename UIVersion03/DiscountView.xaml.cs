@@ -43,7 +43,7 @@ namespace UIVersion03
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             sortTypes = new List<string>() { "Name", "Price" };
-            priceFilters = new List<string>() { "All", "0 - 100", "200 - 500", "500 - 700", "700 - 1000", "Over 1000" };
+            priceFilters = new List<string>() { "All", "0 - 1,000,000", "1,000,000 - 10,000,000", "10,000,000 - 50,000,000", "Over 50,000,000" };
             sortComboBox.ItemsSource = sortTypes;
             filterComboBox.ItemsSource = priceFilters;
             sortComboBox.SelectedIndex = 0;
@@ -90,16 +90,16 @@ namespace UIVersion03
 
             if (priceFilter != "All")
             {
-                if (priceFilter == "Over 1000")
+                if (priceFilter == "Over 50,000,000")
                 {
-                    priceFrom = 1000;
+                    priceFrom = 50000000;
                     priceTo = int.MaxValue;
                 }
                 else
                 {
                     var priceRange = priceFilter.Split('-');
-                    priceFrom = int.Parse(priceRange[0]);
-                    priceTo = int.Parse(priceRange[1]);
+                    priceFrom = int.Parse(priceRange[0].Replace(",", ""));
+                    priceTo = int.Parse(priceRange[1].Replace(",", ""));
                 }
             }
 
