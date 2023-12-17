@@ -17,7 +17,8 @@
                 
             </ResourceDictionary.MergedDictionaries>
             <converter:RelativeToAbsoluteConverter x:Key="RelativeToAbsoluteConverter"/>
-
+            <converter:PriceToVNDStringConverter x:Key="PriceToVNDStringConverter"/>
+            <converter:IntToStringConverter x:Key="IntToStringConverter"/>
         </ResourceDictionary>
        
     </UserControl.Resources>
@@ -161,15 +162,15 @@
                 <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10,0,0,0">
                     <TextBlock Text="Price: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
                     <TextBlock  FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat">
-                            <Run Text="$ "/>
-                            <Run Text="{Binding Price, Mode=OneTime}"/> 
+                            
+                            <Run Text="{Binding Price, Mode=OneTime, Converter={StaticResource PriceToVNDStringConverter}}"/> 
                     </TextBlock>
 
                 </StackPanel>
 
                 <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10,0,0,0">
                     <TextBlock Text="Quantity: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
-                    <TextBlock Text="{Binding Amount}" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
+                    <TextBlock Text="{Binding Amount, Converter={StaticResource IntToStringConverter}}" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="10,0,0,0">
@@ -184,13 +185,15 @@
 
                 <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="10,0,0,0">
                     <TextBlock Text="Sold: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
-                    <TextBlock Text="{Binding Sold}" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
+                    <TextBlock Text="{Binding Sold, Converter={StaticResource IntToStringConverter}}" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
 
                 </StackPanel>
 
                 <StackPanel Grid.Row="7" Orientation="Horizontal" Margin="10,0,0,0">
                     <TextBlock Text="Discount: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
                     <TextBlock Text="{Binding Discount}" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
+                    <TextBlock Text="%" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
+                    
 
                 </StackPanel>
 
@@ -211,16 +214,16 @@
                            TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap"
                            />
                             <TextBlock  Margin="5" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
-                   <Run Text="Price: $"/>
-                   <Run Text="{Binding Price, Mode=OneTime}" FontStyle="Italic"/>
+                                <Run Text="Price: "/>
+                                <Run Text="{Binding Price, Mode=OneTime, Converter={StaticResource PriceToVNDStringConverter}}" FontStyle="Italic"/>
                             </TextBlock>
                             <TextBlock  Margin="5" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
-                   <Run Text="Stock: "/>
-                   <Run Text="{Binding Stock, Mode=OneTime}" />
+                                <Run Text="Stock: "/>
+                                <Run Text="{Binding Stock, Mode=OneTime, Converter={StaticResource IntToStringConverter}}" />
                             </TextBlock>
                             <TextBlock  Margin="5" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
-                       <Run Text="Sold: "/>
-                       <Run Text="{Binding Sold, Mode=OneTime}"/>
+                                  <Run Text="Sold: "/>
+                                  <Run Text="{Binding Sold, Mode=OneTime, Converter={StaticResource IntToStringConverter}}"/>
                             </TextBlock>
 
 

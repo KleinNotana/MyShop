@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="800"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:converter="clr-namespace:UIVersion03.Converters"
              Loaded="UserControl_Loaded"
              >
     <UserControl.Resources>
@@ -22,7 +23,12 @@
                    
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
+
+            <converter:PriceToVNDStringConverter x:Key="PriceToVNDStringConverter"/>
+            <converter:IntToStringConverter x:Key="IntToStringConverter"/>
+
         </ResourceDictionary>
+        
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -41,9 +47,11 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Total Sales" HorizontalAlignment="Center" 
                VerticalAlignment="Center" Foreground="{StaticResource titleColor2}"/>
-                    <TextBlock Grid.Row="1" Text="{Binding TotalSales, Mode=OneTime}"  HorizontalAlignment="Center" FontSize="20"
+                    <TextBlock Grid.Row="1"   HorizontalAlignment="Center" FontSize="20"
                FontWeight="Bold"
-                VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
+                VerticalAlignment="Center" Foreground="{StaticResource titleColor1}">
+                        <Run Text="{Binding TotalSales, Mode=OneTime, Converter={StaticResource PriceToVNDStringConverter}}"/>
+                    </TextBlock>
 
                     <TextBlock Grid.Row="2"  HorizontalAlignment="Center" Text="{Binding Comment, Mode=OneTime}"
                 VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
@@ -62,7 +70,7 @@
                     <TextBlock Grid.Row="0" Text="Total Selling Products" HorizontalAlignment="Center" 
                             VerticalAlignment="Center" Foreground="{StaticResource titleColor2}"
                                />
-                    <TextBlock Grid.Row="1" Text="{Binding TotalSellingProducts, Mode=OneTime}" HorizontalAlignment="Center" FontSize="20"
+                    <TextBlock Grid.Row="1" Text="{Binding TotalSellingProducts, Mode=OneTime, Converter={StaticResource IntToStringConverter}}" HorizontalAlignment="Center" FontSize="20"
                                  FontWeight="Bold"
                                  VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
                    
@@ -79,7 +87,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Total Sold Products" HorizontalAlignment="Center" 
                  VerticalAlignment="Center" Foreground="{StaticResource titleColor2}"/>
-                    <TextBlock Grid.Row="1" Text="{Binding TotalSoldProducts}" HorizontalAlignment="Center" FontSize="20"
+                    <TextBlock Grid.Row="1" Text="{Binding TotalSoldProducts, Converter={StaticResource IntToStringConverter}}" HorizontalAlignment="Center" FontSize="20"
                       FontWeight="Bold"
                       VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
                     <TextBlock Grid.Row="2" Text="{Binding Comment}" HorizontalAlignment="Center"
@@ -97,7 +105,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="Total Customers" HorizontalAlignment="Center" 
                  VerticalAlignment="Center" Foreground="{StaticResource titleColor2}"/>
-                    <TextBlock Grid.Row="1" Text="{Binding TotalCustomers}" HorizontalAlignment="Center" FontSize="20"
+                    <TextBlock Grid.Row="1" Text="{Binding TotalCustomers, Converter={StaticResource IntToStringConverter}}" HorizontalAlignment="Center" FontSize="20"
                       FontWeight="Bold"
                       VerticalAlignment="Center" Foreground="{StaticResource titleColor1}"/>
              
@@ -191,7 +199,7 @@
                     <DataGridTextColumn Header="Stock" Binding="{Binding Stock, Mode=OneTime}" Width="*"
                                        
                                         />
-                    <DataGridTextColumn Header="Price" Binding="{Binding Price, Mode=OneTime}" Width="*"
+                    <DataGridTextColumn Header="Price" Binding="{Binding Price, Mode=OneTime, Converter={StaticResource PriceToVNDStringConverter}}" Width="*"
                                         
                                         />
                     <DataGridTextColumn Header="Category" Binding="{Binding Category, Mode=OneTime}" Width="*"

@@ -17,6 +17,8 @@
 
             </ResourceDictionary.MergedDictionaries>
             <converter:RelativeToAbsoluteConverter x:Key="RelativeToAbsoluteConverter"/>
+            <converter:PriceToVNDStringConverter x:Key="PriceToVNDStringConverter"/>
+            <converter:IntToStringConverter x:Key="IntToStringConverter"/>
 
         </ResourceDictionary>
 
@@ -154,58 +156,7 @@
         </StackPanel>
 
         <DockPanel Grid.Row="3" LastChildFill="True" >
-
-            <Grid x:Name="DetailProduct" Visibility="Collapsed" DockPanel.Dock="Right" Width="300" Background="{StaticResource lightBackground}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <TextBlock Text="Product Detail" Foreground="{StaticResource titleColor1}" FontSize="20" 
-                       VerticalAlignment="Center" Margin="0,0,10,0" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
-
-                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,0,0,0">
-                    <TextBlock Text="Name: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
-                    <TextBlock Text="{Binding ProductName}" TextWrapping="Wrap" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
-                </StackPanel>
-
-                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10,0,0,0">
-                    <TextBlock Text="Price: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
-                    <TextBlock  FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat">
-                        <Run Text="$ "/>
-                        <Run Text="{Binding Price, Mode=OneTime}"/>
-                    </TextBlock>
-
-                </StackPanel>
-
-                <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10,0,0,0">
-                    <TextBlock Text="Quantity: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
-                    <TextBlock Text="{Binding Amount}" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
-                </StackPanel>
-
-                <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="10,0,0,0">
-                    <TextBlock Text="Category: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
-                    <TextBlock Text="{Binding CategoryName}" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
-                </StackPanel>
-
-                <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="10,0,0,0">
-                    <TextBlock Text="Description: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
-                    <TextBlock Text="{Binding Description}" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
-                </StackPanel>
-
-                <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="10,0,0,0">
-                    <TextBlock Text="Sold: " FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat" FontWeight="Bold"/>
-                    <TextBlock Text="{Binding Sold}" FontSize="15" Foreground="{StaticResource titleColor1}" FontFamily="Montserrat"/>
-
-                </StackPanel>
-            </Grid>
-            
-            
+          
             <ListView Name="productsList" Grid.Row="3" Background="{StaticResource backContentColor}"
       ScrollViewer.HorizontalScrollBarVisibility="Disabled"   >
                 <ListView.ItemTemplate>
@@ -217,16 +168,16 @@
                        TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap"
                        />
                             <TextBlock  Margin="2" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
-                                 <Run Text="Price: $"/>
-                                 <Run Text="{Binding Price, Mode=OneTime}" FontStyle="Italic"/>
+                                 <Run Text="{Binding Price, Mode=OneTime, Converter={StaticResource PriceToVNDStringConverter}}" FontStyle="Italic"/>
                             </TextBlock>
                             <TextBlock  Margin="2" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
                                 <Run Text="Stock: "/>
-                                <Run Text="{Binding Stock, Mode=OneTime}" />
+                                <Run Text="{Binding Stock, Mode=OneTime, Converter={StaticResource IntToStringConverter}}" />
                             </TextBlock>
                             <TextBlock  Margin="2" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
                                 <Run Text="Discount: "/>
                                 <Run Text="{Binding Discount, Mode=OneTime}"/>
+                                <Run Text="%"/>
                             </TextBlock>
 
                             <TextBlock Text="Discount Expiry Date: " Margin="2" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}"/>

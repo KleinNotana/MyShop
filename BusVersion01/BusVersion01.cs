@@ -460,7 +460,7 @@ namespace BusVersion01
 
             var result = new
             {
-                TotalSales = $"${currentMonthSales}",
+                TotalSales = currentMonthSales,
                 Comment = Comment
             };
 
