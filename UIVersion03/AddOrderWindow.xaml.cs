@@ -168,7 +168,17 @@ namespace UIVersion03
             
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.ProductId = product.Id;
-            orderDetail.Price = product.Price;
+            //check if product has discount
+            DateTime now = DateTime.Now;
+            DateTime? discountDate = product.DiscountDate;
+            if (product.Discount != null && now <= discountDate)
+            {   
+                var discount = 1.0*(int)product.Discount/100;
+                orderDetail.Price = (int)(product.Price * (1 - discount));
+            }
+            else
+                orderDetail.Price = product.Price;
+            //orderDetail.Price = product.Price;
             
 
             try
