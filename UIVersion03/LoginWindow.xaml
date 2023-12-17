@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Window1" Height="600" Width="800"    
+        Title="Window1" Height="550" Width="800"    
         WindowStyle="None"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
@@ -190,55 +190,14 @@
                                     AlignmentX="Left"/>
                         </PasswordBox.Background>
                     </PasswordBox>
-                    <TextBlock Text="Server"
-                         Foreground="{StaticResource titleColor2}"
-                        FontSize="12"
-                        FontWeight="Medium"
-                        FontFamily="Montserrat"                             
-                        Margin="0,15,0,0"/>
-                    <TextBox x:Name="txtServer"
-                            FontSize="13"
-                            FontWeight="Medium"
-                            FontFamily="Montserrat"                            
-                            Foreground="{StaticResource titleColor1}"
-                            CaretBrush="LightGray"
-                            BorderBrush="{StaticResource titleColor2}"
-                            BorderThickness="0,0,0,2"
-                            Height="28"
-                            VerticalContentAlignment="Center"
-                            Margin="0,5,0,0"
-                            Padding="20,0,0,0">
-                        <TextBox.Background>
-                            <ImageBrush 
-                                Stretch="None"
-                                AlignmentX="Left"/>
-                        </TextBox.Background>
-                    </TextBox>
-
-                    <TextBlock Text="Database"
+                    <TextBlock Text="Config"
+                        TextDecorations="Underline"
                         Foreground="{StaticResource titleColor2}"
                         FontSize="12"
                         FontWeight="Medium"
                         FontFamily="Montserrat"                             
-                        Margin="0,15,0,0"/>
-                    <TextBox x:Name="txtDatabase"
-                        FontSize="13"
-                        FontWeight="Medium"
-                        FontFamily="Montserrat"                            
-                        Foreground="{StaticResource titleColor1}"
-                        CaretBrush="LightGray"
-                        BorderBrush="{StaticResource titleColor2}"
-                        BorderThickness="0,0,0,2"
-                        Height="28"
-                        VerticalContentAlignment="Center"
-                        Margin="0,5,0,0"
-                        Padding="20,0,0,0">
-                        <TextBox.Background>
-                            <ImageBrush 
-                                Stretch="None"
-                                AlignmentX="Left"/>
-                        </TextBox.Background>
-                    </TextBox>
+                        Margin="0,15,0,0"
+                        PreviewMouseDown="TextBlock_PreviewMouseDown"/>
                     <CheckBox x:Name="rememberMe" Content="Remember me" Foreground="{StaticResource titleColor1}"
                           FontSize="12" FontFamily="Montserrat" Margin="0,30,0,0"
                           HorizontalAlignment="Center" VerticalAlignment="Center"  />

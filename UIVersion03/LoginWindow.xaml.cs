@@ -46,8 +46,7 @@ namespace UIVersion03
 
             string username = txtUser.Text;
             string password = txtPass.Password;
-            servername = txtServer.Text;
-            databasename = txtDatabase.Text;
+            
             
             loading.Visibility = Visibility.Visible;
             loading.IsIndeterminate = true;
@@ -75,8 +74,7 @@ namespace UIVersion03
                     config.AppSettings.Settings["Username"].Value = username;
                     config.AppSettings.Settings["Password"].Value = passwordIn64;
                     config.AppSettings.Settings["Entropy"].Value = entropyIn64;
-                    config.AppSettings.Settings["Server"].Value = servername;
-                    config.AppSettings.Settings["Database"].Value = databasename;
+                    
 
                     config.Save(ConfigurationSaveMode.Minimal);
 
@@ -113,14 +111,7 @@ namespace UIVersion03
             var db = ConfigurationManager.AppSettings["Database"];
             servername= server;
             databasename = db;
-            if (server.Length != 0)
-            {
-                txtServer.Text = server;
-            }
-            if (db.Length != 0)
-            {
-                txtDatabase.Text = db;
-            }
+            
             if (passwordIn64.Length != 0)
             {
                 var entropyIn64 = ConfigurationManager.AppSettings["Entropy"];
@@ -135,6 +126,18 @@ namespace UIVersion03
 
                 txtUser.Text = ConfigurationManager.AppSettings["Username"];
             }
+        }
+
+        private void TextBlock_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var configwindow = new ConfigWindow(servername, databasename);
+            configwindow.ShowDialog();
+            if(configwindow.DialogResult == true)
+            {
+                servername = configwindow.cservername;
+                databasename = configwindow.cdatabasename;
+            }
+
         }
     }
 }
