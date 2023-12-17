@@ -119,15 +119,6 @@
                         </StackPanel>
                     </RadioButton>
 
-                    <RadioButton Style="{StaticResource menuButton}" x:Name="SettingsNav"
-                            Tag="{StaticResource color7}">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:IconImage Icon="Toolbox" 
-                                Style="{StaticResource menuButtonIcon}"/>
-                            <TextBlock Text="Settings" Style="{StaticResource menuButtonText}"/>
-
-                        </StackPanel>
-                    </RadioButton>
 
 
                 </StackPanel>

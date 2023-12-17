@@ -168,6 +168,7 @@
                        TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap"
                        />
                             <TextBlock  Margin="2" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
+                                <Run Text="Price: "/>
                                  <Run Text="{Binding Price, Mode=OneTime, Converter={StaticResource PriceToVNDStringConverter}}" FontStyle="Italic"/>
                             </TextBlock>
                             <TextBlock  Margin="2" FontSize="15" TextAlignment="Center" Foreground="{StaticResource titleColor1}">
