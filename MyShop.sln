@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyShopProject", "MyShopProj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIVersion03", "UIVersion03\UIVersion03.csproj", "{B6BDDD0C-BFA5-4A97-83BD-CA4155BBAB76}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup2", "Setup2\Setup2.vdproj", "{38778AEF-F600-49B2-86D8-68CECB486F6D}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MyShopApp", "MyShopApp\MyShopApp.vdproj", "{FED0A69E-70BB-42CA-8798-6EE8E4A0DA19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,8 +47,8 @@ Global
 		{B6BDDD0C-BFA5-4A97-83BD-CA4155BBAB76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6BDDD0C-BFA5-4A97-83BD-CA4155BBAB76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6BDDD0C-BFA5-4A97-83BD-CA4155BBAB76}.Release|Any CPU.Build.0 = Release|Any CPU
-		{38778AEF-F600-49B2-86D8-68CECB486F6D}.Debug|Any CPU.ActiveCfg = Debug
-		{38778AEF-F600-49B2-86D8-68CECB486F6D}.Release|Any CPU.ActiveCfg = Release
+		{FED0A69E-70BB-42CA-8798-6EE8E4A0DA19}.Debug|Any CPU.ActiveCfg = Debug
+		{FED0A69E-70BB-42CA-8798-6EE8E4A0DA19}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
