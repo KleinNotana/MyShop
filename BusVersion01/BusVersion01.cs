@@ -16,82 +16,55 @@ namespace BusVersion01
 {
     public class BusVersion01 : IBus
     {
+        //Properties
         IDataAccess _data;
         public string Name => "BusVersion01";
 
         public string Description => "BusVersion01 - test";
-
-        public void DeleteOrder(int DelId)
-        {
-            var orders = _data.GetOrder();
-            var order = orders.Where(o => o.Id == DelId).FirstOrDefault();
-            _data.DeleteOrder(order);
-
-        }
-
-        public void addOrder(Order1 addOrder)
-        {
-            _data.addOrder(addOrder);
-        }
 
         public void DepensOn(IDataAccess data)
         {
             _data = data;
         }
 
-        public List<Customer> GetCustomers()
+        public async Task<bool> Login(string username, string password, string servername, string databasename)
         {
-            List<Customer> customers = _data.GetCustomer();
-            return customers;
-        }
-
-        public List<dynamic> GetOrderByFilter(string dateFrom= "1/1/1900", string dateTo = "1/1/2100", int currentPage = 1, int itemPerPage = 10)
-        {
-            //throw new NotImplementedException();
-            DateTime datefrom = DateTime.Parse(dateFrom);
-            DateTime dateto = DateTime.Parse(dateTo);
-            var orders = _data.GetOrder();
-            var list = from o in orders join c in _data.GetCustomer() on o.CustomerId equals c.Id where o.OrderDate >= datefrom && o.OrderDate <= dateto select new { Id = o.Id, Name = c.CustomerName, Date = o.OrderDate };
-            int count = list.Count();
-            var result = from o in list
-                         select new { Id = o.Id, Name = o.Name, Date = o.Date.Value.Day.ToString()+"/"+ o.Date.Value.Month.ToString()+"/"+o.Date.Value.Year.ToString(), Total = count };
-            result = result.Skip((currentPage - 1) * itemPerPage).Take(itemPerPage);
-            return result.ToList<dynamic>();
-
-                       
-        }
-
-        public List<Order1> GetOrders()
-        {
-            List<Order1> orders = _data.GetOrder();
-            return orders;
-        }
-
-        public List<OrderDetail> GetOrdersDetailById(int orderid)
-        {
-            //throw new NotImplementedException();
-            List<OrderDetail> orderDetails = _data.GetOrderDetail();
-            var result = orderDetails.Where(o => o.OrderId == orderid).ToList();
+            bool result = await _data.LoginAsync(username, password, servername, databasename);
             return result;
         }
 
+        public void SaveChanges()
+        {
+            _data.SaveChanges();
+        }
+
+        //PRODUCT
         public List<Product> GetProducts()
         {
             return new List<Product>(_data.GetProducts());
         }
 
-        public BindingList<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, 
-            int priceTo = -1, int currentPage = 1,int itemPerPage = 5, int categoryID = -1)
+        public BindingList<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1,
+           int priceTo = -1, int currentPage = 1, int itemPerPage = 5, int categoryID = -1)
         {
-           var products = _data.GetProducts();
+            var products = _data.GetProducts();
             var detailOrders = _data.GetOrderDetail();
             // get list product and join with orderdetail group by productID ground by product.ID, Sold = sum orderdetail.amount
             var list = from p in products
                        join od in detailOrders on p.Id equals od.ProductId into g
                        from od in g.DefaultIfEmpty()
                        group od by new { p.Id, p.ProductName, p.Price, p.Amount, p.ImgPath, p.CategoryId, p.Description } into g
-                       select new { Id = g.Key.Id, Name = g.Key.ProductName, Price = g.Key.Price, Stock = g.Key.Amount, ImgPath = g.Key.ImgPath,
-                           Sold = g.Sum(od => od != null ? od.Amount : 0), CategoryId = g.Key.CategoryId, Description = g.Key.Description };
+                       select new
+                       {
+                           Id = g.Key.Id,
+                           Name = g.Key.ProductName,
+                           Price = g.Key.Price,
+                           Stock = g.Key.Amount,
+                           ImgPath = g.Key.ImgPath,
+                           Sold = g.Sum(od => od != null ? od.Amount : 0),
+                           CategoryId = g.Key.CategoryId,
+                           Description = g.Key.Description
+                       };
 
             if (name != "")
             {
@@ -103,7 +76,7 @@ namespace BusVersion01
                 list = list.Where(p => p.Price >= priceFrom && p.Price <= priceTo);
             }
 
-            if(categoryID != -1)
+            if (categoryID != -1)
             {
                 list = list.Where(p => p.CategoryId == categoryID);
             }
@@ -120,129 +93,101 @@ namespace BusVersion01
             int count = list.Count();
 
             var result = from p in list
-                     select new { Id = p.Id, ImgPath = p.ImgPath, Name = p.Name, Price = p.Price, Stock = p.Stock, Sold = p.Sold, Total = count };
+                         select new { Id = p.Id, ImgPath = p.ImgPath, Name = p.Name, Price = p.Price, Stock = p.Stock, Sold = p.Sold, Total = count };
             result = result.Skip((currentPage - 1) * itemPerPage).Take(itemPerPage);
 
             return new BindingList<dynamic>(result.ToList<dynamic>());
-            
+
         }
 
-        public async Task<bool> Login(string username, string password, string servername, string databasename)
+        public BindingList<dynamic> GetDiscountProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1, int itemPerPage = 10, int categoryId = -1)
         {
-            bool result = await _data.LoginAsync(username, password,servername, databasename);
-            return result;
+            var products = _data.GetProducts();
+
+            var list = from p in products
+                       select new
+                       {
+                           Id = p.Id,
+                           Name = p.ProductName,
+                           Price = p.Price,
+                           Stock = p.Amount,
+                           ImgPath = p.ImgPath,
+                           Discount = p.Discount ?? 0,
+                           ExpDate = p.DiscountDate != null ? $"{p.DiscountDate.Value.Day}/{p.DiscountDate.Value.Month}/{p.DiscountDate.Value.Year}" : "",
+                           CategoryId = p.CategoryId,
+
+                       };
+
+            if (name != "")
+            {
+                list = list.Where(p => p.Name.ToLower().Contains(name.ToLower()));
+            }
+
+            if (priceFrom != -1 && priceTo != -1)
+            {
+                list = list.Where(p => p.Price >= priceFrom && p.Price <= priceTo);
+            }
+
+            if (categoryId != -1)
+            {
+                list = list.Where(p => p.CategoryId == categoryId);
+            }
+
+            if (sortType == "Price")
+            {
+                list = list.OrderBy(p => p.Price);
+            }
+            else if (sortType == "Name")
+            {
+                list = list.OrderBy(p => p.Name);
+            }
+
+            int count = list.Count();
+
+            var result = from p in list
+                         select new
+                         {
+                             Id = p.Id,
+                             ImgPath = p.ImgPath,
+                             Name = p.Name,
+                             Price = p.Price,
+                             Stock = p.Stock,
+                             Discount = p.Discount,
+                             ExpDate = p.ExpDate,
+                             Total = count
+                         };
+            result = result.Skip((currentPage - 1) * itemPerPage).Take(itemPerPage);
+
+            return new BindingList<dynamic>(result.ToList<dynamic>());
         }
 
-        public void saveChanges()
-        {
-            _data.saveChanges();
-        }
-
-        public void addOrderDetail(OrderDetail addOrderDetail)
-        {
-            _data.addOrderDetail(addOrderDetail);
-            //update stock
-            var product = _data.getProductById(addOrderDetail.ProductId);
-            product.Amount -= addOrderDetail.Amount;
-            _data.saveChanges();
-        }
-
-
-        public bool addProduct(Product addProduct)
+        public bool AddProduct(Product addProduct)
         {
             bool result = true;
 
-            _data.addProduct(addProduct);
+            _data.AddProduct(addProduct);
 
             return result;
         }
 
-        public BindingList<Category> GetCategories()
+        public Product GetProductById(int id)
         {
-            return new BindingList<Category>(_data.GetCategory());
-            
-           
+            return _data.GetProductById(id);
         }
 
-        public bool addCategory(Category category)
+        public void DeleteProduct(int id)
         {
-            bool result = true;
-            var categories = _data.GetCategory();
-            var check = categories.Where(c => c.Name == category.Name).FirstOrDefault();
-
-            if (category.Name != "" && check == null)
-            {
-                _data.addCategory(category);
-            }
-            else 
-            {
-                result = false;
-            }
-
-            return result;
+            _data.DeleteProduct(id);
         }
 
-        public Product getProductById(int id)
+        public dynamic GetDetailProduct(int id)
         {
-            return _data.getProductById(id);
-        }
+            var prduct = _data.GetProductById(id);
 
-        public void updateProduct(Product updateProduct)
-        {
-            _data.updateProduct(updateProduct);
-        }
-
-        public Customer getCustomerByName(string name)
-        {
-            var customers = _data.GetCustomer();
-            var result = customers.Where(c => c.CustomerName.ToLower().Contains(name.ToLower())).FirstOrDefault();
-            return result;
-        }
-
-        public void addCustomer(Customer addCustomer)
-        {
-            _data.addCustomer(addCustomer);
-        }
-
-        public Order1 getOrderById(int id)
-        {
-            return _data.getOrderById(id);
-        }
-
-        public void deleteOrderDetail(OrderDetail deleteOrderDetail)
-        {
-            _data.deleteOrderDetail(deleteOrderDetail);
-
-        }
-    
-        public void deleteProduct(int id)
-        {
-            _data.deleteProduct(id);
-        }
-
-        public Category getCategoryById(int id)
-        {
-            return _data.getCategoryById(id);
-        }
-
-        public void updateCategory(Category updateCategory)
-        {
-            _data.updateCategory(updateCategory);
-        }
-
-        public void deleteCategory(int id)
-        {
-            _data.deleteCategory(id);
-        }
-
-        public dynamic getDetailProduct(int id)
-        {
-            var prduct = _data.getProductById(id);
-
-           if(prduct != null)
+            if (prduct != null)
             {
                 var soldProduct = _data.GetOrderDetail().Where(o => o.ProductId == id).Sum(o => o.Amount);
-                Category category = _data.getCategoryById(prduct.CategoryId ?? 0);
+                Category category = _data.GetCategoryById(prduct.CategoryId ?? 0);
 
                 var result = new
                 {
@@ -252,7 +197,7 @@ namespace BusVersion01
                     ImgPath = prduct.ImgPath,
                     Amount = prduct.Amount,
                     CategoryName = category.Name,
-                    Sold = soldProduct, 
+                    Sold = soldProduct,
                     Discount = prduct.Discount ?? 0,
                     ExpDate = prduct.DiscountDate != null ? $"{prduct.DiscountDate.Value.Day}/{prduct.DiscountDate.Value.Month}/{prduct.DiscountDate.Value.Year}" : ""
                 };
@@ -263,17 +208,200 @@ namespace BusVersion01
             return null;
         }
 
-        public double getTotalPrice(int OrderId)
+        public bool UpdateDiscountProduct(int id, int discount, DateTime expDate)
+        {
+            var product = _data.GetProductById(id);
+            if (product != null)
+            {
+                product.Discount = discount;
+                product.DiscountDate = expDate;
+                _data.UpdateProduct(product);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        public void RemoveDiscountProduct(int id)
+        {
+            var product = _data.GetProductById(id);
+
+            if (product != null)
+            {
+                product.Discount = null;
+                product.DiscountDate = null;
+                _data.UpdateProduct(product);
+            }
+        }
+
+        //CATEGORY
+        public BindingList<Category> GetCategories()
+        {
+            return new BindingList<Category>(_data.GetCategory());
+        }
+
+        public bool AddCategory(Category category)
+        {
+            bool result = true;
+            var categories = _data.GetCategory();
+            var check = categories.Where(c => c.Name == category.Name).FirstOrDefault();
+
+            if (category.Name != "" && check == null)
+            {
+                _data.AddCategory(category);
+            }
+            else
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
+        public void UpdateProduct(Product updateProduct)
+        {
+            _data.UpdateProduct(updateProduct);
+        }
+
+        public Category GetCategoryById(int id)
+        {
+            return _data.GetCategoryById(id);
+        }
+
+        public void UpdateCategory(Category updateCategory)
+        {
+            _data.UpdateCategory(updateCategory);
+        }
+
+        public void DeleteCategory(int id)
+        {
+            _data.DeleteCategory(id);
+        }
+
+        public int GetCategoryID(string name)
+        {
+            var category = _data.GetCategory().Where(c => c.Name == name).FirstOrDefault();
+            if (category != null)
+            {
+                return category.Id;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        //CUSTOMER
+        public List<Customer> GetCustomers()
+        {
+            List<Customer> customers = _data.GetCustomer();
+            return customers;
+        }
+
+        public Customer GetCustomerByName(string name)
+        {
+            var customers = _data.GetCustomer();
+            var result = customers.Where(c => c.CustomerName.ToLower().Contains(name.ToLower())).FirstOrDefault();
+            return result;
+        }
+
+        public void AddCustomer(Customer addCustomer)
+        {
+            _data.AddCustomer(addCustomer);
+        }
+
+        public Customer GetCustomerByPhone(string Phone)
+        {
+            var customers = _data.GetCustomer();
+            var result = customers.Where(c => c.PhoneNumber == Phone).FirstOrDefault();
+            return result;
+        }
+
+
+        //ORDER
+        public void DeleteOrder(int DelId)
+        {
+            var orders = _data.GetOrder();
+            var order = orders.Where(o => o.Id == DelId).FirstOrDefault();
+            _data.DeleteOrder(order);
+
+        }
+
+        public void AddOrder(Order1 addOrder)
+        {
+            _data.AddOrder(addOrder);
+        }
+
+        public List<dynamic> GetOrderByFilter(string dateFrom = "1/1/1900", string dateTo = "1/1/2100", int currentPage = 1, int itemPerPage = 10)
+        {
+            //throw new NotImplementedException();
+            DateTime datefrom = DateTime.Parse(dateFrom);
+            DateTime dateto = DateTime.Parse(dateTo);
+            var orders = _data.GetOrder();
+            var list = from o in orders join c in _data.GetCustomer() on o.CustomerId equals c.Id where o.OrderDate >= datefrom && o.OrderDate <= dateto select new { Id = o.Id, Name = c.CustomerName, Date = o.OrderDate };
+            int count = list.Count();
+            var result = from o in list
+                         select new { Id = o.Id, Name = o.Name, Date = o.Date.Value.Day.ToString() + "/" + o.Date.Value.Month.ToString() + "/" + o.Date.Value.Year.ToString(), Total = count };
+            result = result.Skip((currentPage - 1) * itemPerPage).Take(itemPerPage);
+            return result.ToList<dynamic>();
+
+
+        }
+
+        public List<Order1> GetOrders()
+        {
+            List<Order1> orders = _data.GetOrder();
+            return orders;
+        }
+
+        public Order1 GetOrderById(int id)
+        {
+            return _data.GetOrderById(id);
+        }
+
+
+
+
+        //ORDERDETAIL
+        public List<OrderDetail> GetOrdersDetailById(int orderid)
+        {
+            //throw new NotImplementedException();
+            List<OrderDetail> orderDetails = _data.GetOrderDetail();
+            var result = orderDetails.Where(o => o.OrderId == orderid).ToList();
+            return result;
+        }
+
+        public void AddOrderDetail(OrderDetail addOrderDetail)
+        {
+            _data.AddOrderDetail(addOrderDetail);
+            //update stock
+            var product = _data.GetProductById(addOrderDetail.ProductId);
+            product.Amount -= addOrderDetail.Amount;
+            _data.SaveChanges();
+        }
+
+        public void DeleteOrderDetail(OrderDetail deleteOrderDetail)
+        {
+            _data.DeleteOrderDetail(deleteOrderDetail);
+
+        }
+
+
+        //REPORT
+        public double GetTotalPrice(int OrderId)
         {
             var orderDetails = _data.GetOrderDetail();
             var result = orderDetails.Where(o => o.OrderId == OrderId).Sum(o => o.Amount * o.Price);
             return (double)result;
         }
 
-        public List<dynamic> GetMonthlyReport(string dateFrom, string dateTo , int mode)
+        public List<dynamic> GetMonthlyReport(string dateFrom, string dateTo, int mode)
         {
             var orderdetails = _data.GetOrderDetail();
-            
+
             //get order fileter by date
             DateTime datefrom = DateTime.Parse(dateFrom);
             DateTime dateto = DateTime.Parse(dateTo);
@@ -282,9 +410,9 @@ namespace BusVersion01
             if (mode == 0)
             {   //order by time
                 var list = from o in orders
-                       join od in orderdetails on o.Id equals od.OrderId
-                       group od by new { o.OrderDate.Value.Month, o.OrderDate.Value.Year } into g
-                       select new { Time = g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
+                           join od in orderdetails on o.Id equals od.OrderId
+                           group od by new { o.OrderDate.Value.Month, o.OrderDate.Value.Year } into g
+                           select new { Time = g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount * od.Price) };
                 //sort by time
                 var result = list.OrderBy(o => o.Year).ThenBy(o => o.Month);
                 return result.ToList<dynamic>();
@@ -295,7 +423,7 @@ namespace BusVersion01
                            join od in orderdetails on o.Id equals od.OrderId
                            join p in _data.GetProducts() on od.ProductId equals p.Id
                            group od by new { o.OrderDate.Value.Month, o.OrderDate.Value.Year, p.ProductName } into g
-                           select new { Name = g.Key.ProductName, Time = g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount ) };
+                           select new { Name = g.Key.ProductName, Time = g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount) };
                 //sort by product name and then time
 
                 var result = list.OrderBy(o => o.Name).ThenBy(o => o.Year).ThenBy(o => o.Month);
@@ -312,7 +440,7 @@ namespace BusVersion01
             DateTime dateto = DateTime.Parse(dateTo);
             var orders = _data.GetOrder().Where(o => o.OrderDate >= datefrom && o.OrderDate <= dateto);
             //get all order detail group by day
-            if(mode==0)
+            if (mode == 0)
             {
                 var list = from o in orders
                            join od in orderdetails on o.Id equals od.OrderId
@@ -328,13 +456,14 @@ namespace BusVersion01
                            join od in orderdetails on o.Id equals od.OrderId
                            join p in _data.GetProducts() on od.ProductId equals p.Id
                            group od by new { o.OrderDate.Value.Day, o.OrderDate.Value.Month, o.OrderDate.Value.Year, p.ProductName } into g
-                           select new {Name=g.Key.ProductName, Time = g.Key.Day.ToString() + "/" + g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Day = g.Key.Day, Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount ) };
+                           select new { Name = g.Key.ProductName, Time = g.Key.Day.ToString() + "/" + g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Day = g.Key.Day, Month = g.Key.Month, Year = g.Key.Year, Total = g.Sum(od => od.Amount) };
                 //sort by product name and then time
                 var result = list.OrderBy(o => o.Name).ThenBy(o => o.Year).ThenBy(o => o.Month).ThenBy(o => o.Day);
                 return result.ToList<dynamic>();
             }
 
         }
+
         public List<dynamic> GetYearlyReport(string dateFrom, string dateTo, int mode)
         {
             var orderdetails = _data.GetOrderDetail();
@@ -344,7 +473,7 @@ namespace BusVersion01
             DateTime dateto = DateTime.Parse(dateTo);
             var orders = _data.GetOrder().Where(o => o.OrderDate >= datefrom && o.OrderDate <= dateto);
             //get all order detail group by year
-            if(mode==0)
+            if (mode == 0)
             {
                 var list = from o in orders
                            join od in orderdetails on o.Id equals od.OrderId
@@ -359,12 +488,13 @@ namespace BusVersion01
                            join od in orderdetails on o.Id equals od.OrderId
                            join p in _data.GetProducts() on od.ProductId equals p.Id
                            group od by new { o.OrderDate.Value.Year, p.ProductName } into g
-                           select new { Name = g.Key.ProductName, Time = g.Key.Year.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount ) };
+                           select new { Name = g.Key.ProductName, Time = g.Key.Year.ToString(), Year = g.Key.Year, Total = g.Sum(od => od.Amount) };
                 //sort by product name and then time
                 var result = list.OrderBy(o => o.Name).ThenBy(o => o.Year);
                 return result.ToList<dynamic>();
             }
         }
+
         public List<dynamic> GetWeeklyReport(string dateFrom, string dateTo, int mode)
         {
             var orderdetails = _data.GetOrderDetail();
@@ -376,13 +506,13 @@ namespace BusVersion01
             //get min date
             var minDate = orders.Min(o => o.OrderDate);
             //get all order detail group by week
-            if(mode==0)
+            if (mode == 0)
             {
                 var list = from o in orders
                            join od in orderdetails on o.Id equals od.OrderId
                            join p in _data.GetProducts() on od.ProductId equals p.Id
-                           group od by new { week = getWeek(minDate ?? DateTime.Now, o.OrderDate ?? DateTime.Now)} into g
-                           select new {  Time = "Week " + g.Key.week.ToString(), Week = g.Key.week,  Total = g.Sum(od => od.Amount * od.Price) };
+                           group od by new { week = GetWeek(minDate ?? DateTime.Now, o.OrderDate ?? DateTime.Now) } into g
+                           select new { Time = "Week " + g.Key.week.ToString(), Week = g.Key.week, Total = g.Sum(od => od.Amount * od.Price) };
                 //sort by time
                 var result = list.OrderBy(o => o.Week);
                 return result.ToList<dynamic>();
@@ -392,19 +522,20 @@ namespace BusVersion01
                 var list = from o in orders
                            join od in orderdetails on o.Id equals od.OrderId
                            join p in _data.GetProducts() on od.ProductId equals p.Id
-                           group od by new { week = getWeek(minDate ?? DateTime.Now, o.OrderDate ?? DateTime.Now),  p.ProductName } into g
-                           select new { Name = g.Key.ProductName, Time = "Week " + g.Key.week, Week = g.Key.week.ToString(),  Total = g.Sum(od => od.Amount ) };
+                           group od by new { week = GetWeek(minDate ?? DateTime.Now, o.OrderDate ?? DateTime.Now), p.ProductName } into g
+                           select new { Name = g.Key.ProductName, Time = "Week " + g.Key.week, Week = g.Key.week.ToString(), Total = g.Sum(od => od.Amount) };
                 var result = list.OrderBy(o => o.Name).ThenBy(o => o.Week);
                 return result.ToList<dynamic>();
 
             }
         }
-        public int getWeek(DateTime startDay, DateTime endDay)
+
+        public int GetWeek(DateTime startDay, DateTime endDay)
         {
-               int week = 1;
+            int week = 1;
             for (DateTime date = startDay; date <= endDay; date = date.AddDays(1))
             {
-                if (date.DayOfWeek == DayOfWeek.Monday && date!=startDay)
+                if (date.DayOfWeek == DayOfWeek.Monday && date != startDay)
                 {
                     week++;
                 }
@@ -412,7 +543,7 @@ namespace BusVersion01
             return week;
         }
 
-        public BindingList<dynamic> getOutOfStockProducts()
+        public BindingList<dynamic> GetOutOfStockProducts()
         {
             var products = _data.GetProducts();
             var category = _data.GetCategory();
@@ -423,7 +554,7 @@ namespace BusVersion01
             return new BindingList<dynamic>(result.ToList<dynamic>());
         }
 
-        public dynamic getTotalSales()
+        public dynamic GetTotalSales()
         {
             var orderDetails = _data.GetOrderDetail().Sum(o => o.Amount * o.Price);
             var orders = _data.GetOrder();
@@ -433,13 +564,13 @@ namespace BusVersion01
                         select new { Id = o.Id, Date = o.OrderDate, Total = d.Amount * d.Price };
 
             var currentMonthSales = sales.Where(s => s.Date.Value.Month == DateTime.Today.Month).Sum(s => s.Total);
-            var lastMonthSales = sales.Where(s => s.Date.Value.Month == DateTime.Today.Month - 1 ).Sum(s => s.Total);
+            var lastMonthSales = sales.Where(s => s.Date.Value.Month == DateTime.Today.Month - 1).Sum(s => s.Total);
 
             var Comment = "";
 
             if (lastMonthSales != 0)
             {
-                var percent = (double) currentMonthSales / lastMonthSales * 100;
+                var percent = (double)currentMonthSales / lastMonthSales * 100;
 
                 //round percent to 2 decimal places
                 percent = Math.Round((double)percent, 2);
@@ -467,7 +598,7 @@ namespace BusVersion01
             return result;
         }
 
-        public dynamic getSellingProductAmount()
+        public dynamic GetSellingProductAmount()
         {
             var products = _data.GetProducts();
 
@@ -481,7 +612,7 @@ namespace BusVersion01
             return result;
         }
 
-        public dynamic getSoldProductAmount()
+        public dynamic GetSoldProductAmount()
         {
             var orderDetails = _data.GetOrderDetail();
 
@@ -504,7 +635,7 @@ namespace BusVersion01
 
             if (lastMonthTotalSoldProducts != 0)
             {
-                var percent = (double) totalSoldProducts / lastMonthTotalSoldProducts * 100;
+                var percent = (double)totalSoldProducts / lastMonthTotalSoldProducts * 100;
 
                 //round percent to 2 decimal places
                 percent = Math.Round((double)percent, 2);
@@ -522,7 +653,7 @@ namespace BusVersion01
                     Comment = "Equal to last month";
                 }
             }
-            
+
 
             dynamic result = new
             {
@@ -533,7 +664,7 @@ namespace BusVersion01
             return result;
         }
 
-        public dynamic getTotalCustomers()
+        public dynamic GetTotalCustomers()
         {
             var customers = _data.GetCustomer();
 
@@ -547,14 +678,7 @@ namespace BusVersion01
             return result;
         }
 
-        public Customer getCustomerByPhone(string Phone)
-        {
-            var customers = _data.GetCustomer();
-            var result = customers.Where(c => c.PhoneNumber == Phone).FirstOrDefault();
-            return result;
-        }
-
-        public List<dynamic> getTopSaleProducts()
+        public List<dynamic> GetTopSaleProducts()
         {
             var orderDetails = _data.GetOrderDetail();
             var products = _data.GetProducts();
@@ -575,7 +699,7 @@ namespace BusVersion01
             return result;
         }
 
-        public List<dynamic> getCurrentDailySales()
+        public List<dynamic> GetCurrentDailySales()
         {
             var orders = _data.GetOrder();
             var orderDetails = _data.GetOrderDetail();
@@ -619,7 +743,7 @@ namespace BusVersion01
             //select order >datefrom 
             var orders = _data.GetOrder().Where(o => o.OrderDate>=ddatefrom);
             var minDate = orders.Min(o => o.OrderDate);
-            var order2= orders.Where(o => getWeek(minDate ?? DateTime.Now, o.OrderDate ?? DateTime.Now) == week);
+            var order2= orders.Where(o => GetWeek(minDate ?? DateTime.Now, o.OrderDate ?? DateTime.Now) == week);
             var list = from o in order2
                        join od in orderdetails on o.Id equals od.OrderId
                        join p in _data.GetProducts() on od.ProductId equals p.Id
@@ -659,7 +783,9 @@ namespace BusVersion01
             return result.ToList<dynamic>();
         }
         
-        public bool importData(string filePath)
+        //Import data
+
+        public bool ImportData(string filePath)
         {
             SpreadsheetDocument document;
             try
@@ -680,7 +806,7 @@ namespace BusVersion01
             //skip hearder
             rows = rows.Skip(1);
 
-            foreach ( var row in rows)
+            foreach (var row in rows)
             {
                 var cells = row.Descendants<Cell>();
                 var category = new Category();
@@ -700,9 +826,9 @@ namespace BusVersion01
                     {
                         category.Name = cellValue;
                     }
-                    
+
                 }
-                addCategory(category);
+                AddCategory(category);
             }
 
             var productSheet = sheets.FirstOrDefault(s => s.Name == "Product");
@@ -712,9 +838,9 @@ namespace BusVersion01
             //skip hearder
             rows = rows.Skip(1);
 
-            foreach ( var row in rows)
+            foreach (var row in rows)
             {
-                   var cells = row.Descendants<Cell>();
+                var cells = row.Descendants<Cell>();
                 var product = new Product();
                 foreach (var cell in cells)
                 {
@@ -750,117 +876,15 @@ namespace BusVersion01
                     }
                     else if (cell.CellReference == "F" + row.RowIndex)
                     {
-                        int categoryId = getCategoryID(cellValue);
+                        int categoryId = GetCategoryID(cellValue);
                         product.CategoryId = categoryId;
                     }
                 }
-                addProduct(product);
+                AddProduct(product);
             }
 
             return true;
-            
-        }
 
-        public int getCategoryID(string name)
-        {
-            var category = _data.GetCategory().Where(c => c.Name == name).FirstOrDefault();
-            if(category != null)
-            {
-                return category.Id;
-            }
-            else
-            {
-                return -1;
-            }
-        }
-
-        public BindingList<dynamic> GetDiscountProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1, int itemPerPage = 10, int categoryId = -1)
-        {
-            var products = _data.GetProducts();
-            
-            var list = from p in products
-                        select new
-                        {
-                            Id = p.Id,
-                            Name = p.ProductName,
-                            Price = p.Price,
-                            Stock = p.Amount,
-                            ImgPath = p.ImgPath,
-                            Discount = p.Discount ?? 0,
-                            ExpDate = p.DiscountDate != null ? $"{p.DiscountDate.Value.Day}/{p.DiscountDate.Value.Month}/{p.DiscountDate.Value.Year}" : "",
-                             CategoryId = p.CategoryId,
-                     
-                        };
-
-            if (name != "")
-            {
-                list = list.Where(p => p.Name.ToLower().Contains(name.ToLower()));
-            }
-
-            if (priceFrom != -1 && priceTo != -1)
-            {
-                list = list.Where(p => p.Price >= priceFrom && p.Price <= priceTo);
-            }
-
-            if (categoryId != -1)
-            {
-                list = list.Where(p => p.CategoryId == categoryId);
-            }
-
-            if (sortType == "Price")
-            {
-                list = list.OrderBy(p => p.Price);
-            }
-            else if (sortType == "Name")
-            {
-                list = list.OrderBy(p => p.Name);
-            }
-
-            int count = list.Count();
-
-            var result = from p in list
-                         select new 
-                         { 
-                             Id = p.Id, 
-                             ImgPath = p.ImgPath, 
-                             Name = p.Name, 
-                             Price = p.Price, 
-                             Stock = p.Stock,
-                             Discount = p.Discount,
-                             ExpDate = p.ExpDate,
-                             Total = count 
-                         };
-            result = result.Skip((currentPage - 1) * itemPerPage).Take(itemPerPage);
-
-            return new BindingList<dynamic>(result.ToList<dynamic>());
-        }
-
-        public bool updateDiscountProduct(int id, int discount, DateTime expDate)
-        {
-            var product = _data.getProductById(id);
-            if(product != null)
-            {
-                product.Discount = discount;
-                product.DiscountDate = expDate;
-                _data.updateProduct(product);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public void removeDiscountProduct(int id)
-        {
-            var product = _data.getProductById(id);
-
-            if(product != null)
-            {
-                product.Discount = null;
-                product.DiscountDate = null;
-                _data.updateProduct(product);
-            }
         }
     }
 

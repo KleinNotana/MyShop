@@ -5,10 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyShopProject"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="800"
+        Title="MYSHOP" Height="550" Width="800"
         Loaded="Window_Loaded"
         WindowStyle="None"
         Background="Transparent"
-        AllowsTransparency="True">
-    
+        WindowStartupLocation="CenterScreen"
+        >
+    <Grid>
+        <TextBlock x:Name="txtNoti" Text="CANNOT LOAD NEEDED RESOURCES" FontSize="39" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed"/>
+    </Grid>
 </Window> 

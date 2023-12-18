@@ -13,73 +13,78 @@ namespace Contract
     {
         string Name { get; }
         string Description { get; }
+        public void DepensOn(IDataAccess data);
 
-        Task<bool> Login(string username, string password, string servername, string databasename);
+        //LOGIN
 
-        List<Order1> GetOrders();
+        public Task<bool> Login(string username, string password, string servername, string databasename);
 
-        List<OrderDetail> GetOrdersDetailById(int orderid);
+        public void SaveChanges();
 
-        List<Customer> GetCustomers();
-        void saveChanges();
-        List<Product> GetProducts();
-        BindingList<Category> GetCategories();
-        BindingList<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1, int itemPerPage = 10, int categoryId = -1);
-        BindingList<dynamic> GetDiscountProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1, int itemPerPage = 10, int categoryId = -1);
+        //PRODUCT
+        public List<Product> GetProducts();
+        public BindingList<dynamic> GetProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1, int itemPerPage = 10, int categoryId = -1);
+        public BindingList<dynamic> GetDiscountProductsByFilter(string name, string sortType, int priceFrom = -1, int priceTo = -1, int currentPage = 1, int itemPerPage = 10, int categoryId = -1);
+        public bool AddProduct(Product addProduct);
+        public Product GetProductById(int id);
+        public void UpdateProduct(Product updateProduct);
+        public void DeleteProduct(int id);
+        public dynamic GetDetailProduct(int id);
+        public bool UpdateDiscountProduct(int id, int discount, DateTime expDate);
+        public void RemoveDiscountProduct(int id);
+
+        //CATEGORY
+        public BindingList<Category> GetCategories();
+        public bool AddCategory(Category category);
+        public int GetCategoryID(string name);
+        public Category GetCategoryById(int id);
+        public void UpdateCategory(Category updateCategory);
+        public void DeleteCategory(int id);
+
+        //CUSTOMER
+        public List<Customer> GetCustomers();
+        public Customer GetCustomerByName(string name);
+        public Customer GetCustomerByPhone(string Phone);
+        public void AddCustomer(Customer addCustomer);
+
+        //ORDER
+
+        public List<Order1> GetOrders();
         public List<dynamic> GetOrderByFilter(string dateFrom, string dateTo, int currentPage = 1, int itemPerPage = 10);
-
-        public Order1 getOrderById(int id);
+        public Order1 GetOrderById(int id);
         public void DeleteOrder(int DelId);
-        public void addOrder(Order1 addOrder);
-        public void addOrderDetail(OrderDetail addOrderDetail);
-        public void deleteOrderDetail(OrderDetail deleteOrderDetail);
-        public double getTotalPrice(int OrderId);
+        public void AddOrder(Order1 addOrder);
 
+        //ORDERDETAIL
+
+        public List<OrderDetail> GetOrdersDetailById(int orderid);
+        public void AddOrderDetail(OrderDetail addOrderDetail);
+        public void DeleteOrderDetail(OrderDetail deleteOrderDetail);
+        public double GetTotalPrice(int OrderId);
         
-        
+        //REPORT
+
         public List<dynamic> GetMonthlyReport(string dateFrom, string dateTo, int mode);
         public List<dynamic> GetDailyReport(string dateFrom, string dateTo, int mode);
         public List<dynamic> GetWeeklyReport(string dateFrom, string dateTo, int mode);
         public List<dynamic> GetYearlyReport(string dateFrom, string dateTo, int mode);
-
-
         public List<dynamic> GetTop5productbyday(string date);
         public List<dynamic> GetTop5productbyweek(string datefrom, int week);
         public List<dynamic> GetTop5productbymonth( string date);
         public List<dynamic> GetTop5productbyyear( string date);
+        public BindingList<dynamic> GetOutOfStockProducts();
+        public dynamic GetTotalSales();
+        public dynamic GetSellingProductAmount();
+        public dynamic GetSoldProductAmount();
+        public dynamic GetTotalCustomers();
+        public List<dynamic> GetTopSaleProducts();
+        public List<dynamic> GetCurrentDailySales();
+        public int GetWeek(DateTime startDay, DateTime endDay);
 
-        public Customer getCustomerByName(string name);
-        public Customer getCustomerByPhone(string Phone);
-        public void addCustomer(Customer addCustomer);
 
-        public bool addProduct(Product addProduct);
-        public bool addCategory(Category category);
-        public Category getCategoryById(int id);
-        public void updateCategory(Category updateCategory);
-        public void deleteCategory(int id);
-        public Product getProductById(int id);
-        public void updateProduct(Product updateProduct);
-        public void deleteProduct(int id);
 
-        dynamic getDetailProduct(int id);
-        BindingList<dynamic> getOutOfStockProducts();
-        dynamic getTotalSales();
+        public bool ImportData(string filePath);
 
-        dynamic getSellingProductAmount();  
-        dynamic getSoldProductAmount();
-        dynamic getTotalCustomers();
 
-        List<dynamic> getTopSaleProducts();
-
-        List<dynamic> getCurrentDailySales();
-
-        int getCategoryID(string name);
-        public int getWeek(DateTime startDay, DateTime endDay);
-        void DepensOn(IDataAccess data);
-        bool importData(string filePath);
-
-        bool updateDiscountProduct(int id, int discount, DateTime expDate);
-
-        void removeDiscountProduct(int id);
     }
 }

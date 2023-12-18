@@ -36,13 +36,13 @@ namespace UIVersion03
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            outOfStockProducts.ItemsSource = _bus.getOutOfStockProducts();
-            totalSales.DataContext = _bus.getTotalSales();
-            totalSellingProducts.DataContext = _bus.getSellingProductAmount();
-            totalSoldProducts.DataContext = _bus.getSoldProductAmount();
-            totalCustomers.DataContext = _bus.getTotalCustomers();
+            outOfStockProducts.ItemsSource = _bus.GetOutOfStockProducts();
+            totalSales.DataContext = _bus.GetTotalSales();
+            totalSellingProducts.DataContext = _bus.GetSellingProductAmount();
+            totalSoldProducts.DataContext = _bus.GetSoldProductAmount();
+            totalCustomers.DataContext = _bus.GetTotalCustomers();
 
-            var topSaleProducts = _bus.getTopSaleProducts();
+            var topSaleProducts = _bus.GetTopSaleProducts();
 
             PieChartSeriesCollection = new SeriesCollection();
 
@@ -65,7 +65,7 @@ namespace UIVersion03
             ColumnChartSeriesCollection = new SeriesCollection();
            
 
-            var currentDailySales = _bus.getCurrentDailySales();
+            var currentDailySales = _bus.GetCurrentDailySales();
 
             var values = new List<double>();
 

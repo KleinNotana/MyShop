@@ -86,7 +86,7 @@ namespace UIVersion03
             order.OrderDate = DateTime.Now;
             order.CustomerId = 1;
             
-            Customer customer = _bus.getCustomerByPhone(txtCustomerPhone.Text);
+            Customer customer = _bus.GetCustomerByPhone(txtCustomerPhone.Text);
             if (customer != null) {
                 //show option to use old customer or create new customer
                 MessageBoxResult result = MessageBox.Show("Customer with this phone number already exists. Do you want to update this customer", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
@@ -97,7 +97,7 @@ namespace UIVersion03
                     customer.CustomerName = txtCustomerName.Text;
                     customer.PhoneNumber = txtCustomerPhone.Text;
                     customer.Age = age;
-                    _bus.saveChanges();
+                    _bus.SaveChanges();
                     order.CustomerId = customer.Id;
                 }
                 else
@@ -110,18 +110,18 @@ namespace UIVersion03
                 newCustomer.CustomerName = txtCustomerName.Text;
                 newCustomer.PhoneNumber = txtCustomerPhone.Text;
                 newCustomer.Age = int.Parse(txtCustomerAge.Text);
-                _bus.addCustomer(newCustomer);
+                _bus.AddCustomer(newCustomer);
                 order.CustomerId = newCustomer.Id;
 
             }
 
             //add order
-            _bus.addOrder(order);
+            _bus.AddOrder(order);
             //add order details
             foreach (var orderDetail in orderDetails)
             {
                 orderDetail.OrderId = order.Id;
-                _bus.addOrderDetail(orderDetail);
+                _bus.AddOrderDetail(orderDetail);
             }
             MessageBox.Show("Add order successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
@@ -220,7 +220,7 @@ namespace UIVersion03
 
             var deleteOrderDetail = orderDetails.Where(o => o.ProductId == (int)productID).FirstOrDefault();
             orderDetails.Remove(deleteOrderDetail);
-            products.Add(_bus.getProductById(deleteOrderDetail.ProductId));
+            products.Add(_bus.GetProductById(deleteOrderDetail.ProductId));
             loadOrderDetails();
         }
     }

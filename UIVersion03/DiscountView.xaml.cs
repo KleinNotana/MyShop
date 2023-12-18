@@ -168,7 +168,7 @@ namespace UIVersion03
             if (product != null)
             {
                int id =  product.GetType().GetProperty("Id").GetValue(product);
-                _bus.updateDiscountProduct(id, discountInt, expDate);
+                _bus.UpdateDiscountProduct(id, discountInt, expDate);
                 loadProducts();
             }
             else
@@ -269,7 +269,7 @@ namespace UIVersion03
             if (product != null)
             {
                 int id = product.GetType().GetProperty("Id").GetValue(product);
-                _bus.removeDiscountProduct(id);
+                _bus.RemoveDiscountProduct(id);
                 loadProducts();
             }
             else

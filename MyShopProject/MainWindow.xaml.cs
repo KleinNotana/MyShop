@@ -65,6 +65,9 @@ namespace MyShopProject
             if (_bus == null || _data == null || _ui == null)
             {
                 MessageBox.Show("Error load dll files");
+                this.WindowStyle = WindowStyle.ToolWindow;
+                this.Background = Brushes.White;
+                txtNoti.Visibility = Visibility.Visible;
             }
             else
             {

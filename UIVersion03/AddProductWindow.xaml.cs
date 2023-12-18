@@ -64,7 +64,7 @@ namespace UIVersion03
             product.CategoryId = category.Id;
             product.Description = txtDescription.Text;
 
-            bool result = _bus.addProduct(product);
+            bool result = _bus.AddProduct(product);
 
             if (result)
             {

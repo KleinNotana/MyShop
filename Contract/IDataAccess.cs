@@ -12,36 +12,35 @@ namespace Contract
     {
         string Name { get; }
         string Description { get; }
-
+        //LOGIN
         public Task<bool> LoginAsync(string username, string password, string servername, string databasename);
+        //PRODUCT
         public List<Product> GetProducts();
+        public Product GetProductById(int id);
+        public void UpdateProduct(Product updateProduct);
+        public void AddProduct(Product addProduct);
+        public void DeleteProduct(int id);
+        //CATEGORY
         public List<Category> GetCategory();
-
-        public List<Order1> GetOrder();
-
-        public List<OrderDetail> GetOrderDetail();
-
-        public void deleteOrderDetail(OrderDetail delOrderDetail);
+        public void AddCategory(Category category);
+        public Category GetCategoryById(int id);
+        public void UpdateCategory(Category updateCategory);
+        public void DeleteCategory(int id);
+        //CUSTOMER
         public List<Customer> GetCustomer();
-
-        public Product getProductById(int id);
-        public void updateProduct(Product updateProduct);
-
-        public Order1 getOrderById(int id);
+        public void AddCustomer(Customer addCustomer);
+        //ORDER
+        public List<Order1> GetOrder();
+        public Order1 GetOrderById(int id);
         public void DeleteOrder(Order1 delOrder);
-        public void addOrder(Order1 addOrder);
-        public void addCustomer(Customer addCustomer);
-
-        public void addOrderDetail(OrderDetail addOrderDetail);
-        public void addProduct(Product addProduct);
-        public void addCategory(Category category);
-        public Category getCategoryById(int id);
-        public void updateCategory(Category updateCategory);
-        public void deleteCategory(int id);
-
+        public void AddOrder(Order1 addOrder);
+        //ORDERDETAIL
+        public List<OrderDetail> GetOrderDetail();
+        public void DeleteOrderDetail(OrderDetail delOrderDetail);
+        public void AddOrderDetail(OrderDetail addOrderDetail);
         
-        public void deleteProduct(int id);
-        public void saveChanges();
+        //SAVE       
+        public void SaveChanges();
 
     }
 }

@@ -39,7 +39,7 @@ namespace UIVersion03
         {
             InitializeComponent();
             _bus = bus;
-            order = _bus.getOrderById(Id);
+            order = _bus.GetOrderById(Id);
             txtCustomerName.Text = order.Customer.CustomerName;
             txtCustomerPhone.Text = order.Customer.PhoneNumber;
             txtCustomerAge.Text = order.Customer.Age.ToString();
@@ -65,7 +65,7 @@ namespace UIVersion03
             List<Product> addedProduct = new List<Product>();
             foreach (var item in orderDetails)
             {
-                addedProduct.Add(_bus.getProductById(item.ProductId));
+                addedProduct.Add(_bus.GetProductById(item.ProductId));
             }
 
             foreach (var item in addedProduct)
@@ -104,7 +104,7 @@ namespace UIVersion03
                 MessageBox.Show("Please enter a number", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            Customer customer = _bus.getCustomerByPhone(txtCustomerPhone.Text);
+            Customer customer = _bus.GetCustomerByPhone(txtCustomerPhone.Text);
             if (customer != null) {
                 //show option to use old customer or create new customer
                 MessageBoxResult result = MessageBox.Show("Customer with this phone number already exists. Do you want to update this customer", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
@@ -115,7 +115,7 @@ namespace UIVersion03
                     customer.CustomerName = txtCustomerName.Text;
                     customer.PhoneNumber = txtCustomerPhone.Text;
                     customer.Age = age;
-                    _bus.saveChanges();
+                    _bus.SaveChanges();
                     order.CustomerId = customer.Id;
                 }
                 else
@@ -128,19 +128,19 @@ namespace UIVersion03
                 newCustomer.CustomerName = txtCustomerName.Text;
                 newCustomer.PhoneNumber = txtCustomerPhone.Text;
                 newCustomer.Age = int.Parse(txtCustomerAge.Text);
-                _bus.addCustomer(newCustomer);
+                _bus.AddCustomer(newCustomer);
                 order.CustomerId = newCustomer.Id;
 
             }
-            _bus.saveChanges();
+            _bus.SaveChanges();
             foreach (var orderDetail in deletedOrderDetails)
             {
-                _bus.deleteOrderDetail(orderDetail);
+                _bus.DeleteOrderDetail(orderDetail);
             }
             foreach (var orderDetail in newOrderDetails)
             {
                 orderDetail.OrderId = order.Id;
-                _bus.addOrderDetail(orderDetail);
+                _bus.AddOrderDetail(orderDetail);
             }
             
             MessageBox.Show("Edit order successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -239,7 +239,7 @@ namespace UIVersion03
 
             var deleteOrderDetail = orderDetails.Where(o => o.ProductId == (int)productID).FirstOrDefault();
             orderDetails.Remove(deleteOrderDetail);
-            products.Add(_bus.getProductById(deleteOrderDetail.ProductId));
+            products.Add(_bus.GetProductById(deleteOrderDetail.ProductId));
             
             if (newOrderDetails.Contains(deleteOrderDetail))
             {

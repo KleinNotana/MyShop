@@ -15,7 +15,7 @@ namespace DataAccessVer01
         public string Name => "DataAccessVer01";
 
         public string Description => "DataAccessVer01 - test";
-
+        //LOGIN
         public async Task<bool> LoginAsync(string username, string password, string servername, string databasename)
         {
             var builder = new SqlConnectionStringBuilder();
@@ -27,11 +27,6 @@ namespace DataAccessVer01
             builder.TrustServerCertificate = true;
             builder.UserID = username;
             builder.Password = password;
-
-
-
-
-
 
             string connectionString = builder.ConnectionString;
             Database DB = Database.Instance;
@@ -50,6 +45,7 @@ namespace DataAccessVer01
                 return false;
             }
         }
+
         
         public List<Product> GetProducts()
         {
@@ -89,47 +85,47 @@ namespace DataAccessVer01
             return DB.context.Customers.ToList();
         }
 
-        public void saveChanges()
+        public void SaveChanges()
         {
             Database DB = Database.Instance;
             DB.context.SaveChanges();
         }
 
-        public void addOrder(Order1 addOrder)
+        public void AddOrder(Order1 addOrder)
         {
             Database DB = Database.Instance;
             DB.context.Order1s.Add(addOrder);
             DB.context.SaveChanges();
         }
 
-        public void addOrderDetail(OrderDetail addOrderDetail)
+        public void AddOrderDetail(OrderDetail addOrderDetail)
         {
             Database DB = Database.Instance;
             DB.context.OrderDetails.Add(addOrderDetail);
             DB.context.SaveChanges();
         }
 
-        public void addProduct(Product addProduct)
+        public void AddProduct(Product addProduct)
         {
             Database DB = Database.Instance;
             DB.context.Products.Add(addProduct);
             DB.context.SaveChanges();
         }
 
-        public void addCategory(Category category)
+        public void AddCategory(Category category)
         {
             Database DB = Database.Instance;
             DB.context.Categories.Add(category);
             DB.context.SaveChanges();
         }
 
-        public Product getProductById(int id)
+        public Product GetProductById(int id)
         {
             Database DB = Database.Instance;
             return DB.context.Products.Where(p => p.Id == id).FirstOrDefault();
         }
 
-        public void updateProduct(Product updateProduct)
+        public void UpdateProduct(Product updateProduct)
         {
             Database database = Database.Instance;
             var product = database.context.Products.Where(p => p.Id == updateProduct.Id).FirstOrDefault();
@@ -142,21 +138,21 @@ namespace DataAccessVer01
             database.context.SaveChanges();
         }
 
-        public void addCustomer(Customer addCustomer)
+        public void AddCustomer(Customer addCustomer)
         {
             Database DB = Database.Instance;
             DB.context.Customers.Add(addCustomer);
             DB.context.SaveChanges();
         }
 
-        public Order1 getOrderById(int id)
+        public Order1 GetOrderById(int id)
         {
             Database DB = Database.Instance;
             return DB.context.Order1s.Where(o => o.Id == id).FirstOrDefault();
 
         }
 
-        public void deleteOrderDetail(OrderDetail delOrderDetail)
+        public void DeleteOrderDetail(OrderDetail delOrderDetail)
         {
             Database DB = Database.Instance;
             DB.context.OrderDetails.Remove(delOrderDetail);
@@ -164,7 +160,7 @@ namespace DataAccessVer01
             
         }
 
-        public void deleteProduct(int id)
+        public void DeleteProduct(int id)
         {
             Database database = Database.Instance;
             var product = database.context.Products.Where(p => p.Id == id).FirstOrDefault();
@@ -173,13 +169,13 @@ namespace DataAccessVer01
 
         }
 
-        public Category getCategoryById(int id)
+        public Category GetCategoryById(int id)
         {
             Database database = Database.Instance;
             return database.context.Categories.Where(c => c.Id == id).FirstOrDefault();
         }
 
-        public void updateCategory(Category updateCategory)
+        public void UpdateCategory(Category updateCategory)
         {
             Database database = Database.Instance;
             var category = database.context.Categories.Where(c => c.Id == updateCategory.Id).FirstOrDefault();
@@ -187,7 +183,7 @@ namespace DataAccessVer01
             database.context.SaveChanges();
         }
 
-        public void deleteCategory(int id)
+        public void DeleteCategory(int id)
         {
             Database database = Database.Instance;
             var category = database.context.Categories.Where(c => c.Id == id).FirstOrDefault();

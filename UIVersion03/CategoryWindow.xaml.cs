@@ -63,7 +63,7 @@ namespace UIVersion03
             var category = (Category) categoryList.SelectedItem ;
             if(category != null)
             {
-                _bus.deleteCategory(category.Id);
+                _bus.DeleteCategory(category.Id);
                 categories.Remove(category);
             }
         }
@@ -72,7 +72,7 @@ namespace UIVersion03
         {
             var category = new Category();
             category.Name = txtName.Text;
-            bool result = _bus.addCategory(category);
+            bool result = _bus.AddCategory(category);
             if (result)
             {
                 categories.Add(category);
@@ -130,7 +130,7 @@ namespace UIVersion03
             {
                 Category category = categoryList.SelectedItem as Category;
                 category.Name = txtEditName.Text;
-                _bus.updateCategory(category);
+                _bus.UpdateCategory(category);
                 editCategory.Visibility = Visibility.Collapsed;
                 editCategoryButtons.Visibility = Visibility.Collapsed;
                 btnAddNewCategory.Visibility = Visibility.Visible;

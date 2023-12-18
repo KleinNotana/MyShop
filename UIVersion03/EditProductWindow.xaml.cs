@@ -33,7 +33,7 @@ namespace UIVersion03
         {
             InitializeComponent();
             _bus = bus;
-            product = _bus.getProductById(id);
+            product = _bus.GetProductById(id);
             this.DataContext = product;
         }
 
@@ -56,7 +56,7 @@ namespace UIVersion03
                 return;
             }
 
-            _bus.updateProduct(product);
+            _bus.UpdateProduct(product);
             
             DialogResult = true;
         }

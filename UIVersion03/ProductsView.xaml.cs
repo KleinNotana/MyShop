@@ -87,7 +87,7 @@ namespace UIVersion03
                 var result = MessageBox.Show("Are you sure to delete this product?", "Delete", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    _bus.deleteProduct(id);
+                    _bus.DeleteProduct(id);
                     loadProducts();
                 }
             }
@@ -101,7 +101,7 @@ namespace UIVersion03
                 int id = selectedItem.GetType().GetProperty("Id").GetValue(selectedItem);
 
                 DetailProduct.Visibility = Visibility.Visible;
-                DetailProduct.DataContext = _bus.getDetailProduct(id);
+                DetailProduct.DataContext = _bus.GetDetailProduct(id);
             }
         }
 
@@ -284,7 +284,7 @@ namespace UIVersion03
             if (fileDialog.ShowDialog() == true)
             {
                 var filePath = fileDialog.FileName;
-                var result = _bus.importData(filePath);
+                var result = _bus.ImportData(filePath);
                 if (result)
                 {
                     MessageBox.Show("Import data successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);

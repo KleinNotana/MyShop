@@ -38,11 +38,11 @@ namespace UIVersion03
         {
             InitializeComponent();
             _bus = bus;
-            order = _bus.getOrderById(Id);
+            order = _bus.GetOrderById(Id);
             txtCustomerName.Text = order.Customer.CustomerName;
             orderDetails = _bus.GetOrdersDetailById(Id);
             txtOrderDate.Text = order.OrderDate.Value.Day +"/"+order.OrderDate.Value.Month + "/"+ order.OrderDate.Value.Year;
-            txtTotalPrice.Text = _bus.getTotalPrice(Id).ToString();
+            txtTotalPrice.Text = _bus.GetTotalPrice(Id).ToString();
         }
 
         public void loadOrderDetails()
