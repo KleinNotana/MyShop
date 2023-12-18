@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessVer01", "DataAcce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyShopProject", "MyShopProject\MyShopProject.csproj", "{DD088DB1-814E-44C5-81F7-8A5B04B369F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIVersion03", "UIVersion03\UIVersion03.csproj", "{B6BDDD0C-BFA5-4A97-83BD-CA4155BBAB76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIVersion03", "UIVersion03\UIVersion03.csproj", "{B6BDDD0C-BFA5-4A97-83BD-CA4155BBAB76}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup2", "Setup2\Setup2.vdproj", "{38778AEF-F600-49B2-86D8-68CECB486F6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,8 @@ Global
 		{B6BDDD0C-BFA5-4A97-83BD-CA4155BBAB76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6BDDD0C-BFA5-4A97-83BD-CA4155BBAB76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6BDDD0C-BFA5-4A97-83BD-CA4155BBAB76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38778AEF-F600-49B2-86D8-68CECB486F6D}.Debug|Any CPU.ActiveCfg = Debug
+		{38778AEF-F600-49B2-86D8-68CECB486F6D}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
