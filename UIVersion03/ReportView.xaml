@@ -155,7 +155,7 @@
                     <lvc:Axis Title="Income"  />
                 </lvc:CartesianChart.AxisY>
             </lvc:CartesianChart>
-            <TextBlock Text="TOP 5 PRODUCT" Foreground="{StaticResource titleColor1}" FontSize="15" Canvas.Left="666" Canvas.Top="193" HorizontalAlignment="Center" VerticalAlignment="Top" 
+            <TextBlock Text="TOP 3 PRODUCT" Foreground="{StaticResource titleColor1}" FontSize="15" Canvas.Left="666" Canvas.Top="193" HorizontalAlignment="Center" VerticalAlignment="Top" 
                             />
             <ComboBox x:Name="TimeComboBox" 
                 Width="100" 
