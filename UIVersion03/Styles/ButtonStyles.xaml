@@ -284,29 +284,28 @@
                          Focusable="True"
                          Visibility="Hidden"/>
                         <Popup x:Name="Popup"
-                       Placement="Bottom"
-                       IsOpen="{TemplateBinding IsDropDownOpen}"
-                       AllowsTransparency="True"
-                       Focusable="False"
-                       PopupAnimation="Slide">
+                                Placement="Bottom"
+                                IsOpen="{TemplateBinding IsDropDownOpen}"
+                                AllowsTransparency="True"
+                                Focusable="False"
+                                PopupAnimation="Slide">
                             <Grid x:Name="DropDown"
-                          SnapsToDevicePixels="True"
-                          MinWidth="{TemplateBinding ActualWidth}"
-                          MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    SnapsToDevicePixels="True"
+                                    MinWidth="{TemplateBinding ActualWidth}"
+                                    MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                 <Border x:Name="DropDownBorder"
-                                BorderThickness="1"
-                                BorderBrush="{StaticResource cs_Background}"
-                                Background="{StaticResource cs_PopupBackground}"/>
+                                        BorderThickness="1"
+                                        BorderBrush="{StaticResource cs_Background}"
+                                        Background="{StaticResource cs_PopupBackground}"/>
                                 <ScrollViewer Margin="4 6 4 6"
-                                      SnapsToDevicePixels="True"
-                                      OverridesDefaultStyle="True"
-                                      Foreground="{StaticResource titleColor1}"
-                                      FontFamily="Roboto"
-                                      FontSize="11"/>
-                                <StackPanel IsItemsHost="True"
-                                    KeyboardNavigation.DirectionalNavigation="Contained">
-
-                                </StackPanel>
+                                            SnapsToDevicePixels="True"
+                                            OverridesDefaultStyle="True"
+                                            Foreground="{StaticResource titleColor1}"
+                                            FontFamily="Roboto"
+                                            FontSize="11">
+                                    <StackPanel IsItemsHost="True"
+                                                KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                </ScrollViewer>
                             </Grid>
                         </Popup>
                     </Grid>

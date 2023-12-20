@@ -135,7 +135,7 @@
                     FontSize="16"
                     FontWeight="Medium"
                     FontFamily="Montserrat" Canvas.Left="54" Canvas.Top="198" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
-                    <ComboBox x:Name="categoryComboBox" Foreground="BlueViolet"
+                    <ComboBox x:Name="categoryComboBox" Style="{StaticResource ComboBoxStyle1}"
                         
             Height="30" IsReadOnly="True" Canvas.Left="125" Canvas.Top="187" HorizontalAlignment="Center" VerticalAlignment="Top" Width="164" >
                         <ComboBox.ItemTemplate>
